@@ -23,4 +23,14 @@ Go to [Parse.com](http://parse.com). Enter name, email address and choose a pass
 On the next screen you will be able to create an app. Choose *Makestagram* as the app title and select *Individual Developer* as the company size:
 ![image](setup_app.png)
 
+Now you have created your first Parse app!
+
 On the next screen you will see a bunch of services that Parse provides. We will only be using the *Core* product which allows us to create a data model for our application. 
+
+<div class="action"></div>
+Select *Core* in the top bar to open the Parse Data Browser:
+![image](parse_core.png)
+
+This is the place where we can see and edit the data model for our application. Before we dive into the details of how to create new classes we should discuss what the data model for *Makestagram* should look like.
+
+
