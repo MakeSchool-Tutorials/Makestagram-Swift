@@ -15,8 +15,12 @@ We will start off by creating a Parse account and adding a new app to it.
 
 #Setting up a Parse account
 
-<div class="action"></div>
-Go to [Parse.com](http://parse.com).
+First, sign up for an account.
 
-<div class="hint"></div>
-Now blah blah blah
+<div class="action"></div>
+Go to [Parse.com](http://parse.com). Enter name, email address and choose a password:
+![image](signup_parse.png)
+On the next screen you will be able to create an app. Choose *Makestagram* as the app title and select *Individual Developer* as the company size:
+![image](setup_app.png)
+
+On the next screen you will see a bunch of services that Parse provides. We will only be using the *Core* product which allows us to create a data model for our application. 
