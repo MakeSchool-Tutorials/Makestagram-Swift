@@ -15,6 +15,7 @@ We will start off by creating a Parse account and adding a new app to it.
 
 #Setting up a Parse account
 
-<div class="action">
+<div class="action"/>
 Go to [Parse.com](http://parse.com).
-</div>
+
+Now blah blah blah
