@@ -18,4 +18,5 @@ We will start off by creating a Parse account and adding a new app to it.
 <div class="action"></div>
 Go to [Parse.com](http://parse.com).
 
+<div class="hint"></div>
 Now blah blah blah
