@@ -3,6 +3,8 @@ title: "Setting up Parse"
 slug: setting-up-parse
 ---     
 
+**Page Setup Test**
+
 To build a photo sharing app we will need to exchange information between multiple users on multiple devices.
 
 In the *Make School Notes* tutorial we built an app that only stores information locally, on the user's phone. There is no way of sharing information with other users or accessing notes from other devices. This is fine for some apps. However, most applications need to provide a way for multiple users to to interact with each other. In such cases we need to store the information used in the app on a server that is accessible by all users.
