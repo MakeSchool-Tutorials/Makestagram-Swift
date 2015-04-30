@@ -1,5 +1,5 @@
-title: "Tutorial Template Title"
+title: "Build a photo sharing app"
 cover: cover.png
 teaser_text: |
-    Tell the user what they will learn!
-    This can be multi-line text.
+    Learn how to build a phot sharing app for iOS using Swift and the
+    Parse framework.
