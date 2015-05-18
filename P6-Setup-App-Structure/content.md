@@ -61,5 +61,15 @@ Every app needs to define an *initial View Controller*. Our app doesn't have one
 Configure the Tab Bar Controller to be our app's initial View Controller. First select the *Attributes Inspector* in the right bar (1). Then check the *is Initial View Controller* checkbox (2). As a confirmation you should see an arrow pointing to the Tab Bar View Controller (3): 
 ![image](initial_vc.png)
 
+Great! When you run the app now, you should see a tab bar with two items:
+![image](tab_bar_done.png)
 
+#Adding a third View Controller to the tab bar
 
+The default Tab Bar comes with two View Controllers. Our outline shows that we need three View Controllers in the Tab Bar for *Makestagram*. Let's add that third View Controller.
+
+<div class="action"></div>
+Add a third View Controller, as shown in the video below. Note that the key you need to hold down is the *control* key which has the following symbol: ⌃
+<video width="100%" controls>
+  <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/AddViewController_TabBar_Small.mov" type="video/mp4">
+</video>
