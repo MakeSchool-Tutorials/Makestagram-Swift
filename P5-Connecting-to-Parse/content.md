@@ -114,3 +114,5 @@ In the last line we can see the output: **Log in successful**. This means everyt
 However, we also see a warning message above this output (*Warning: A long-running operation is being executed on the main thread*). For now we can ignore this warning - we will devote a fair amount of time, later in this tutorial, to discuss threading and long-running operations.
 
 For now, we're good to move on and can start to work on the core of the app. As discussed, later in this tutorial we will replace this fake login with a real login screen.
+
+In the next section we will learn how to use a `UITabBarController` to create the basic structure of our app!
