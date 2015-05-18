@@ -64,6 +64,6 @@ Now we should be ready to work with Parse SDK! In a moment we will see if you've
 Before we can start building our actual app, we should provide a fake login mechanism. All features in *Makestagram* will require a logged in user. Later in this tutorial we will spend some time building a full login mechanism - for now we can simply log in as a test user whenever our app starts.
 
 <video width="100%" controls>
-  <source src="testuser.mp4" type="video/mp4">
+  <source src="https://github.com/MakeSchool-Tutorials/Makestagram-Swift/raw/master/P5-Connecting-to-Parse/testuser.mp4" type="video/mp4">
    Your browser does not support the video tag.
 </video>
