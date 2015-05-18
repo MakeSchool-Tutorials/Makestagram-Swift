@@ -43,7 +43,7 @@ Add an import statement (`import Parse`) to import the Parse SDK into the `AppDe
 Next, we need to replace the current placeholders for the *AppID* and the *ClientKey* with the correct values for our Parse application. We can grab these keys from our dashboard on parse.com.
 
 <div class="action"></div>
-Open the browser and pull up your Parse app (if you've closed the tab you can find your Parse App [here](https://www.parse.com/apps/). Then select the *Settings* tab on the top and the *Keys* tab on the left. You should see the following list of keys:
+Open the browser and pull up your Parse app (if you've closed the tab you can find your Parse App [here](https://www.parse.com/apps/)). Then select the *Settings* tab on the top and the *Keys* tab on the left. You should see the following list of keys:
 ![image](keys.png)
 Copy the *Application ID* and the *Client Key* from this list. Then update the Parse setup method to include them:
 
@@ -55,22 +55,26 @@ Copy the *Application ID* and the *Client Key* from this list. Then update the P
       return true
     }
     
-**Make sure to include your keys from the dashboard instead of the example ones above 😉**
+**Make sure to include your keys from the dashboard instead of the example ones above :)**
 
 Now we should be ready to work with Parse SDK! In a moment we will see if you've set everything up correctly.
 
 #Adding a fake login
 
-Before we can start building our actual app, we should provide a fake login mechanism. All features in *Makestagram* will require a logged in user. Later in this tutorial we will spend some time building a full login mechanism - for now we can simply log in as a test user whenever our app starts.
+All features in *Makestagram*, e.g. posting photos, following friends, etc. will require a logged in user. This means that before we can start building our actual app, we need a way for a user to log in.
 
-Implementing this involves two steps:
+I however don't want to start this tutorial with building a login screen. For now we should provide a fake login mechanism so that we can start working on the core features of the app.
 
-1. Creating a test user in the Parse data browser
+Later in this tutorial we will spend some time building a full login mechanism, including login with a Facebook account.
+
+Implementing a fake login mechanism involves two steps:
+
+1. Creating a test user in the Parse backend
 2. Adding code to the `AppDelegate` to log in as that test user
 
-By creating new *Rows* in our Parse tables we can add data directly through the browser. A great feature for testing!
+By creating new *Rows* in our Parse tables we can add data directly through the browser, without writing any code. This is a great feature for testing!
 <div class="action"></div>
-Start by adding a test user to your Parse database by following the video below. <video width="100%" controls>
+Add a test user to your Parse database by following the steps in the video below. <video width="100%" controls>
   <source src="https://github.com/MakeSchool-Tutorials/Makestagram-Swift/raw/master/P5-Connecting-to-Parse/testuser.mp4" type="video/mp4">
    Hit the *+Row* button in the top left corner. This will create a new blank entry. The double click into the *password* column of this row and enter *"text"* as a password. Then double click into the *username* column and enter *text* as a password.
 </video>
