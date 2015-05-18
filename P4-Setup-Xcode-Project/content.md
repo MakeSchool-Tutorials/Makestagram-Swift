@@ -9,3 +9,8 @@ Instead of going through these steps now, we will start with a template project 
 
 <div class="action"></div>
 Get started by downloading our [Starter Project](https://github.com/MakeSchool/Makestagram-Swift-Solution/archive/StarterProject.zip).
+Once the download completes, unzip the project. Copy the project to a folder where you typically store your coding projects. Then open the Xcode project.
+
+As discussed earlier, this project contains all the frameworks we need. Additionally it contains a few source code files that we will use later as we progress through the tutorial.
+
+We're now ready to dive into the first step - writing code to connect our App to our Parse backend.
