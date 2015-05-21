@@ -143,7 +143,7 @@ Now we have images on each tab bar item - but something doesn't look quite right
       - *Top*: 5
       - *Bottom*: -5
 
-![image](setup_tab_bar_item_insets.png)
+![image](tab_bar_item_insets.png)
 
 Now all of your Tab Bar Items should have images that are nicely centered.
 
