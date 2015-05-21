@@ -112,3 +112,22 @@ Then add this new folder to your Xcode project:
 
 You should always add new folders with this two-step process. If you create a new group directly in Xcode, that will not automatically create a new folder on your file system. That results in Xcode projects that have a structure that is different from the folder structure - another potential way of creating messy projects.
 
+Now we can add our new Source Code File to the *PhotoTaking* group.
+
+<div id="action"></div>
+1. Create a new Source Code File within the *PhotoTaking* group
+2. Name this class *PhotoTakingHelper* and make it a subclass of *NSObject* (we will discuss why this is necessary later on): ![](photo_taking_helper_class.png) 
+
+Before we dive into writing code, let's discuss how we're going to structure our Photo Taking code.
+
+There are multiple classes and steps involved in taking a photo:
+![](photo_taking_structure.png)
+
+Let's discuss the process, step by step:
+
+1. The photo taking starts when a user taps the photo button in the Tab Bar. This triggers an event in the `TimelineViewController`. We have already implemented this step; currently we are logging "Take Photo" to the console.
+2. The `TimelineViewController` creates a `PhotoTakingHelper`. The `PhotoTakingHelper` will handle the rest of the process and return a photo to the `TimelineViewController` once the user has picked one (this happens in Step 6).
+3. The `PhotoTakingHelper` presents the popover that allows the user to choose between taking a photo with the camera or picking one from the library. This popover is implemented as a `UIAlertController` - an iOS standard component.
+4. Once the user has selected one of the two options, we present a `UIImagePickerController` another iOS system component. This `UIImagePickerController` handles the actual image picking (either by letting the user take a picture, or by letting them pick one from their library)
+5. Once the user is finished, the selected image gets returned to the `PhotoTakingHelper`
+6. The `PhotoTakingHelper` returns that image to the `TimelineViewController`.
