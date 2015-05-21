@@ -64,7 +64,7 @@ Configure the Tab Bar Controller to be our app's initial View Controller. First 
 Great! When you run the app now, you should see a tab bar with two items:
 ![image](tab_bar_done.png)
 
-#Adding a third View Controller to the tab bar
+#Adding a third View Controller to the Tab Bar
 
 The default Tab Bar comes with two View Controllers. Our outline shows that we need three View Controllers in the Tab Bar for *Makestagram*. Let's add that third View Controller.
 
@@ -74,13 +74,13 @@ Add a third View Controller, as shown in the video below. Note that the key you 
   <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/AddViewController_TabBar_Small.mov" type="video/mp4">
 </video>
 
-Now we have the third View Controller set up. This also completes the set up of our very basic app structure.
+Now we have all required View Controllers set up.
 
 #Decorating the Tab Bar Items
 
-The empty tab bar looks pretty sad - let's add an image to each tab bar item. That will also make it easier to identify the different tabs. 
+The empty Tab Bar looks pretty sad - let's add an image to each Tab Bar Item. That will also make it easier to identify the different tabs. 
 
-Currently the tab bar has three entries and looks like this:
+Currently the Tab Bar has three entries and looks like this:
 
 ![image](tab_bar.png) 
 
@@ -105,7 +105,7 @@ Unzip the downloaded art pack, then add the camera assets as shown in the video 
 </video>
 
 <div class="action"></div>
-Repeat these steps for the *Home* and *Person* assets, so that all tab bar item images are added to the asset catalog:
+Repeat these steps for the *Home* and *Person* assets, so that all Tab Bar Item images are added to the asset catalog:
 ![image](more_assets.png)
 
 Let's briefly discuss some important concepts about asset handling on iOS. You probably have realized that we're providing three different image files for each asset we wanted to use in our App (*@1x*, *@2x* and *@3x*). These different images have different resolutions, each suited to a specific type of iOS devices with a different screen resolution. The *@1x* assets are used for the oldest iOS devices, e.g. iPhone 3Gs, which don't have retina displays. The *@2x* images are used for the 3.5 and 4 inch retina screens of the iPhone 4(S) and iPhone 5(S). Finally, the *@3x* images are used by the iPhone 6 and iPhone 6 Plus. In most cases you won't have to spend too much time thinking about this, as long as you provide assets in all relevant resolutions.
@@ -114,9 +114,9 @@ You should also note that we don't reference images in asset catalogs by their f
 
 ##Assigning images to Tab Bar Items
 
-We've added assets to our app; now we can assign them to our tab bar items.
+We've added assets to our app; now we can assign them to our Tab Bar Items.
 
-When we're done, the tab bar should look like this:
+When we're done, the Tab Bar should look like this:
 
 ![image](tab_bar_order.png)
 
@@ -133,7 +133,7 @@ Let's set the images up!
 
 ![image](setup_tab_bar_item.png)
 
-Now we have images on each tab bar item - but something doesn't look quite right. The images aren't vertically centered. That's because iOS reserves some space below the image for the *Title* of the Tab Bar Item. For *Makestagram* we don't need titles, instead we want the images to be centered. We can accomplish that by adjusting the *Image Inset* for each Tab Bar Item.
+Now we have images on each Tab Bar item - but something doesn't look quite right. The images aren't vertically centered. That's because iOS reserves some space below the image for the *Title* of the Tab Bar Item. For *Makestagram* we don't need titles, instead we want the images to be centered. We can accomplish that by adjusting the *Image Inset* for each Tab Bar Item.
 
 <div class="action"></div>
 **Repeat the following steps for all three View Controllers**:
@@ -147,4 +147,13 @@ Now we have images on each tab bar item - but something doesn't look quite right
 
 Now all of your Tab Bar Items should have images that are nicely centered.
 
-In the next section we will implement our first feature: **Uploading photos!**
+##Reordering Tab Bar Items
+
+Just in case you didn't set up the View Controllers in the correct order, I want to show you how you can reorder them. Select the Tab Bar View Controller in Storyboard, then simply drag the Tab Bar Items to rearrange them:
+
+<video width="100%" controls>
+  <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/ReorderTabBarItems_small.mov" type="video/mp4">
+</video>
+
+Now we have a nice looking Tab Bar that connects to the three View Controllers of our App.
+We're ready to implement our first Feature: **Uploading photos!**
