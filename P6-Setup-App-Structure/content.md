@@ -156,4 +156,32 @@ Just in case you didn't set up the View Controllers in the correct order, I want
 </video>
 
 Now we have a nice looking Tab Bar that connects to the three View Controllers of our App.
+
+#Creating classes for our View Controllers
+
+To complete this whole scaffolding section, let's create the Source Code Files for all three View Controllers that we will be working on throughout this tutorial. 
+
+As a very first step, let's delete View Controller that is part of the template project:
+<div class="action"></div>
+Delete the *ViewController.swift* file:
+![](delete_vc.png)
+![](delete_vc_trash.png)
+
+Now we can create the three View Controllers for this project. We'll add them to the  *ViewControllers* group to keep this proejct nicely structured.
+
+<div class="action"></div>
+Create the `TimelineViewController` class as a subclass of `UIViewController` as shown in the video below:
+<video width="100%" controls>
+  <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/Timeline_NewViewController_small.mov" type="video/mp4">
+</video>
+**Repeat these steps** to create a `PhotoViewController` and a `FriendSearchViewController`, which also should be subclases of `UIViewController`.
+
+When you're done you should have three View Controllers:
+![](three_vcs.png)
+
+Make sure that each View Controller starts with the line `import UIKit`. That indicidates that your file has been created from the correct iOS template.
+If you see the line `import Cocoa` instead, you mistakenly created an OS X file, and the project won't compile. You can simply replace `import Cocoa` with `import UIKit` to fix that issue.
+
+Now we have set up the basic structure of our App!
+
 We're ready to implement our first Feature: **Uploading photos!**
