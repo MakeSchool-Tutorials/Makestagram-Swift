@@ -1,6 +1,6 @@
 ---
-title: "Uploading photos"
-slug: uploading-photos
+title: "Taking Photos"
+slug: taking-photos
 ---     
 
 It's time to implement our very first feature: uploading Photos to Parse! In our App we want to allow the users to upload or take a photo as soon as they tap the camera button in the middle of the Tab Bar.
@@ -131,3 +131,16 @@ Let's discuss the process, step by step:
 4. Once the user has selected one of the two options, we present a `UIImagePickerController` another iOS system component. This `UIImagePickerController` handles the actual image picking (either by letting the user take a picture, or by letting them pick one from their library)
 5. Once the user is finished, the selected image gets returned to the `PhotoTakingHelper`
 6. The `PhotoTakingHelper` returns that image to the `TimelineViewController`.
+
+Now that we have a plan, we can start implementing this feature!
+
+##Implementing the PhotoTakingHelper
+
+Our `PhotoTakingHelper` will have two main responsibilities:
+
+1. Presenting the Popover and the Camera / Photo Library
+2. Returning the image that the user has taken / selected
+
+To implement the first responsibility, the `PhotoTakingHelper` will need a reference to a `UIViewController`. In iOS only View Controllers can present other View Controllers. The `PhotoTakingHelper` is a simple `NSObject` not a `UIViewController`, so it isn't able to present other View Controllers. We will implement the initializer of the `PhotoTakingHelper` to require a reference to a `UIViewController`.
+
+To implement the second responsibility, the `PhotoTakingHelper` will need to have a way to communicate with the `TimelineViewController` - as shown in Step 6 of our outline above. For this we could use the concept of delegation (on the previous page we used delegation to receive information from the `UITabBarController`). A more convenient solution for this specific case is using a *Callback*. A *Callback* is basically a reference to a function. When initializing the `PhotoTakingHelper` we will provide it with a callback function. As soon as the `PhotoTakingHelper` has selected an image, it will call that *Callback* function and provide the selected image to the *TimelineViewController*.
