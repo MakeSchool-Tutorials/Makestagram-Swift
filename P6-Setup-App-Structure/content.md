@@ -114,14 +114,37 @@ You should also note that we don't reference images in asset catalogs by their f
 
 ##Assigning images to Tab Bar Items
 
-We've added assets to our app; now we can assign them to our Tab Bar Items.
+We've added assets to our app; now we can assign them to our tab bar items.
 
-...
+When we're done, the tab bar should look like this:
 
-Later on we will replace these labels with images; for now let's at least rename the entry in the middle to *Photo*.
+![image](tab_bar_order.png)
+
+Let's set the images up!
 
 <div class="action"></div>
-Select the View Controller that is connected to the **middle** item of the Tab Bar View Controller (1). Then select that View Controller's Tab Bar Item in the left panel(2):
-![image](middle_vc.png) 
+**Repeat the following steps for all three View Controllers**:
+
+1. Select a View Controller in the left panel of the Storyboard
+2. Select the View Controller's Tab Bar Item
+3. Open the *Attributes Inspector* in the right panel
+4. Erase the Item *Title*
+5. Set the Item *Image* to *Camera*, *Home* or *Person*, depending on which View Controller you are currently setting up
+
+![image](setup_tab_bar_item.png)
+
+Now we have images on each tab bar item - but something doesn't look quite right. The images aren't vertically centered. That's because iOS reserves some space below the image for the *Title* of the Tab Bar Item. For *Makestagram* we don't need titles, instead we want the images to be centered. We can accomplish that by adjusting the *Image Inset* for each Tab Bar Item.
+
+<div class="action"></div>
+**Repeat the following steps for all three View Controllers**:
+
+1. With the Tab Bar Item selected, open the *Size Inspector* on the right panel
+2. Set the *Image Insets* as following:
+      - *Top*: 5
+      - *Bottom*: -5
+
+![image](setup_tab_bar_item_insets.png)
+
+Now all of your Tab Bar Items should have images that are nicely centered.
 
 In the next section we will implement our first feature: **Uploading photos!**
