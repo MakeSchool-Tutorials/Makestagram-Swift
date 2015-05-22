@@ -193,3 +193,7 @@ When the class is entirely initialized we immediately call `showPhotoSourceSelet
 Because we call `showPhotoSourceSeletion()` directly from the initializer, the dialog will be presented as soon as we create an instance of `PhotoTakingHelper`.
 
 ###Implementing the Photo Source Selection
+
+To implement the selection dialog we will use the [`UIAlertViewController`](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIAlertController_class/index.html) class.
+
+Check for camera... etc...
