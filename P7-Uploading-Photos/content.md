@@ -192,7 +192,7 @@ When the class is entirely initialized we immediately call `showPhotoSourceSelet
 
 Because we call `showPhotoSourceSeletion()` directly from the initializer, the dialog will be presented as soon as we create an instance of `PhotoTakingHelper`.
 
-###Implementing the Photo Source Selection
+###Implementing the Photo Source Selection Popover
 
 To implement the selection dialog we will use the [`UIAlertViewController`](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIAlertController_class/index.html) class. It allows us to choose a title for the popup and add multiple options. We want to add two options: photo library and camera.
 
@@ -241,4 +241,26 @@ If the rear camera is available, we add an action to the Alert Controller that a
 
 As a last option, we allow the user to pick an image from the library. We create an `UIAlertAction` for the library and add it to the `UIAlertController`. This action also doesn't do anything yet, we'll add the code in the next section.
 
-In the very last line, we present the `alertController`. As we discussed earlier, View Controllers can only be presented from other View Controllers. We use the reference that we've stored in the `viewController` property and call the `presentViewController` method on it. Now the popup will be displayed!
+In the very last line, we present the `alertController`. As we discussed earlier, View Controllers can only be presented from other View Controllers. We use the reference that we've stored in the `viewController` property and call the `presentViewController` method on it. Now the popup will be displayed on whichever View Controller is stored in the `viewController` property!
+
+None of this code will run at this point - to test it we need to connect it to the `TimelineViewController`. Let's do that next! After we've connected the `TimelineViewController` and the `PhotoTakingHelper`, we will come back to complete this code so that we actually present the camera or the photo library when one of the two options is selected.
+
+##Connecting the PhotoTakingHelper
+
+Time to switch back to the `TimelineViewController`. Currently we are printing a text to the console whenever the camera button is tapped; now we want to create an instance of a `PhotoTakingHelper` that will display our popup.
+
+First, let's change the Tab Bar related code:
+
+<div class="action"></div>
+Change the the Tab Bar related code to call the `takePhoto` method, instead of printing to the console:
+
+```
+func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
+  if (viewController is PhotoViewController) {
+    takePhoto()
+    return false
+  } else {
+    return true
+  }
+}
+```
