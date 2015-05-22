@@ -322,4 +322,49 @@ hen you run the app and tap the camera button, you should see a popup show up:
 
 ![image](popup_working.png)
 
-Well done! At this point you should have basic understanding of how information can travel through diffeernt classes in our app.
+Well done! At this point you should have a basic understanding of how information can travel through different classes in our apps - as an iOS developer you will use callbacks in the form of closures pretty frequently.
+
+#Implementing the Photo Taking
+
+Now that we've successfully connected the `PhotoTakingHelper` with the `TimelineViewController` we can implement the actual Photo Taking code.
+
+Let's add  a method to the `PhotoTakingHelper` that presents the `UIImagePickerController` (you might remember, this is the system component that will allows the user to take pictures!).
+
+<div id=action></div>
+Add the `showImagePickerController` method to the `PhotoTakingHelper` class:
+
+    func showImagePickerController(sourceType: UIImagePickerControllerSourceType) {
+      imagePickerController = UIImagePickerController()
+      imagePickerController!.sourceType = sourceType
+      self.viewController.presentViewController(imagePickerController!, animated: true, completion: nil)
+    }
+
+In the first line, this method creates a `UIImagePickerController`. In the second line we set the `sourceType` of that controller. Depending on the `sourceType` the `UIImagePickerController` will activate the camera and display a photo taking overlay - or will show the users photo library. Our `showImagePickerController` method takes the `sourceType` as an argument and hands it on to the `imagePickerController` - that allows the caller of this method to specify whether the camera or the photo library should be used as an image source.
+
+Once the `imagePickerController` is initialized and configured, we present it.
+
+...
+
+The first step will be extending the `showPhotoSourceSelection()` method in `PhotoTakingHelper`. Currently we aren't performing any code when a user selects one of the two options in our popup.
+
+<div id=action></div>
+Change the following section within `showPhotoSourceSeletion()` so that the `showImagePickerController` method is called:
+
+    ...
+
+    // Only show camera option if rear camera is available
+    if (UIImagePickerController.isCameraDeviceAvailable(.Rear)) {
+      let cameraAction = UIAlertAction(title: "Photo from Camera", style: .Default) { (action) in
+        self.showImagePickerController(.PhotoLibrary)
+      }
+
+      alertController.addAction(cameraAction)
+    }
+
+    let photoLibraryAction = UIAlertAction(title: "Photo from Library", style: .Default) { (action) in
+      self.showImagePickerController(.Camera)
+    }
+
+    ...
+
+We're now calling the `showImagePickerController` method, which we will be implementing in a second. That method
