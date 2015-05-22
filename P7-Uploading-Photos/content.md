@@ -439,13 +439,16 @@ The `imagePickerController(_:, didFinishPickingImage:)` method is also pretty si
 Let's test if that is actually working correctly.
 
 <div class="action"></div>
-Open _`TimelineViewController.swift`_ and replace the comment in our callback method with a print line statement:
+Open _`TimelineViewController.swift`_ and replace the comment in our `PhotoTakingHelper` callback method with a print line statement:
 
-  println("received a callback")
+    println("received a callback")
 
-Then set a breakpoint in that line. Next, run the app and select an image.
+Then set a breakpoint in that line. Next, run the app and select an image using the Image Picker
+.
 The debugger should halt on the breakpoint and you should see that the callback receives a value for the `image` parameter:
 
 ![image](callback_successful.png)
 
-If the value in the red circle is showing anything different than `0x0000000000000000` (which would mean the `image` argument is `nil`) then everything is working!
+If the value in the red circle is showing anything different than `0x0000000000000000` (which would mean the `image` argument is `nil`) then everything is working! We now have access to the selected Image inside of the `TimelineViewController`.
+
+Next, we are going to upload this image to Parse!
