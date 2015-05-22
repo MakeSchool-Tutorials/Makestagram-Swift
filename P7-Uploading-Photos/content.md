@@ -141,6 +141,55 @@ Our `PhotoTakingHelper` will have two main responsibilities:
 1. Presenting the Popover and the Camera / Photo Library
 2. Returning the image that the user has taken / selected
 
-To implement the first responsibility, the `PhotoTakingHelper` will need a reference to a `UIViewController`. In iOS only View Controllers can present other View Controllers. The `PhotoTakingHelper` is a simple `NSObject` not a `UIViewController`, so it isn't able to present other View Controllers. We will implement the initializer of the `PhotoTakingHelper` to require a reference to a `UIViewController`.
+To implement the first responsibility the `PhotoTakingHelper` will need a reference to a `UIViewController`. In iOS only View Controllers can present other View Controllers. The `PhotoTakingHelper` is a simple `NSObject` not a `UIViewController`, so it isn't able to present other View Controllers. We will implement the initializer of the `PhotoTakingHelper` to require a reference to a `UIViewController`.
 
-To implement the second responsibility, the `PhotoTakingHelper` will need to have a way to communicate with the `TimelineViewController` - as shown in Step 6 of our outline above. For this we could use the concept of delegation (on the previous page we used delegation to receive information from the `UITabBarController`). A more convenient solution for this specific case is using a *Callback*. A *Callback* is basically a reference to a function. When initializing the `PhotoTakingHelper` we will provide it with a callback function. As soon as the `PhotoTakingHelper` has selected an image, it will call that *Callback* function and provide the selected image to the *TimelineViewController*.
+To implement the second responsibility the `PhotoTakingHelper` will need to have a way to communicate with the `TimelineViewController` - as shown in Step 6 of our outline above. For this we could use the concept of delegation (on the previous page we used delegation to receive information from the `UITabBarController`). A more convenient solution for this specific case is using a *Callback*. A *Callback* is basically a reference to a function. When initializing the `PhotoTakingHelper` inside of the *TimelineViewController* we will provide it with a callback function. As soon as the `PhotoTakingHelper` has selected an image, it will call that *Callback* function and provide the selected image to the *TimelineViewController*.
+
+Let's get started with building the `PhotoTakingHelper`!
+
+###Initialier and Properties
+
+First, let's take care of the initializer and the properties of the `PhotoTakingHelper`.
+
+<div class="action"></div>
+Replace the entire content of `PhotoTakingHelper.swift` with the following code:
+
+    import UIKit
+
+    typealias PhotoTakingHelperCallback = UIImage? -> Void
+
+    class PhotoTakingHelper : NSObject {
+      
+      /** View controller on which AlertViewController and UIImagePickerController are presented */
+      weak var viewController: UIViewController!
+      var callback: PhotoTakingHelperCallback
+      var imagePickerController: UIImagePickerController?
+      
+      init(viewController: UIViewController, callback: PhotoTakingHelperCallback) {
+        self.viewController = viewController
+        self.callback = callback
+        
+        super.init()
+        
+        showPhotoSourceSelection()
+      }
+      
+      func showPhotoSourceSelection() {
+
+      }
+      
+    }
+    
+Let's discuss this code. In the first line after `import UIKit` we are declaring a `typealias`. Using the `typealias` keyword we can provide a function signature with a name. In this case we are saying that a function of type `PhotoTakingHelperCallback` takes an `UIImage?` as parameter and returns `Void`. This means: any function that wants to be the callback of the `PhotoTakingHelper` needs to have exaxctly this signature.
+
+`PhotoTakingHelper` has three properties. The first one `viewController` stores a `weak` reference to a `viewController`. As we discussed earlier, this reference is necessary because the `PhotoTakingHelper` needs a `UIViewController` on which it can present other View Controllers. It is a `weak` reference, since the `PhotoTakingHelper` does not own the referenced View Controller.
+
+Additionally we store the `callback` function and provide a property to store an `UIImagePickerController` (which we will use a little bit later).
+
+The initializer of this class receives the View Controller on which we will present other View Controllers and the callback that we will call as soon as a user has picked an image.
+
+When the class is entirely initialized we immediately call `showPhotoSourceSeletion()`. The method is still empty right now, later it will present the dialog that allows user to choose between their camera and their photo library. 
+
+Because we call `showPhotoSourceSeletion()` directly from the initializer, the dialog will be presented as soon as we create an instance of `PhotoTakingHelper`.
+
+###Implementing the Photo Source Selection
