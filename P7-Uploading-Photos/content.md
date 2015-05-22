@@ -254,13 +254,72 @@ First, let's change the Tab Bar related code:
 <div class="action"></div>
 Change the the Tab Bar related code to call the `takePhoto` method, instead of printing to the console:
 
-```
-func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
-  if (viewController is PhotoViewController) {
-    takePhoto()
-    return false
-  } else {
-    return true
-  }
-}
-```
+    func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
+      if (viewController is PhotoViewController) {
+        takePhoto()
+        return false
+      } else {
+        return true
+      }
+    }
+
+Within the `takePhoto` method, which we'll implement next, we will create the `PhotoTakingHelper`.
+
+<div class="action"></div>
+Add the `takePhoto` method to the `TimelineViewController` class:
+
+    func takePhoto() {
+      // instantiate photo taking class, provide callback for when photo  is selected
+      photoTakingHelper = PhotoTakingHelper(viewController: self.tabBarController!) { (image: UIImage?) in
+        // don't do anything, yet...
+      }
+    }
+
+Within the `takePhoto` method we're creating an instance of `PhotoTakingHelper`. We're assigning that instance to the `photoTakingProperty` (which we'll create in a second).
+
+As we know, the initializer of the `PhotoTakingHelper` takes two parameters: the View Controller on which the popup should be presented and the callback that should run as soon as a photo has been selected.
+
+As the View Controller we pass `self.tabBarController`. The Tab Bar Controller is the Root View Controller of our application - typically you want to present most Popups directly on the Root View Controller.
+
+As a callback we pass a *Closure*. A closure is basically a function without a name.
+
+This part of the code is the closure:
+
+    { (image: UIImage?) in
+      // don't do anything, yet...
+    }
+
+The entire closure is enclosed in curly braces. It starts with the list of parameters in parentheses. Our callback receives a `UIImage?` from the `PhotoTakingHelper`. The `in` keyword marks the beginning of the actual code of the closure - for now we only have a comment in here.
+
+Whenever the `PhotoTakingHelper` has received an image, it will call this closure. This is where we will implement the Photo upload later on.
+
+There's one last detail to note: the closure is outside of the argument list (the pair of parentheses after the class name) of the constructor!
+
+This is called a [trailing closure](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Closures.html#//apple_ref/doc/uid/TP40014097-CH11-ID102):
+
+![image](trailing_closure.png)
+
+Trailing closures can be used whenever the last argument of a function or initializer is a closure.
+
+Without a trailing closure the call to the initializer would look like this:
+
+    PhotoTakingHelper(viewController: self.tabBarController!, callback: { (image: UIImage?) in
+    // don't do anything, yet...
+    })
+
+Using trailing closures can make our code a little bit more readable because we don't need a closing parentheses after the closing curly braces of the closure. Feel free to choose whichever option you prefer!
+
+One last step before are ready to test the interaction between the `TimelineViewController` and the `PhotoTakingHelper`.
+
+<div class="action"></div>
+Add the property definition for `photoTakingHelper` to the top of the `TimelineViewController` class:
+
+    var photoTakingHelper: PhotoTakingHelper?
+
+Now our code should compile and run! Time to test if everything is working as expected.
+
+hen you run the app and tap the camera button, you should see a popup show up:
+
+![image](popup_working.png)
+
+Well done! At this point you should have basic understanding of how information can travel through diffeernt classes in our app.
