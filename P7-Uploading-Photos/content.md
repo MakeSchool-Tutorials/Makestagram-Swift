@@ -343,9 +343,7 @@ In the first line, this method creates a `UIImagePickerController`. In the secon
 
 Once the `imagePickerController` is initialized and configured, we present it.
 
-...
-
-The first step will be extending the `showPhotoSourceSelection()` method in `PhotoTakingHelper`. Currently we aren't performing any code when a user selects one of the two options in our popup.
+Now we need to call this method when a popup button is selected. Currently we aren't performing any code when a user selects one of the two options.
 
 <div id=action></div>
 Change the following section within `showPhotoSourceSeletion()` so that the `showImagePickerController` method is called:
@@ -355,16 +353,39 @@ Change the following section within `showPhotoSourceSeletion()` so that the `sho
     // Only show camera option if rear camera is available
     if (UIImagePickerController.isCameraDeviceAvailable(.Rear)) {
       let cameraAction = UIAlertAction(title: "Photo from Camera", style: .Default) { (action) in
-        self.showImagePickerController(.PhotoLibrary)
+        self.showImagePickerController(.Camera)
       }
 
       alertController.addAction(cameraAction)
     }
 
     let photoLibraryAction = UIAlertAction(title: "Photo from Library", style: .Default) { (action) in
-      self.showImagePickerController(.Camera)
+      self.showImagePickerController(.PhotoLibrary)
     }
 
     ...
 
-We're now calling the `showImagePickerController` method, which we will be implementing in a second. That method
+The changes are pretty simple. We call `showImagePickerController` and pass either `.PhotoLibrary` or `.Camera` as argument - based on the user's choice.
+
+Now you should be able to see an `UIImagePickerController` pop up when you select the "Photo from Library" button in the app:
+
+<video width="100%" controls>
+  <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/PhotoSelection_small.mov" type="video/mp4">
+
+Now we can let the user pick an image. However, currently we don't get informed when the user has selected an image and we don't gain access to the selected image.
+
+#Closing the loop
+
+To gain access to the selected image we will use a pattern with which you should be familiar by now: _Delegation_.
+The `UIImagePickerController` allows a delegate to listen for selected images and other events.
+
+Take a short look at the documentation for the `[UIImagePickerControllerDelegate](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIImagePickerControllerDelegate_Protocol/)` protocol.
+
+**Can you see which method we can use?**
+
+Correct! We'll use the `imagePickerController(picker: UIImagePickerController, didFinishPickingImage: UIImage!, editingInfo: [NSObject : AnyObject]!)` method!
+
+We'll need to implement this in two steps:
+
+1. Sign up to become the delegate of the `UIImagePickerController`
+2. Implement `imagePickerController(picker: UIImagePickerController, didFinishPickingImage: UIImage!, editingInfo: [NSObject : AnyObject]!)`
