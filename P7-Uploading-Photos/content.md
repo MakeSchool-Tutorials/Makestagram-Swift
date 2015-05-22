@@ -369,7 +369,7 @@ The changes are pretty simple. We call `showImagePickerController` and pass eith
 
 Now you should be able to see an `UIImagePickerController` pop up when you select the "Photo from Library" button in the app:
 
-<video width="100%" controls>
+<video width="50%" controls>
   <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/PhotoSelection_small.mov" type="video/mp4">
 
 Now we can let the user pick an image. However, currently we don't get informed when the user has selected an image and we don't gain access to the selected image.
@@ -379,7 +379,7 @@ Now we can let the user pick an image. However, currently we don't get informed 
 To gain access to the selected image we will use a pattern with which you should be familiar by now: _Delegation_.
 The `UIImagePickerController` allows a delegate to listen for selected images and other events.
 
-Take a short look at the documentation for the `[UIImagePickerControllerDelegate](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIImagePickerControllerDelegate_Protocol/)` protocol.
+Take a short look at the documentation for the [`UIImagePickerControllerDelegate`](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIImagePickerControllerDelegate_Protocol/) protocol.
 
 **Can you see which method we can use?**
 
@@ -389,3 +389,63 @@ We'll need to implement this in two steps:
 
 1. Sign up to become the delegate of the `UIImagePickerController`
 2. Implement `imagePickerController(picker: UIImagePickerController, didFinishPickingImage: UIImage!, editingInfo: [NSObject : AnyObject]!)`
+
+Let's start with the simple part - becoming the delegate of `UIImagePickerController`.
+
+<div id=action></div>
+Extend the `showImagePickerController` method to include a line that sets up the `delegate` property of `imagePickerController`:
+
+    func showImagePickerController(sourceType: UIImagePickerControllerSourceType) {
+      imagePickerController = UIImagePickerController()
+      imagePickerController!.sourceType = sourceType
+      imagePickerController!.delegate = self
+
+      self.viewController.presentViewController(imagePickerController!, animated: true, completion: nil)
+    }
+
+Now that we're the `delegate`, we need to conform to some protocols. Otherwise the compiler will be unhappy and our project won't run!
+
+By being the delegate of a `UIImagePickerController` we are required to implement the `UIImagePickerControllerDelegate` protocol and the `UINavigationControllerDelegate`.
+
+However, all methods in the `UINavigationControllerDelegate` protocol are `optional` - which means we don't need to implement any of them.
+
+As always, we will implement the code that is relevant for a certain protocol within an `extension`.
+
+<div class="action"></div>
+Add the extension following extension to _PhotoTakingHelper.swift_ - always make sure that the extension is placed outside of the class definition:
+
+    extension PhotoTakingHelper: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+      func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+        viewController.dismissViewControllerAnimated(false, completion: nil)
+
+        callback(image)
+      }
+
+      func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        viewController.dismissViewControllerAnimated(true, completion: nil)
+      }
+
+    }
+
+We don't have too much code in this extension. We implement two different delegate methods. One is called when an image is selected, the other is called when the cancel button is tapped.
+
+Within `imagePickerControllerDidCancel` we simply hide the Image Picker Controller by calling `dismissViewControllerAnimated` on `viewController`.
+
+Before we became the delegate of the Image Picker Controller, it was automatically hidden as soon as a user hit the cancel button or selected an image. Now that we are the delegate, we are responsible for hiding it.
+
+The `imagePickerController(_:, didFinishPickingImage:)` method is also pretty simple. First we hide the Image Picker Controller, then we call the `callback` and hand it the `image` that has been selected as an argument. After this line runs, the `TimelineViewController` will have received the image through its callback closure.
+
+Let's test if that is actually working correctly.
+
+<div class="action"></div>
+Open _`TimelineViewController.swift`_ and replace the comment in our callback method with a print line statement:
+
+  println("received a callback")
+
+Then set a breakpoint in that line. Next, run the app and select an image.
+The debugger should halt on the breakpoint and you should see that the callback receives a value for the `image` parameter:
+
+![image](callback_successful.png)
+
+If the value in the red circle is showing anything different than `0x0000000000000000` (which would mean the `image` argument is `nil`) then everything is working!
