@@ -451,10 +451,10 @@ The debugger should halt on the breakpoint and you should see that the callback 
 
 If the value in the red circle is showing anything different than `0x0000000000000000` (which would mean the `image` argument is `nil`) then everything is working! We now have access to the selected Image inside of the `TimelineViewController`.
 
-Here's a short reminder of all the things have implemented in this step:
+Here's a short reminder of all the information flow you have implemented in this step:
 
 ![image](photo_taking_structure.png)
 
-Well done!
+**Well done!**
 
-Next, we are going to upload this image to Parse!
+In the next step we are going to upload this image to Parse!
