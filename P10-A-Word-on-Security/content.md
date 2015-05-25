@@ -23,6 +23,7 @@ How can we avoid that? By changing the default ACL!
 #Changing the default ACL
 
 Parse provides an API call that allows us to change the default ACL for all objects created in the app. We will use that to change the default to a security setting that:
+
 1. Allows public _read_ access - any user can see all objects created with this default ACL
 2. Only provides _write_ access to the user that created the object
 
