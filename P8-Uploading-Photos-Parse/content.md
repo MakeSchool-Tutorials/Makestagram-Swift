@@ -82,6 +82,13 @@ Open you browser and open your parse.com app (ideally you should keep it open th
 
 ![image](uploaded_post.png)
 
-To be 100% sure that everything worked correctly, you can double-click onto the file column, and Parse will download the image that you have uploaded from the Simulator.
+To be 100% sure that everything worked correctly, you can double-click onto the file column, and Parse will download the image that you have uploaded from the simulator.
 
 **Congratulations!** This means you have successfully uploaded data to Parse! The few issues with delays and console warnings aside - this is an important step towards building our Makestagram app.
+
+However, there are many things to improve here:
+
+1. We need to resolve the warnings in the console
+2. We need to store more information along with the `Post` that we're creating. Right now we are only storing the image file, but we also need to store the `user` to which the post belongs
+
+In the next step, we will move from this very simple upload code to a more mature solution.
