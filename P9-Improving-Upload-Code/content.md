@@ -219,10 +219,105 @@ Change the `uploadPost` method to perform saving in the background:
       saveInBackgroundWithBlock(nil)
     }
 
+By calling the `saveInBackgroundWithBlock` method, uploading the data happens on a background thread, and our app no longer freezes.
+
+You can go ahead and test this new code - you should realize a significant difference. You will also see that the warning message doesn't show up anymore when a photo is uploaded.
+
+You might wonder why we are passing a `nil` value to this method:
+
+    saveInBackgroundWithBlock(nil)
+
+The `saveInBackgroundWithBlock` method allows us to pass it a _callback_ in the form of a closure (the same concept that we've used for our `PhotoTakingHelper`). The code in that callback is executed once the task running on the background thread is completed, e.g. when the photo upload is completed.
+
+This can be extremely useful. Right now however, we don't need be informed when the upload completes, so we pass `nil` to the method.
+
+We have successfully resolved our first issue, let's move on to the next step: associating the post with a user.
+
+#Adding the user to the post
+If you take a look at any of the posts that we've uploaded so far, you'll see that `user` column in the Parse data browser shows that the entry is _undefined_:
+
+![image](user_undefined.png)
+
+This means that we currently aren't storing information about which post has been created by which user.
+
+This can be fixed very easily. Whenever a `Post` gets uploaded, we associate it with the user that is currently logged into the Makestagram app.
+
+<div class="action"></div>
+Extend the `uploadPost` method, so that it sets the `user` property of the post:
+
+    func uploadPost() {
+      let imageData = UIImageJPEGRepresentation(image, 0.8)
+      let imageFile = PFFile(data: imageData)
+      imageFile.saveInBackgroundWithBlock(nil)
+
+      // any uploaded post should be associated with the current user
+      user = PFUser.currentUser()
+      self.imageFile = imageFile
+      saveInBackgroundWithBlock(nil)
+    }
+
+That was an easy fix! `PFUser.currentUser()` allows us to access the user that's logged in. We assign that user to the `user` property of the `Post`.
+
+If you create another `Post` with this new code in place, you should see that the `user` property is stored in Parse and shows up in the data browser:
+
+![image](user_working.png)
+
+Great! We have created the first valid post!
+
+There's another detail regarding the photo upload, that we need to take care of. Apps on iOS get suspended very soon after a user closes the app. If you have long-running tasks in your app, these will be cancelled as soon as the app gets suspended.
+
+To avoid this issue, Apple provides an API that allows us to request some extra time to finish up tasks that started before the app got suspended. We're going to set up such a task for our photo upload. That way an ongoing photo upload will be continued in case a user closes our app.
+
+#Requesting a long running background task
+
+Let's request some extra time for our photo upload.
+
+<div class="action"></div>
+Extend the `uploadPost` method to look as following:
+
+    func uploadPost() {
+      let imageData = UIImageJPEGRepresentation(image, 0.8)
+      let imageFile = PFFile(data: imageData)
+
+      // 1
+      photoUploadTask = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler { () -> Void in
+        UIApplication.sharedApplication().endBackgroundTask(self.photoUploadTask!)
+      }
+
+      // 2
+      imageFile.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+        // 3
+        UIApplication.sharedApplication().endBackgroundTask(self.photoUploadTask!)
+      }
+
+      // any uploaded post should be associated with the current user
+      user = PFUser.currentUser()
+      self.imageFile = imageFile
+      saveInBackgroundWithBlock(nil)
+    }
+
+1. As soon as a post gets uploaded, we create a background task. When a background task gets created, iOS generates a unique ID and returns it. We store that unique id in the `photoUploadTask` property. The API requires us to provide an _expirationHandler_ in the form of a closure. That closure runs when the extra time that iOS permitted us has expired. In case the additional background time wasn't sufficient, we are required to cancel our task! Within this block you should delete any temporary resources that you created - in the case of our photo upload we don't have any. Additionally you have to call `UIApplication.sharedApplication().endBackgroundTask`, otherwise your app will be terminated!
+2. After we've created the background task, we save the `imageFile` by calling `saveInBackgroundWithBlock`. However, this time we aren't handing `nil` as a completion handler!
+3. Within the completion handler of `saveInBackgroundWithBlock` we inform iOS that our background task is completed. This block gets called as soon as the image upload is finished. The API for background jobs makes us responsible for calling `UIApplication.sharedApplication().endBackgroundTask` as soon as our work is completed.
+
+Next, we'll need to add the `photoUploadTask` property that we are referencing from the `uploadPhoto` method.
+
+<div class="action"></div>
+Add the `photoUploadTask` property to the `Post` class:
+
+    var photoUploadTask: UIBackgroundTaskIdentifier?
+
+Most of this code is once again _boilerplate code_. Instead of memorizing all the details of it, rather remember that is the place to come back to when you want to create a background job next time around.
+
 #Conclusion
 
-You have learned:
+We've improved the photo upload mechanism a lot! Here's what you have learned in this step:
 
 - Why and how to create custom Parse class
 - The basics of threading:
-  - We differentiate between the _Main_ thread and background threads. We want to avoid to block the main thread.
+  - We differentiate between the _Main_ thread and background threads. We want to avoid blocking the main thread.
+  - How to use Parse's `saveInBackgroundWithBlock` to perform long-running tasks on a background thread
+- How to access the logged in user
+- How to ask for some extra background time when you are is being suspended
+
+In the next step we will discuss some security features in the Parse API!
