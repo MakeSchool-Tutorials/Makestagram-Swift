@@ -54,6 +54,7 @@ Then add the folder to Xcode and create a new _Swift_ file callsed _Post.swift_.
 
 We're going to fill the `Post` class with some [_boilerplate_](http://en.wikipedia.org/wiki/Boilerplate_code#In_object-oriented_programming) code.
 
+<div class="action"></div>
 Replace the content of _Post.swift_ with the following source code:
 
     import Foundation
@@ -94,7 +95,60 @@ Replace the content of _Post.swift_ with the following source code:
        post["imageFile"] = imageFile
     Into code that uses Swift properties:
        post.imageFile = imageFile
-3. By implementing the `parseClassName` you create a connection between the Parse class and your Swift class
-4. `init` and `initialize` are pure boilerplate code - copy these two into any custom Parse class that you're creating
+3. By implementing the `parseClassName` you create a connection between the Parse class and your Swift class.
+4. `init` and `initialize` are pure boilerplate code - copy these two into any custom Parse class that you're creating.
 
 Now, we have set up the skeleton for our Parse class. Follow these steps whenever you want to create a custom Parse class in your own apps.
+
+##Extending the skeleton
+
+We have laid the groundwork to improve our photo uploading code - now lets take the next step. It should be extremely easy to create a new `Post` and assign an image to it. Ideally this should be three lines of code:
+
+    let post = Post()
+    post.image = image
+    post.uploadPost()
+
+To accomplish this, we need to move the image upload into the `Post` class. This also includes the code for the conversion of a `UIImage` into `NSData`:
+
+    let imageData = UIImageJPEGRepresentation(image, 0.8)
+
+All of the code that prepares the `Post` to be uploaded should be part of the `uploadPost` method.
+
+First, let's add an `image` property to our `Post` class:
+<div class="action"></div>
+Add the following property to the `Post` class:
+
+    var image: UIImage?
+
+Next, we'll move the uploading code into the `uploadPost` method.
+
+<div class="action"></div>
+Add the following method to the `Post` class:
+
+    func uploadPost() {
+      // 1
+      let imageData = UIImageJPEGRepresentation(image, 0.8)
+      let imageFile = PFFile(data: imageData)
+      imageFile.save()
+      // 2
+      self.imageFile = imageFile
+      save()
+    }
+
+1. Whenever the `uploadPost` method is called, we grab the photo that shall be uploaded from the `image` property; turn it into a `PFFile` and upload it.
+2. Once we have saved the `imageFile` we assign it to `self` (which is the `Post` that's being uploaded). Then we call `save()` to store the `Post`.
+
+Now creating a `Post` and uploading it has become a lot simpler. We can change the code in the `TimelineViewController` accordingly.
+
+<div class="action"></div>
+Update the `takePhoto` method in the `TimelineViewController` class to use the new `Post` class:
+
+    func takePhoto() {
+      // instantiate photo taking class, provide callback for when photo is selected
+      photoTakingHelper =
+        PhotoTakingHelper(viewController: self.tabBarController!) { (image: UIImage?) in
+          let post = Post()
+          post.image = image
+          post.uploadPost()
+      }
+    }
