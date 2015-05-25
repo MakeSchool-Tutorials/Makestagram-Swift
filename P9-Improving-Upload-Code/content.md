@@ -152,3 +152,49 @@ Update the `takePhoto` method in the `TimelineViewController` class to use the n
           post.uploadPost()
       }
     }
+
+If you like, you can test this new version of our solution. You should see that it's working! Now that we've set up a nice structure for uploading posts, we can tackle the two issues stated at the beginning of this step.
+
+#Performing the photo upload in the background
+
+Let's first tackle the warning that we are currently seeing in the console when we are uploading a photo:
+
+> Warning: A long-running operation is being executed on the main thread.
+
+In case you haven't worked with _threads_ before, you will need a little bit of background knowledge before you'll be able to understand the issue.
+
+##A brief introduction to threading
+
+A typical computer program is a sequence of instructions that get performed after each other. Only one instruction is running at any point in time. Most modern apps (mobile apps, web apps, etc.) however, perform multiple tasks in **parallel**.
+
+Why is that necessary?
+
+Simplified one could say that a typical iOS app repeats three steps over and over again, while an app is running:
+
+1. The operating system listens for user input, e.g. touch events
+2. The system components respond to that input, e.g. a list of items gets scrolled
+3. Your application code runs and can respond to the user interaction, e.g. performing some code after a button has been tapped
+
+This means the workflow of your typical app can be visualized like this:
+
+![image](threading_1.png)
+
+This system works great, as long as your _Application Code_ runs very fast. However, some times we need to perform tasks that can take a longer amount of time - such as uploading an image. With bad connectivity, uploading an image can take multiple seconds.
+
+If your application code takes longer to run, the workflow diagram will change to something like this:
+
+![image](threading_2.png)
+
+Now you can see that your long running _Application Code_ is blocking the operating system's code from running. As long as you are uploading an image, the operating system will not be able to respond to user input - your app will freeze!
+
+That is why we are seeing this warning message in the console:
+
+> Warning: A long-running operation is being executed on the main thread.
+
+How can we fix this issue?
+
+We can perform the long-running task in the _background_, which means it will run in **parallel** to our other application code. The result will look like this:
+
+![image](threading_3.png)
+
+You can see that our long-running task is now no longer blocking the operating system's code, because it is running in a different _Thread_. 
