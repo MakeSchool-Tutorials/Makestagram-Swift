@@ -197,4 +197,32 @@ We can perform the long-running task in the _background_, which means it will ru
 
 ![image](threading_3.png)
 
-You can see that our long-running task is now no longer blocking the operating system's code, because it is running in a different _Thread_. 
+You can see that our long-running task is now no longer blocking the operating system's code, because it is running in a different _Thread_. Now our photo upload can happen, while our app still responds smoothly to user input.
+
+We'll dive a little deeper into threading throughout this tutorial. For now it's important to understand that we want to avoid blocking the _Main_ thread, by performing long-running tasks in a _Background_ thread. It's also worth mentioning that every app has exactly **one** main thread but can have many background threads.
+
+Now that you understand the theory; let's fix the practical problem in our app.
+
+##Saving objects in the background
+
+Even though the theory might sound a little bit complicated; the implementation of threading with Parse is fairly simple. For now, we only need to replace the calls to the `save` method with calls to the `saveInBackgroundWithBlock` method.
+
+<div class="action"></div>
+Change the `uploadPost` method to perform saving in the background:
+
+    func uploadPost() {
+      let imageData = UIImageJPEGRepresentation(image, 0.8)
+      let imageFile = PFFile(data: imageData)
+      imageFile.saveInBackgroundWithBlock(nil)
+
+      self.imageFile = imageFile
+      saveInBackgroundWithBlock(nil)
+    }
+
+#Conclusion
+
+You have learned:
+
+- Why and how to create custom Parse class
+- The basics of threading:
+  - We differentiate between the _Main_ thread and background threads. We want to avoid to block the main thread.
