@@ -30,7 +30,7 @@ Parse provides an API call that allows us to change the default ACL for all obje
 We will set up this default ACL directly after app launch, within our `AppDelegate`.
 
 <div class="action"></div>
-Extend the `application(_:, didFinishLaunchingWithOptions:)` method by adding the three lines of code that change the default ACL:
+Extend the `application(_:, didFinishLaunchingWithOptions:)` method, in the `AppDelegate` class, by adding the three lines of code that change the default ACL:
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
