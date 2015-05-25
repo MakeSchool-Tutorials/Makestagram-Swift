@@ -35,11 +35,11 @@ Here's a short reminder of what the `Post` class looks like:
 
 ![image](post_model.png)
 
-You can see that the actual image file is stored _as part of the Post_. This means that our upload code needs to create a Post object that can be stored in Parse. Additionally at needs to upload the image that gets stored within that Post.
+You can see that the actual image file is stored _as part of the Post_. This means that our upload code needs to create a post object that can be stored in Parse. Additionally at needs to upload the image that gets stored within that post.
 
 Files are handled a little different than regular objects in Parse, so we don't use the `PFObject` class to create them. Instead we used the specialized `PFFile` class.
 
-**Try to implement this step on your own! First create a PFFile with the image data, then a PFObject for the Post. Remember that the post needs a reference to the uploaded image! Place your solution in the `PhotoHelper` callback within `TimelineViewController`**
+**Try to implement this step on your own! First create a PFFile with the image data, then a PFObject for the post. Remember that the post needs a reference to the uploaded image! Place your solution in the `PhotoHelper` callback within `TimelineViewController`**
 
 <div class="solution"></div>
 Here's one possible implementation for the callback:
@@ -58,4 +58,30 @@ There shouldn't be too many surprises in these lines. The most interesting one i
 
 Then we create and `save` the `PFFile`.
 
-In the next step we create a `PFObject` of type Post. We assign the `"imageFile"` to this Post and then save it as well.
+In the next step we create a `PFObject` of type post. We assign the `"imageFile"` to this post and then save it as well.
+
+##Testing the uploading code
+
+Now it's time to test our solution! Run the app and select an image. You should see a similar result as shown below:
+
+<video width="100%" controls>
+  <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/PhotoUpload_Working_small.mov" type="video/mp4">
+</video>
+
+When following these steps you will notice two things:
+
+1. There is a delay of a few seconds after you pick an image
+2. You will see the following message in the console log:
+   > Warning: A long-running operation is being executed on the main thread.
+
+We will discuss this issue and fix it throughout this tutorial! For now, let's first see if the upload actually worked as expected.
+
+The best way to do that is to use the Parse data browser. It will give us a nice overview of all the objects that have been created on our server.
+
+Open you browser and open your parse.com app (ideally you should keep it open throughout the rest of this tutorial). Then select the _Post_ class in the left bar of the data browser. You should see one entry for this class:
+
+![image](uploaded_post.png)
+
+To be 100% sure that everything worked correctly, you can double-click onto the file column, and Parse will download the image that you have uploaded from the Simulator.
+
+**Congratulations!** This means you have successfully uploaded data to Parse! The few issues with delays and console warnings aside - this is an important step towards building our Makestagram app.
