@@ -154,7 +154,54 @@ This should give you enough theoretical knowledge to understand the timeline que
 Let's add it to the `TimelineViewController` and discuss some of its details:
 
 <div class="action"></div>
+Add the following implementation of `viewDidAppear` to the `TimelineViewController`:
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        // 1
+        let followingQuery = PFQuery(className: "Follow")
+        followingQuery.whereKey("fromUser", equalTo:PFUser.currentUser()!)
+
+        // 2
+        let postsFromFollowedUsers = Post.query()
+        postsFromFollowedUsers!.whereKey("user", matchesKey: "toUser", inQuery: followingQuery)
+
+        // 3
+        let postsFromThisUser = Post.query()
+        postsFromThisUser!.whereKey("user", equalTo: PFUser.currentUser()!)
+
+        // 4
+        let query = PFQuery.orQueryWithSubqueries([postsFromFollowedUsers!, postsFromThisUser!])
+        // 5
+        query.includeKey("user")
+        // 6
+        query.orderByDescending("createdAt")
+
+        // 7
+        query.findObjectsInBackgroundWithBlock {(result: [AnyObject]?, error: NSError?) -> Void in
+          // 8
+          self.posts = result as? [Post] ?? []
+          // 9
+          self.tableView.reloadData()
+        }
+    }
+
+
+1. First, we are creating the query that fetches the `Follow` relationships for the current user.
+2. We use that query to fetch any posts that are created by users that the current user is following.
+3. We create another query to retrieve all posts that the current user has posted herself.
+4. We create a combined query of the _2._ and _3._ queries, using the `orQueryWithSubqueries` method. The query generated this way will return any `Post` that meets either of the constraints of the queries in _2._ or _3._
+5. We define that the combined query should also fetch the `PFUser` associated with a post. As you might remember, we are storing a _pointer_ to a user object in the _user_ column of each post. By using the `includeKey` method we tell Parse to resolve that pointer and download all the information about the user along with the post. We will need the username later when we display posts in our timeline.
+6. We define that the results should be ordered by the _createdAt_ field. This will make posts on the timeline appear in chronological order.
+7. We kick off the network request.
+8. In the completion block we receive all posts that meet our requirements. The Parse framework hands us an array of type `[AnyObject]?`. However, we would like to store the posts in an array of type `[Post]`. In this step we check if it is possible to cast the result into a `[Post]`; if that's not possible (e.g., because the result is nil) we store an empty array (`[]`) in `self.posts`. The `??` operator is called the _nil coalescing operator_ in Swift. If the statement before this operator returns `nil`, the return value will be replaced with the value after the operator.
+9. Once we have stored the new posts, we refresh the `tableView`.
+
+There are two more required steps before we can test this code:
+
+1. We need to add the `posts` property that we're referencing
+2. We need to implement the `UITableViewDataSource` protocol
 
 
 
