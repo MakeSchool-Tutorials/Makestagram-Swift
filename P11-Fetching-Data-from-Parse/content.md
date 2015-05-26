@@ -1,5 +1,5 @@
 ---
-title: "Fetching Data from Parse"
+title: "Fetching Data from Parse and Building the Timeline"
 slug: fetching-data-parse-timeline
 ---
 

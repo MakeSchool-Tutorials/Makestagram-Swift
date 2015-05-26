@@ -1,5 +1,5 @@
 ---
-title: "Fetching Data from Parse"
+title: "Creating a custom Post Table View Cell"
 slug: custom-table-view-cell-post
 ---
 
