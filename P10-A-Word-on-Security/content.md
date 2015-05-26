@@ -55,7 +55,8 @@ With this new default setting our app content is already much safer!
 
 Throughout the last steps we have created multiple posts, using code that is now outdated. Some posts don't have users assigned to them; others have the wrong ACL. Let's delete all of the existing posts - that way we will avoid debugging issues related to outdated objects.
 
-We can use the Parse data browser to delete all rows of the `Post` class:
+<div class="action"></div>
+Use the Parse data browser to delete all rows of the `Post` class:
 
 ![image](delete_posts.png)
 
