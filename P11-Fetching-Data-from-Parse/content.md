@@ -46,7 +46,7 @@ As a last step, we need to set the top and bottom constraints to _0_.
 3. Hit the _Edit_ button for each of the constraints and set their value to _0_
 ![image](change_constraints.png)
 The result should look like this:
-![image](updated_constraints.png)
+![image](updated_constraints.png =100x)
 
 If you don't want your views to overlap with the Status Bar or the Tab Bar, you need to set up constraints with the Top and Bottom Layout Guide, instead of setting them up with the Superview.
 
