@@ -55,11 +55,31 @@ If you don't want your views to overlap with the Status Bar or the Tab Bar, you 
 In order to fill this Table View with data, we need to define a Data Source (just as we did in the _Make School Notes_ app).
 
 <div class="action"></div>
-Set the _Timeline View Controller_ to be the delegate of the Table View, as shown in the image below:
+Set the _Timeline View Controller_ to be the data source of the Table View, as shown in the image below:
 
-![image](connect_delegate.png)
+![image](data_source_setup.png)
 
-We have done our due diligence - the Table View is set  up! Now we can take a look at how we can fetch data from Parse and display it in this Table View.
+##Defining a Referencing Outlet
+
+We will also need to access this Table View in code; therefore we need to set up a referencing outlet.
+
+<div class="action"></div>
+Set up a referencing outlet, as shown below, and name the property `tableView`:
+![image](referencing_outlet.png)
+
+##Create a Prototype Cell
+
+We'll need a cell to display the posts that we download. Let's add it to the Table View.
+
+<div class="action"></div>
+Add a new Table View Cell to the Table View:
+![image](add_tableview_cell.png)
+Next, set up an identifier for this cell, so that we can reference it from code:
+![image](cell_identifier.png)
+
+Well done!
+
+We have done our due diligence - the Table View is set up! Now we can take a look at how we can fetch data from Parse and display it in this Table View.
 
 #Basics of Quering in Parse
 
@@ -95,5 +115,47 @@ Once you have set up a query with all the constraints you need, you can start fe
 These are the absolute basics of querying data in Parse. We will see some more advanced options when implementing the query for out timeline.
 
 #Building the Timeline Query
+
+With this basic knowledge at hand, how can we implement the timeline query? Here's a short reminder of what the data model for _Makestagram_ looks like:
+
+![image](ER.png)
+
+We want to show posts in a user's timeline if they fulfill one of the following two requirements:
+
+1. the post is created by a user which we are following
+2. the post is created by the user that is currently logged in
+
+We have already seen the solution for _2._:
+
+    postsQuery.whereKey("user", equalTo: PFUser.currentUser()!)
+
+The solution for _1._ however, consists of two different steps:
+
+1. Fetch the users we are currently following
+2. Fetch the posts of the users that we are currently following
+
+We can build such a query like this:
+
+    let followingQuery = PFQuery(className: "Follow")
+    followingQuery.whereKey("fromUser", equalTo:PFUser.currentUser()!)
+
+    let postsFromFollowedUsers = Post.query()
+    postsFromFollowedUsers!.whereKey("user", matchesKey: "toUser", inQuery: followingQuery)
+
+First, we get the instances of `Follow`, where the current user is stored in the `fromUser` column. This means we retrieve all `Follow` relationships that the current user has established.
+
+Then, we use this information to get all posts of these users. We create a query that returns all `Post` objects that have been created by users that have been returned by the `followingQuery`.
+
+This concept we have used here is called a _subquery_. We use the result of one query to create another one.
+
+##Putting the parts together
+
+This should give you enough theoretical knowledge to understand the timeline query.
+Let's add it to the `TimelineViewController` and discuss some of its details:
+
+<div class="action"></div>
+
+
+
 
 #Displaying the Query Results
