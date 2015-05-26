@@ -1,6 +1,6 @@
 ---
 title: "Fetching Data from Parse"
-slug: fetching-data-parse
+slug: fetching-data-parse-timeline
 ---
 
 We have spent the last few steps discussing how to store data in Parse. In this step we will look at how to fetch it!
