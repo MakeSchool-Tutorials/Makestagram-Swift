@@ -1,6 +1,6 @@
 ---
 title: "Fetching Data from Parse"
-slug: fetching-data-parse
+slug: custom-table-view-cell
 ---
 
 With working and well structured query code - let's take some time to work on
