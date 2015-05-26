@@ -46,7 +46,7 @@ As a last step, we need to set the top and bottom constraints to _0_.
 3. Hit the _Edit_ button for each of the constraints and set their value to _0_
 ![image](change_constraints.png)
 The result should look like this:
-![image](updated_constraints.png =100x)
+![image](updated_constraints.png)
 
 If you don't want your views to overlap with the Status Bar or the Tab Bar, you need to set up constraints with the Top and Bottom Layout Guide, instead of setting them up with the Superview.
 
@@ -62,6 +62,37 @@ Set the _Timeline View Controller_ to be the delegate of the Table View, as show
 We have done our due diligence - the Table View is set  up! Now we can take a look at how we can fetch data from Parse and display it in this Table View.
 
 #Basics of Quering in Parse
+
+To retrieve data from Parse we use the `PFQuery` class. A _query_ is a set of requirements that we can define - Parse will then provide all objects that fulfill these requirements.
+
+We start defining a query by choosing what the class of the query result should be.
+
+If we want to create a query that returns `Posts`, we initialize the `PFQuery` like this:
+
+    let postsQuery = PFQuery(className: "Post")
+
+Or, since we have set up a custom class for `Post`, like this:
+
+    let postsQuery = Post.query()
+
+Now the query knows which type of class to return!
+
+The second step is defining the criteria that all `Post` objects need to match in order to be included in the query result.
+
+If we, for example, want to retrieve all of the posts created by the current user, we can add the requirement as follows:
+
+    postsQuery.whereKey("user", equalTo: PFUser.currentUser()!)
+
+Parse provides many variations of the `whereKey...` method that allow you to compare values in many different ways.
+In the example above we are checking whether the user stored in the _"user"_ column matches the user that is currently logged in.
+
+Once you have set up a query with all the constraints you need, you can start fetching the data:
+
+    query.findObjectsInBackgroundWithBlock {(result: [AnyObject]?, error: NSError?) -> Void in
+      // ...
+    }
+
+These are the absolute basics of querying data in Parse. We will see some more advanced options when implementing the query for out timeline.
 
 #Building the Timeline Query
 
