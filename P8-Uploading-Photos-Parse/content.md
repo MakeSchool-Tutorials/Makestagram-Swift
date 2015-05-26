@@ -84,6 +84,8 @@ Open you browser and open your parse.com app (ideally you should keep it open th
 
 To be 100% sure that everything worked correctly, you can double-click onto the file column, and Parse will download the image that you have uploaded from the simulator.
 
+#Conclusion
+
 **Congratulations!** This means you have successfully uploaded data to Parse! The few issues with delays and console warnings aside - this is an important step towards building our Makestagram app.
 
 However, there are many things to improve here:

@@ -62,7 +62,7 @@ Use the Parse data browser to delete all rows of the `Post` class:
 
 #Conclusion
 
-This chapter gave you a basic overview of ACLs - an important security feature in Parse.
+This step gave you a basic overview of ACLs - an important security feature in Parse.
 
 You also learned how to change the default ACL. Changing the default ACL should be one of the first steps when creating your own apps using Parse.
 

@@ -198,11 +198,53 @@ Add the following implementation of `viewDidAppear` to the `TimelineViewControll
 8. In the completion block we receive all posts that meet our requirements. The Parse framework hands us an array of type `[AnyObject]?`. However, we would like to store the posts in an array of type `[Post]`. In this step we check if it is possible to cast the result into a `[Post]`; if that's not possible (e.g., because the result is nil) we store an empty array (`[]`) in `self.posts`. The `??` operator is called the _nil coalescing operator_ in Swift. If the statement before this operator returns `nil`, the return value will be replaced with the value after the operator.
 9. Once we have stored the new posts, we refresh the `tableView`.
 
+#Displaying the Query Results
+
 There are two more required steps before we can test this code:
 
 1. We need to add the `posts` property that we're referencing
 2. We need to implement the `UITableViewDataSource` protocol
 
+<div class="action"></div>
+Add the `posts` property to `TimelineViewController`:
 
+    var posts: [Post] = []
 
-#Displaying the Query Results
+Now, let's add a simple implementation of the `UITableViewDataSource` protocol. That will allow us to see if our request is working as expected:
+
+<div class="action"></div>
+Add the following extension to `TimelineViewController`:
+
+    extension TimelineViewController: UITableViewDataSource {
+
+      func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // 1
+        return posts.count
+      }
+
+      func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        // 2
+        let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as! UITableViewCell
+
+        cell.textLabel!.text = "Post"
+
+        return cell
+      }
+
+    }
+
+1. Our Table View needs to have as many rows as we have posts stored in the `posts` property
+2. For now, we return a simple placeholder cell with the title _"Post"_
+
+Great! Now you should be able to run the app and test the query!
+
+After a short moment the Table View should show as many posts as you can see in the Parse data browser:
+
+![image](posts_working.png)
+
+If you don't see any posts, make sure that you have uploaded to some! Use the Parse data browser to see how many post entries you  have stored.
+
+#Conclusion
+
+Admittedly the app is still looking pretty boring - but with the timeline query you have implemented a very important feature!
+To make our progress a little bit more visual, we will focus on displaying posts with images in the next step!
