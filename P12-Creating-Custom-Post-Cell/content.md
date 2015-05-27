@@ -5,7 +5,7 @@ slug: custom-table-view-cell-post
 
 As I promised, this step will focus on displaying the photos associated with each post.
 To display the posts we will need to switch from the default Table View Cell that we are
-using right now to a custom one.
+using right now to a custom one. Whenever you want to create a Table View Cell that doesn't use one of the few default layouts that iOS has to offer, you will end up creating a custom one.
 
 #Setting up a custom Table View Cell
 
@@ -126,3 +126,12 @@ Now you can run the app again. And for the first time you should see our photos 
 ![image](photo_download_working.png)
 
 That's awesome! This app is very slowly starting to look like a real photo sharing app!
+
+
+#Conclusion
+
+In this chapter you have learned how to set up a custom Table View Cell. Almost all iOS apps use Table Views in combination with custom cells, so this knowledge will be very useful for your own app! You have also learned that `PFFile`s are stored as references in other `PFObject`s and are not automatically downloaded. For now we have implemented a primitive approach of downloading the photos for each post - after all, the focus of this chapter was to make some visual progress!
+
+In the next step we will focus on improving the code that queries Parse data. The goal will be to set up a nice app structure that will allow us to add many different queries as we progress through this tutorial, without turning our project into a mess. We will also make some improvements to our photo download code.
+
+Let's turn this working solution into a good one!
