@@ -186,4 +186,37 @@ Update the `viewDidAppear` method in `TimelineViewController` by removing the im
       }
     }
 
-Now we are only downloading the metadata of all posts upfront and deferring the image download until a post is displayed. 
+Now we are only downloading the metadata of all posts upfront and deferring the image download until a post is displayed.
+
+##Loading Images Lazily
+The last step - before we have a _Makestagram_ app that works correctly again - is to trigger the image download for our visible posts.
+
+**What do you think? Where should we call the `downloadImage` method of our posts?**
+<div class="solution"></div>
+Correct, inside of the `cellForRowAtIndexPath` method. The `cellForRowAtIndexPath` method is called when the Table View is about to present a cell - immediately before the cell becomes visible. That's a great place to call the `downloadImage()` method. ([This method in the `UITableViewDelegate` protocol](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UITableViewDelegate_Protocol/#//apple_ref/occ/intfm/UITableViewDelegate/tableView:willDisplayCell:forRowAtIndexPath:) is another correct answer, but we won't go with that approach here)
+
+Let's extend the `cellForRowAtIndexPath` method to include the call to `downloadImage`. We also want to assign a `post` to each cell instead of setting the displayed image on the cell directly.
+
+<div class="action"></div>
+Change the `cellForRowAtIndexPath` method to look as following:
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+      let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as! PostTableViewCell
+
+      let post = posts[indexPath.row]
+      // 1
+      post.downloadImage()
+      // 2
+      cell.post = post
+
+      return cell
+    }
+
+1. Directly before a post will be displayed, we trigger the image download.
+2. Instead of changing the image that is displayed in the cell from within the `TimelineViewController`, we assign the post that shall be displayed to the `post` property. After the changes we made a few steps back, the cell now takes care of displaying the image that belongs to a `Post` object itself.
+
+After disassembling almost our entire app we are now finally back in a state that compiles, runs and behaves correctly! If you run the app now, you will realize that the UI no longer freezes when downloading images. When testing on the Simulator the differences will be minimal (because you have a super fast processor and a great Wifi connection). If you compare the two versions running on a real device, you will see a huge improvement in the solution we have implemented now.
+
+#Conclusion
+
+Wow, this step consisted of a huge step of changes! While restructuring our code you have learned how to deal with asynchronous code. When working with network requests you will frequently come back to use this knowledge.
