@@ -17,7 +17,7 @@ We're going to fix all of these three issues throughout this step:
 2. We will move the photo download code into the `Post` class
 3. We will only download photos of posts that are currently displayed
 
-#Updating the Post Image Asynchronously
+#The Concepts of Asynchrony and Bindings
 
 Before we dive into coding I want to discuss some of the concepts that we will use throughout this step. While implementing the changes outlined above, we will run into an interesting situation.
 
@@ -38,3 +38,60 @@ There are many different ways how we can deal with data that is available asynch
     post.image ->> postImageView
 
 The `->>` operator might look a little bit obscure, but what it does is pretty straightforward. Whenever the value on the left-hand side changes, the value on the right-hand side is updated. In this specific line we define that the `postImageView` shall be updated whenever the `image` property of a `post` changes.
+
+Using this technique we will be able to improve our photo download code!
+
+#Putting it into Practice
+
+Equipped with the theory we need, let's turn this idea into code.
+
+##Storing a Post in the PostTableViewCell
+
+The first change that we'll make is that we'll add a `post` property to the `PostTableViewCell`. Right now we are configuring the cell from the `cellForRowAtIndexPath` in the `TimelineViewController`:
+
+    cell.postImageView.image = posts[indexPath.row].image
+
+We're setting the image by directly accessing the `postImageView` property of the cell. This is another thing that our `TimelineViewController` does not need to be responsible for. Ideally custom Table View Cells should receive one object that describes their content. Then the Table View Cell itself should change its properties based on that object.
+
+We're going to store the `Post` in the `PostTableViewCell` and let the cell itself be responsible for changing its appearance.
+
+<div class="action"></div>
+First, add an `import` statement for the Swift Bond library that we'll be using to _PostTableViewCell.swift_:
+
+    import Bond
+
+Then we can add the property to store the `Post`.
+
+<div class="action"></div>
+Add the following property and property observer to the `PostTableViewCell` class:
+
+    var post:Post? {
+      didSet {
+        // 1
+        if let post = post {
+          //2
+          // bind the image of the post to the 'postImage' view
+          post.image ->> postImageView
+        }
+      }
+    }
+
+1. Whenever a new value is assigned to the `post` property, we use _optional binding_ to check whether the new value is `nil`.
+2. If the value isn't `nil`, we create a binding between the `image` property of the post and the `postImageView` using the `->>` operator. The _Bond_ library has special support for many UI components, including the `UIImageView`. This support allows us to bind an `UIImage` (`post.image`) directly to a `UIImageView` (`postImageView`) - whenever `post.image` updates, the displayed image of `postImageView` will update _magically_.
+
+Now our `PostTableViewCell` is able to receive and store a `Post` object and react to an asynchronously available image of that post!
+
+Awesome!
+
+##Making the Image Property of a Post Dynamic
+
+If you've tried, you will realize that the current version of our code does not compile. To be able to use _bindings_ (`->>`) our properties need to have a special type. They need to be `Dynamic`.
+
+Let's change the `image` property of `Post` to be `Dynamic` - then we'll discuss in detail what `Dynamic` means.
+
+<div class="action"></div>
+Change the property definition of `image` in the `Post` class to look as following:
+
+    var image: Dynamic<UIImage?> = Dynamic(nil)
+
+Ok, so what is this whole `Dynamic` thing?
