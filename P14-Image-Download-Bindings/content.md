@@ -94,4 +94,96 @@ Change the property definition of `image` in the `Post` class to look as followi
 
     var image: Dynamic<UIImage?> = Dynamic(nil)
 
-Ok, so what is this whole `Dynamic` thing?
+Ok, so what is this whole `Dynamic` thing? Basically it is just a wrapper around the actual value that we want to store. That wrapper allows us to listen for changes to the wrapped value. The `Dynamic` wrapper enables us to use the property together with bindings. You can see the type of the wrapped value in the angled brackets (`<UIImage?>`). These angled brackets mark the use of _generics_; a concept that we don't need to discuss now.
+
+As soon as we are making a property `Dynamic`, we need to refer to the wrapped value like this:
+
+    // we need to append .value to access the value wrapped by the Dynamic
+    post.image.value
+
+This means we'll need to update the code that is currently referencing the `image` property. Before we can move on to that you need to import the _Bond_ framework into the _Post.swift_ file.
+
+<div class="action"></div>
+Add the following import statement to _Post.swift_:
+
+    import Bond
+
+##Updating the Upload Post Method
+
+Now we can start updating our code to work with the new `Dynamic` `image` property. Let's first update the `uploadPost` method.
+
+<div class="action"></div>
+Update the first line of `uploadPost` to access `image.value` instead of `image`:
+
+    func uploadPost() {
+      let imageData = UIImageJPEGRepresentation(image.value, 0.8)
+      // ...
+    }
+
+##Adding a Download Image Method
+
+We also wanted to move the image download form the `TimelineViewController` into the `Post` class. We're going to wrap the functionality into a new `downloadImage` method.
+
+<div class="action"></div>
+Add the `downloadImage` method to the `Post` class:
+
+    func downloadImage() {
+      // if image is not downloaded yet, get it
+      // 1
+      if (image.value == nil) {
+        // 2
+        imageFile?.getDataInBackgroundWithBlock { (data: NSData?, error: NSError?) -> Void in
+          if let data = data {
+            let image = UIImage(data: data, scale:1.0)!
+            // 3
+            self.image.value = image
+          }
+        }
+      }
+    }
+
+1. First, we are checking if `image.value` already has a stored value. We do this to avoid that images are downloaded multiple times. Only if `image.value` is `nil`, we actually want to start the download.
+2. Here we start the download. Instead of using `getData` we are using `getDataInBackgroundWithBlock` - that way we are no longer blocking the main thread!
+3. Once the download completes, we update the `post.image`. Note that we are now accessing the `.value` property, because `image` is a `Dynamic`.
+
+With this step we have solved two issues! The download code has been moved into the `Post` class and our download is no longer blocking the main thread!
+
+##Updating the TimelineViewController
+
+Lastly, we need to update the `TimelineViewController`. Let's start with a very small update to the `takePhoto` method.
+
+<div class="action"></div>
+Update the `takePhoto` method in `TimelineViewController` to access `image.value` instead of `image`
+
+    func takePhoto() {
+      // instantiate photo taking class, provide callback for when photo is selected
+      photoTakingHelper =
+        PhotoTakingHelper(viewController: self.tabBarController!) { (image: UIImage?) in
+          let post = Post()
+          // 1
+          post.image.value = image!
+          post.uploadPost()
+      }
+    }
+
+1. Because `image` is now a `Dynamic` property, we need to store the image in the `post.image.value` property
+
+No time for a break - we have some more significant changes to make to the `TimelineViewController`!
+
+We no longer want to download all images immediately after the timeline query completes, instead we want to load them lazily as soon as a post is displayed.
+
+<div class="action"></div>
+Update the `viewDidAppear` method in `TimelineViewController` by removing the image download code. The result should look like this:
+
+    override func viewDidAppear(animated: Bool) {
+      super.viewDidAppear(animated)
+
+      ParseHelper.timelineRequestforCurrentUser {
+        (result: [AnyObject]?, error: NSError?) -> Void in
+          self.posts = result as? [Post] ?? []
+
+          self.tableView.reloadData()
+      }
+    }
+
+Now we are only downloading the metadata of all posts upfront and deferring the image download until a post is displayed. 
