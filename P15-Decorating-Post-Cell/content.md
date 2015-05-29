@@ -26,7 +26,10 @@ We won't finish the entire set up in this step - but we'll get pretty far!
 
 First, we'll make the cell a little bit larger to make space for our additional UI elements.
 
-TODO: Decide height later...
+<div class="action"></div>
+Change the _Row Height_ of the Table View Cell **and** the Table View, in the _Size Insepctor_, to _470_. If you forgot how this works, look back to the step where we set up the Table View Cell's Image View.
+
+Now we're good to got!
 
 #Setting up constraints for the Image View
 
