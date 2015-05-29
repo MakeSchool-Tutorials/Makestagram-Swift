@@ -31,6 +31,7 @@ Next, we'll add an Image View that will display the uploaded photo.
 <div class="action"></div>
 Add an Image View to the Table View Cell, as shown below:
 ![image](add_image_view.png)
+By dragging the corners of the Image View, change its size to be the full size of the cell. We won't be using constraints until later on.
 
 ##Creating a Custom Class for the Table View Cell
 Since we will want to create an IBOutlet connection from this Image View to our Table View Cell, we will need to

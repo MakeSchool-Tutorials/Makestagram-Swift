@@ -163,7 +163,8 @@ Let's start with the heart icon!
 
 <div class="action"></div>
 1. Add a small Image View below the large Image View (that displays the post image) and above the Action Button
-2. Set the size of this Image View to _20x20_. Define a _Bottom Space_ to the Action Button of _20_. Define a _Leading Space_ (constrained to margin) of _4_.
+2. Set the size of this Image View to _20x20_. Define a _Bottom Space_ to the Action Button of _20_. Define a _Leading Space_ (constrained to margin) of _12_.
+3. Set the displayed image to be the _Heart_ image and set the _ALpha_ value to _0.5_.
 
 Now, your Table View Cell should look more or less like this:
 
@@ -178,14 +179,16 @@ We're almost there! Next, we need a label that will display the usernames of our
 3. Then add an additional constraint between the Label and the Action Button. We will discuss the purpose of this constraint later on in detail! Hold the _control_ key and drag a line from the Label to the Action Button:
 ![image](like_label_constraint2.png)
 4. In the Popup that appears after you stop dragging, select _Vertical spacing_. This will create a vertical constraint with the current distance between the Label and Action Button.
+5. Set the value of that newly created constraint to _20_:
+![image](label_to_button_constraint.png)
 
 Finally, change the appearance of the Label so that it fits in with the rest of the design.
 
 <div class="action"></div>
-Change the appearance of the Label to look as following:
+Change the appearance of the Label to look as following (checkout the video below to see how you can pick the right color):
 ![image](appearance_label.png)
-You can grab the exact color from the _more_ button using the color picker as shown in the video below:
 
+You can grab the exact color for the Label from the Action button using the color picker as shown in the video below:
 <video width="100%" controls>
   <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/Color_picker_small.mov" type="video/mp4"></video>
 
@@ -195,4 +198,4 @@ If you run your app, with all of these changes in place, you should see a timeli
 
 ![image](cell_decoration_complete.png)
 
-This is starting to look like a real app!
+This is starting to look like a real app! 
