@@ -28,9 +28,22 @@ First, we'll make the cell a little bit larger to make space for our additional 
 
 TODO: Decide height later...
 
+#Setting up constraints for the Image View
+
+Throughout this step we will add many UI elements and place them using constraints. Currently the Image View is our only UI component and it doesn't have any constraints set up. Once you starting adding constraints to a View, you will have to add constraints to **all** child views - otherwise you will run into some serious Interface Builder problems.
+
+So before we get started on adding new UI elements, let's define some constraints for the Image View, so that it stays nicely in place.
+
+<div class="action"></div>
+Define the constraints for the Image View as following:
+
+![image](image_view_constraints.png)
+
+Great! Now we can safely move on!
+
 #Adding the like button
 
-Now let's start designing one of the core experiences of our app - the _like_ button!
+Now, let's start designing one of the core experiences of our app - the _like_ button!
 
 ##Creating an image button
 
@@ -123,15 +136,47 @@ We'll try to add this button with a little less hand-holding. Slowly but surely 
 <div class="action"></div>
 1. Add the action to the bottom left corner of the Table View Cell.
 2. Make the Button a _Custom_ on and set the image to _More_.
-3. Set it up with a size of 44x44. Set the _Leading space to Superview_ to _0_ and the _Bottom space to Superview_ to _10_ (both constrained to margins).
+3. Set it up with a size of _44x44_. Set the _Leading space to Superview_ to _0_ and the _Bottom space to Superview_ to _10_ (both constrained to margins).
 
 The result should look pretty similar to this:
 ![image](action_button_result.png)
 
 Alright! We are making some good progress here! Next, we're going to add the label that displays the names of all the users that liked a post.
 
-#Adding the Likes Label
+#Adding the Likes Label and the Likes Icon
 
 Now we're going to add the _Likes Label_ and the little icon that goes along with it:
 
 ![image](like_label.png)
+
+Let's start with the heart icon!
+
+<div class="action"></div>
+1. Add a small Image View below the large Image View (that displays the post image) and above the Action Button
+2. Set the size of this Image View to _20x20_. Define a _Bottom Space_ to the Action Button of _20_. Define a _Leading Space_ (constrained to margin) of _4_.
+
+Now, your Table View Cell should look more or less like this:
+
+![image](cell_step_like_icon.png)
+
+We're almost there! Next, we need a label that will display the usernames of our "likers"!
+
+<div class="action"></div>
+1. Add a Label to the right hand side of the Like icon
+2. Set up its basic constraints as following:
+![image](like_label_constraint1.png)
+3. Then add an additional constraint between the Label and the Action Button. We will discuss the purpose of this constraint later on in detail! Hold the _control_ key and drag a line from the Label to the Action Button:
+![image](like_label_constraint1.png)
+4. In the Popup that appears after you stop dragging, select _Vertical spacing_. This will create a vertical constraint with the current distance between the Label and Action Button.
+
+Finally, change the appearance of the Label so that it fits in with the rest of the design.
+
+<div class="action"></div>
+Change the appearance of the Label to look as following:
+![image](appearance_label.png)
+You can grab the exact color from the _more_ button using the color picker as shown in the video below:
+
+ADD VIDEO
+
+
+#Testing it all together
