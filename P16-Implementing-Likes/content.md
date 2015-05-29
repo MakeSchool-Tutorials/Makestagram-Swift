@@ -15,4 +15,31 @@ We will start with adding new Parse queries! However, I first want to suggest so
 
 #Cleaning up the Timeline Query - once again
 
-Take a look at ...
+Take a look at the query we have right now:
+
+    static func timelineRequestforCurrentUser(completionBlock: PFArrayResultBlock) {
+      let followingQuery = PFQuery(className: "Follow")
+      followingQuery.whereKey("fromUser", equalTo:PFUser.currentUser()!)
+
+      let postsFromFollowedUsers = Post.query()
+      postsFromFollowedUsers!.whereKey("user", matchesKey: "toUser", inQuery: followingQuery)
+
+      let postsFromThisUser = Post.query()
+      postsFromThisUser!.whereKey("user", equalTo: PFUser.currentUser()!)
+
+      let query = PFQuery.orQueryWithSubqueries([postsFromFollowedUsers!, postsFromThisUser!])
+      query.includeKey("user")
+      query.orderByDescending("createdAt")
+
+      query.findObjectsInBackgroundWithBlock(completionBlock)
+    }
+
+**What could be improved?**
+
+Well, we have a ton of _Strings_ inside of this method. Using strings in such a manner can cause multiple problems.
+
+Firstly, typos can cause bugs that are difficult to debug. The compiler won't verify any of these strings and won't be able to identify if you are querying for _"Uzer"_ instead of _"User"_.
+
+Secondly, if we use those strings in multiple places, we need to remember to update every occurrence of them if something in our Parse backend changes.
+
+Instead of using plain strings it would be much better to use constants!
