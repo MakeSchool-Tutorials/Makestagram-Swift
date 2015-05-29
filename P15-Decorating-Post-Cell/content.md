@@ -198,4 +198,32 @@ If you run your app, with all of these changes in place, you should see a timeli
 
 ![image](cell_decoration_complete.png)
 
-This is starting to look like a real app! 
+Now, this is starting to look like a real app!
+
+#Connecting the pieces
+
+As a last step of customizing our cell - for now - we'll add some code connections. Throughout the next steps we will be implementing the like feature and other features that require all of the UI components on this cell to be accessible from code.
+
+You've set up a bunch of code connections before, so try to create them without detailed instructions this time!
+
+<div class="action"></div>
+Create _Referencing Outlets_ for all of your UI elements on the Table View Cell. The result in your source code should look like this:
+
+    @IBOutlet weak var postImageView: UIImageView!
+    @IBOutlet weak var likesIconImageView: UIImageView!
+    @IBOutlet weak var likesLabel: UILabel!
+    @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet weak var moreButton: UIButton!
+
+<div class="action"></div>
+Create _@IBActions_ for the two buttons (remember that you want to connect these to the _Touch Up Inside_ event of the button):
+
+    @IBAction func moreButtonTapped(sender: AnyObject) {
+
+    }
+
+    @IBAction func likeButtonTapped(sender: AnyObject) {
+
+    }
+
+Make sure that you can see a full dot next to each of these connections - that indicates that they are successfully tied to an element in Interface Builder.
