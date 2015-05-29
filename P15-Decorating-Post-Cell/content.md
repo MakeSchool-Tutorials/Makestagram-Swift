@@ -112,3 +112,10 @@ Set up the _Heart-selected_ image for the like button:
 Finally our like button is complete! But there's a lot more UI to be built. Feel free to take a short break, but promise to come back!
 
 #Adding the Action Button
+
+Next, we'll take care of what I call the _Action_ button. It's the button in the bottom left corner:
+
+![image](action_button.png)
+
+That button will allow users to delete their own posts - and to flag posts of other users that have offending content.
+We'll try to add this button with a little less hand-holding. Slowly but surely you should be becoming more comfortable with Interface Builder and Storyboards.
