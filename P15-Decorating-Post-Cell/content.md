@@ -119,3 +119,19 @@ Next, we'll take care of what I call the _Action_ button. It's the button in the
 
 That button will allow users to delete their own posts - and to flag posts of other users that have offending content.
 We'll try to add this button with a little less hand-holding. Slowly but surely you should be becoming more comfortable with Interface Builder and Storyboards.
+
+<div class="action"></div>
+1. Add the action to the bottom left corner of the Table View Cell.
+2. Make the Button a _Custom_ on and set the image to _More_.
+3. Set it up with a size of 44x44. Set the _Leading space to Superview_ to _0_ and the _Bottom space to Superview_ to _10_ (both constrained to margins).
+
+The result should look pretty similar to this:
+![image](action_button_result.png)
+
+Alright! We are making some good progress here! Next, we're going to add the label that displays the names of all the users that liked a post.
+
+#Adding the Likes Label
+
+Now we're going to add the _Likes Label_ and the little icon that goes along with it:
+
+![image](like_label.png)
