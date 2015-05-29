@@ -132,7 +132,7 @@ Let's set up the image for the selected state real quick.
 Set up the _Heart-selected_ image for the like button:
 ![image](selected_state.png)
 
-Finally our like button is complete! But there's a lot more UI to be built. Feel free to take a short break, but promise to come back!
+Now our like button is complete! But there's a lot more UI to be built. Feel free to grab your favorite hot beverage, but promise to come back!
 
 #Adding the Action Button
 
@@ -226,4 +226,12 @@ Create _@IBActions_ for the two buttons (remember that you want to connect these
 
     }
 
-Make sure that you can see a full dot next to each of these connections - that indicates that they are successfully tied to an element in Interface Builder.
+Make sure that you can see a filled dot next to each of these connections - that indicates that they are successfully tied to an element in Interface Builder:
+
+![image](working_connections.png)
+
+#Conclusion
+
+We didn't cover too many new topics in this step; however, you should be a little more comfortable with Interface Builder and Auto Layout after decorating the custom Table View Cell with different UI elements. We've also made some good visual progress in this step and we have laid the groundwork for implementing some of the core features of _Makestagram_.
+
+Coming up next: how to like things in a digital world!
