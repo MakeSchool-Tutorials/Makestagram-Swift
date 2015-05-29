@@ -120,6 +120,126 @@ Just as a refresher, here's how we are modeling likes in `Makestagram`:
 It's a pretty simple model, that only stores a reference to the user that performed the like and the post that has been liked (ignoring all of the fields that Parse provides automatically).
 
 
-
-
 ##Creating Likes
+
+So, how can we create a method that adds likes to a certain post? **I want to give you a try here!** Based on your experience with Parse so far, try and see if you can build a query for this on your own! We will play this game for all queries in this step.
+
+If you come up with your own solution that seems to work but looks different from ours - please replace your solution with the provided one. That way we can avoid that you run into issues later on.
+
+<div class="solution"></div>
+Here's our solution:
+
+    static func likePost(user: PFUser, post: Post) {
+      let likeObject = PFObject(className: ParseLikeClass)
+      likeObject.setObject(user, forKey: ParseLikeFromUser)
+      likeObject.setObject(post, forKey: ParseLikeToPost)
+
+      likeObject.saveInBackgroundWithBlock(nil)
+    }
+
+It is pretty straight forward! the method takes a `PFUser` and a `Post` reference. Then it generates a `likeObject` based on these two input parameters and saves it.
+
+##Deleting Likes
+
+Deleting a like is a tiny bit trickier. We need to first build a query to find the like object before we can delete it. Can you still come up with the `unlikePost` method on your own?
+
+<div class="solution"></div>
+Here's our solution:
+
+    static func unlikePost(user: PFUser, post: Post) {
+      // 1
+      let query = PFQuery(className: ParseLikeClass)
+      query.whereKey(ParseLikeFromUser, equalTo: user)
+      query.whereKey(ParseLikeToPost, equalTo: post)
+
+      query.findObjectsInBackgroundWithBlock {
+        (results: [AnyObject]?, error: NSError?) -> Void in
+         // 2
+          if let results = results as? [PFObject] {
+            for object in results {
+              object.deleteInBackgroundWithBlock(nil)
+            }
+          }
+      }
+    }
+
+1. We build a query to find the like of a given user that belongs to a given post
+2. We iterate over all like objects that met our requirements and delete them.
+
+Technically, there never should be more then one like for a given user on a given post. Our like code will ensure that. However, there are little guarantees in software development and especially when working with networking code, there are a ton of possible sources for issues. We could do some more error handling here, and log an error message if we find more then one like that - but that's well beyond the scope of this tutorial!
+
+##Fetching all likes for a given post
+
+It's once again on you! Try to come up with an implementation for the `likesForPost` method.
+Hint: it should take a completion block and call it when the query completes! We already have implemented one Parse request that does this...
+
+<div class="solution"></div>
+And here's our solution:
+
+    // 1
+    static func likesForPost(post: Post, completionBlock: PFArrayResultBlock) {
+      let query = PFQuery(className: ParseLikeClass)
+      query.whereKey(ParseLikeToPost, equalTo: post)
+      // 2
+      query.includeKey(ParseLikeFromUser)
+
+      query.findObjectsInBackgroundWithBlock(completionBlock)
+    }
+
+There are two interesting aspects that should be highlighted:
+
+1. Our method is taking a `PFArrayResultBlock` as an argument. We've used the same approach in our `timelineRequestforCurrentUser` method. The `PFArrayResultBlock` has the following signature:
+
+    ([AnyObject]?, NSError?) -> Void
+
+That's the default signature for the callback of most Parse queries. It returns an _optional_ result and and _optional_ error.
+By taking this default block as argument, we can hand it directly to the `findObjectsInBackgroundWithBlock` method! This way, whoever has called the `likesForPost` method will get the results in the callback block that they provide.
+
+2. We are using the `includeKey` method to tell Parse to fetch the `PFUser` object for each of the likes (we've discussed `includeKey` in detail when building the timeline request). We want to fetch the `PFUser` along with the likes, because we later on want to display the usernames of all users that have liked a post. Remember, without the `includeKey` line we would just have a reference to a `PFUser` and would have to start a separate request to fetch the information about the user.
+
+##Summing it up
+
+Awesome! We now have request to add / delete and fetch likes. Hopefully this section has helped to get a little bit more comfortable in writing and understanding Parse queries.
+
+Just to make sure we're on the same page, here's what all the queries that we just added to the `ParseHelper` should look like:
+
+    // MARK: Likes
+
+    static func likePost(user: PFUser, post: Post) {
+      let likeObject = PFObject(className: ParseLikeClass)
+      likeObject.setObject(user, forKey: ParseLikeFromUser)
+      likeObject.setObject(post, forKey: ParseLikeToPost)
+
+      likeObject.saveInBackgroundWithBlock(nil)
+    }
+
+    static func unlikePost(user: PFUser, post: Post) {
+      let query = PFQuery(className: ParseLikeClass)
+      query.whereKey(ParseLikeFromUser, equalTo: user)
+      query.whereKey(ParseLikeToPost, equalTo: post)
+
+      query.findObjectsInBackgroundWithBlock {
+        (results: [AnyObject]?, error: NSError?) -> Void in
+          if let results = results as? [PFObject] {
+            for object in results {
+              object.deleteInBackgroundWithBlock(nil)
+            }
+          }
+      }
+    }
+
+    static func likesForPost(post: Post, completionBlock: PFArrayResultBlock) {
+      let query = PFQuery(className: ParseLikeClass)
+      query.whereKey(ParseLikeToPost, equalTo: post)
+      query.includeKey(ParseLikeFromUser)
+
+      query.findObjectsInBackgroundWithBlock(completionBlock)
+    }
+
+A short side note: We haven't discussed the `// MARK:` feature of Xcode yet. It allows you to group your methods into different sections which can be extremely useful! A click into the _Jumpbar_ in the top right corner of Xcode will show you an outline of methods you've add to your class:
+
+![image](jumpbar.png)
+
+If you include `// MARK:' sections in your source code, they will show up as headers in this view - great for navigating through more complex classes!
+
+With all of the queries in place, we should think about from where we want to call them, next!
