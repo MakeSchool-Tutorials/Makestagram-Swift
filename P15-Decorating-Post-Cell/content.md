@@ -62,6 +62,13 @@ Now we're going to configure the like button to show the heart image.
 
 Ok, our basic button is set up. Now we need to take care of some Auto Layout!
 
+While working on the Auto Layout constraints for the next few steps, you'll might run into a bug in Interface Builder. Sometimes your constraints won't correctly influence the size of the UI elements. In such cases you can update the value of the constraint to some other value - then immediately set it back to the old value. Here's a short video that illustrates the issue:
+
+<video width="100%" controls>
+  <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/IB_Constraints_Bug_small.mov" type="video/mp4"></video>
+
+Even though the _Traliling Space to Superview_ was set to _50_ at the beginning and at the end of the video, the size of the label appears differently. Give this a shot in case you run into similar issues throughout the next steps!
+
 ##Defining size and layout
 
 Before designing your Apps, you should at least glance over [Apple's Human Interface Guidelines for iOS](https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/MobileHIG/).
@@ -166,7 +173,7 @@ We're almost there! Next, we need a label that will display the usernames of our
 2. Set up its basic constraints as following:
 ![image](like_label_constraint1.png)
 3. Then add an additional constraint between the Label and the Action Button. We will discuss the purpose of this constraint later on in detail! Hold the _control_ key and drag a line from the Label to the Action Button:
-![image](like_label_constraint1.png)
+![image](like_label_constraint2.png)
 4. In the Popup that appears after you stop dragging, select _Vertical spacing_. This will create a vertical constraint with the current distance between the Label and Action Button.
 
 Finally, change the appearance of the Label so that it fits in with the rest of the design.
@@ -176,7 +183,13 @@ Change the appearance of the Label to look as following:
 ![image](appearance_label.png)
 You can grab the exact color from the _more_ button using the color picker as shown in the video below:
 
-ADD VIDEO
-
+<video width="100%" controls>
+  <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/Color_picker_small.mov" type="video/mp4"></video>
 
 #Testing it all together
+
+If you run your app, with all of these changes in place, you should see a timeline that looks similar to this one:
+
+![image](cell_decoration_complete.png)
+
+This is starting to look like a real app!
