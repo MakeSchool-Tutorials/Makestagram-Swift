@@ -195,11 +195,11 @@ You can grab the exact color for the Label from the Action button using the colo
 #One more thing...
 
 The Table View Cell is looking great - but there's one last option we should tweak.
-We should turn off the _User Interaction_ for the Table View Cell. Often Table Views are used to display an overview of information and they allow the user to select a cell to receive more detailed information (such as the _Mail_ and the _Messages_ app on iOS). In _Makestagram_ however, we are displaying the entire information about a post directly within the cell. We provide some buttons for interaction, but nothing happens if a user selects and individual cell. Except that the cell color changes to a light gray which shall indicate that the cell has been selected - in our app that is very confusing.
+We should turn off the _Selection_ for the Table View Cell. Often Table Views are used to display an overview of information and they allow the user to select a cell to receive more detailed information (such as the _Mail_ and the _Messages_ app on iOS). In _Makestagram_ however, we are displaying the entire information about a post directly within the cell. We provide some buttons for interaction, but nothing happens if a user selects and individual cell. Except that the cell color changes to a light gray which shall indicate that the cell has been selected - in our app that is very confusing.
 
 <div class="action"></div>
-Turn of the _User Interaction_ for the Table View Cell, so that cells no longer get highlighted:
-![image](deactivate_user_interaction.png)
+Turn of the _Selection_ for the Table View Cell, so that cells no longer get highlighted:
+![image](cell_selection_none.png)
 
 #Testing it all together
 

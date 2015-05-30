@@ -275,4 +275,35 @@ Add the following property to the `Post` class:
 
     var likes =  Dynamic<[PFUser]?>(nil)
 
-We create the `likes` property as a _dynamic_, _optional_ array of `PFUser` - now that's a mouthful! However, we've used all of these concepts before. We make the property `Dynamic` so that we can listen to changes and update our UI after we've downloaded the likes for a post. We make it _optional_, because before we've downloaded the likes this property will be `nil`. 
+We create the `likes` property as a _dynamic_, _optional_ array of `PFUser` - now that's a mouthful! However, we've used all of these concepts before. We make the property `Dynamic` so that we can listen to changes and update our UI after we've downloaded the likes for a post. We make it _optional_, because before we've downloaded the likes this property will be `nil`.
+
+Now that we can store likes, we can add methods to the `Post` class that make it easy to retrieve, add and remove likes.
+
+##Fetching likes
+
+We'll handle fetching likes very similar to fetching images. They are fetched lazily and that lazy fetching can be triggered by a method call.
+
+Let's add this functionality in the form of a `fetchLikes` method. There are a bunch of a new concepts in that method, so I'll provide it for you and we'll discuss it in detail afterwards.
+
+<div class="action"></div>
+Add the following method to the `Post` class:
+
+    func fetchLikes() {
+      // 1
+      if (self.likes.value != nil) {
+        return
+      }
+
+      ParseHelper.likesForPost(self, completionBlock: { (var likes: [AnyObject]?, error: NSError?) -> Void in
+        // 2
+        likes = likes?.filter { $0.objectForKey(ParseHelper.ParseLikeFromUser) != nil }
+
+        // 3
+        self.likes.value = likes?.map {
+          let like = $0 as! PFObject
+          let fromUser = $0.objectForKey(ParseHelper.ParseLikeFromUser) as! PFUser
+
+          return fromUser
+        }
+      })
+    }
