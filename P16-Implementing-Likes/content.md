@@ -290,20 +290,54 @@ Add the following method to the `Post` class:
 
     func fetchLikes() {
       // 1
-      if (self.likes.value != nil) {
+      if (likes.value != nil) {
         return
       }
 
+      // 2
       ParseHelper.likesForPost(self, completionBlock: { (var likes: [AnyObject]?, error: NSError?) -> Void in
-        // 2
-        likes = likes?.filter { $0.objectForKey(ParseHelper.ParseLikeFromUser) != nil }
-
         // 3
-        self.likes.value = likes?.map {
-          let like = $0 as! PFObject
-          let fromUser = $0.objectForKey(ParseHelper.ParseLikeFromUser) as! PFUser
+        likes = likes?.filter { like in like[ParseHelper.ParseLikeFromUser] != nil }
+
+        // 4
+        self.likes.value = likes?.map { like in
+          let like = like as! PFObject
+          let fromUser = like[ParseHelper.ParseLikeFromUser] as! PFUser
 
           return fromUser
         }
       })
     }
+
+1. First we are checking whether `likes.value` already has stored a value or is nil. If we've already stored a value, we will skip the entire method. As discussed, we will cache all likes until the entire timeline is refreshed (which we haven't implemented yet). So as soon as `likes.value` has a cached value, we don't need to perform the body this method.
+2. We fetch the likes for the current `Post` using the method of `ParseHelper` that we created earlier
+3. There is a new concept on this line: the `filter` method that we call on our `Array`. The `filter` method takes a closure and returns an array that only contains the objects from the original array that meet the requirement stated in that closure. The closure passed to the `filter` method gets called for each element in the array, each time passing the current element as the `like` argument to the closure. Note that you can pick any arbitrary name for the argument that we called `like`. **So why are we filtering the array in the first place?** We are removing all likes that belong to users that no longer exist in our _Makestagram_ app (because their account has been deleted). Without this filtering the next statement could crash.
+4. Here we are again using a new method: `map`. The `map` method behaves similar to the `filter` method in that it takes a closure that is called for each element in the array and in that it also returns a new array as a result. The difference is, that unlike `filter`, `map` does not remove objects but _replaces_ them. In this particular case, we are replacing the likes in the array with the users that are associated with the like. We start with an array of likes and retrieve an array of users. Then we assign the result to our `likes.value` property.
+
+Now we're able to lazily fetch the likes for a post!
+
+
+##Checking if a post is liked by a given user
+
+Next, we'll add a method that will allow us to find out whether a post is liked by a user or not.
+We'll use that method to decide if the like button for a post should be displayed in gray or in red.
+This method will be quite a lot simpler than `fetchLikes`. All we need to do is check if a given user is contained in the array stored in the `likes` property.
+
+<div class="action"></div>
+Add the `doesUserLikePost` method to the `Post` class:
+
+    func doesUserLikePost(user: PFUser) -> Bool {
+      if let likes = likes.value {
+        return contains(likes, user)
+      } else {
+        return false
+      }
+    }
+
+As promised, this method is pretty straightforward. The only part that might be new to you is the `contains` function. The `contains` function takes an array and an object and returns whether or not the object is stored inside of the array.
+
+
+
+#Conclusion
+
+Remind that you learned about filter and map.
