@@ -336,8 +336,89 @@ Add the `doesUserLikePost` method to the `Post` class:
 
 As promised, this method is pretty straightforward. The only part that might be new to you is the `contains` function. The `contains` function takes an array and an object and returns whether or not the object is stored inside of the array.
 
+##Liking / unliking a Post
 
+The the last piece of functionality that we need to squeeze into the `Post` class for now is the like / unlike functionality. And we can actually wrap it into a single method that toggles whether or not a post is liked by a user - after all, the app only provides a single button to like / unlike. Furthermore it doesn't make sense to create a second `Like` object if the user a already likes a given post.
+
+<div class="action"></div>
+Add the following method to the `Post` class:
+
+    func toggleLikePost(user: PFUser) {
+      if (doesUserLikePost(user)) {
+        // if image is liked, unlike it now
+        // 1
+        likes.value = likes.value?.filter { $0 != user }
+        ParseHelper.unlikePost(user, post: self)
+      } else {
+        // if this image is not liked yet, like it now
+        // 2
+        likes.value?.append(user)
+        ParseHelper.likePost(user, post: self)
+      }
+    }
+
+1. If the `toggleLikePost` method is called and a  user likes a post, we unlike the post. First by removing the the user from the local cache stored in the `likes` property, then by syncing the change with Parse. We remove the user from the local cache by using the `filter` method on the array stored in `likes.value`.
+2. If the user doesn't like the post yet, we add them to the local cache and then synch the change with Parse.
+
+Great! Our changes to the `Post` class are complete. Next, we can make use of our new methods!
+
+#Loading likes lazily
+
+Wow, did you notice the three _l_'s in the header? Joking aside, let's take care of loading the likes for each post, as soon as it gets displayed. Now that our `Post` class provides a method for exactly that, it's pretty easy to implement the feature.
+
+**Do you remember where we should place the lazy loading code?**
+
+<div class="solution"></div>
+Exactly: inside the `cellForRowAtIndexPath` method of the `TimelineViewController`. Why? Because that method gets called immediately before a cell gets displayed. Extend the method to look like this:
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+      let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as! PostTableViewCell
+
+      let post = posts[indexPath.row]
+      post.downloadImage()
+      post.fetchLikes()
+      cell.post = post
+
+      return cell
+    }
+
+#Toggling likes from the UI
+
+Now it's time to add some interactivity to our app. Let's hook the like functionality up to our like button in the `PostTableViewCell`.
+
+<div class="action"></div>
+Change the implementation of `likeButtonTapped` in the `PostTableViewCell` to call the `toggleLikePost` method:
+
+    @IBAction func likeButtonTapped(sender: AnyObject) {
+      post?.toggleLikePost(PFUser.currentUser()!)
+    }
+
+Awesome! Since we are using the Parse framework to access the current user, you will also need to import the Parse framework into the `PostTableViewCell`.
+
+<div class="action"></div>
+Import the Parse framework inside of the `PostTableViewCell` by adding the following import statement
+
+    import Parse
+
+Now we have created the first interactive connection between our code and the UI!
+
+#Testing the like functionality
+
+Now it's time to test! Run the app and hit the like button on the first post. Then open the Parse data browser.
+You should see one like instance:
+
+![image](like_parse.png)
+
+Hit the like button on the same post again and the like should be removed:
+
+![image](unlike_parse.png)
+
+Awesome! Our very first interactive feature!
 
 #Conclusion
 
-Remind that you learned about filter and map.
+This was a pretty intense step! You first learned that string constants are better than string literals. Then you implemented a few more Parse queries which hopefully made you more comfortable with the `PFQuery` class. You've also added a new `Dynamic` property that allows us to load likes of posts lazily.
+
+From a Swift language perspective you learned about `filter` and `map`! Both functions allow you to manipulate collections by performing a closure that you provide to each element in the collection. The `filter` function helps you to remove elements from a collection. The `map` function helps you to replace elements in a collection by mapping them from one representation to another. We used that functionality to turn like objects into user objects.
+
+We've made great progress on the core functionality of _Makestagram_, in the next chapter we will visualize likes to make our progress more apparent!
