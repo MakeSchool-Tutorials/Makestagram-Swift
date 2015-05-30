@@ -242,4 +242,37 @@ A short side note: We haven't discussed the `// MARK:` feature of Xcode yet. It 
 
 If you include `// MARK:' sections in your source code, they will show up as headers in this view - great for navigating through more complex classes!
 
-With all of the queries in place, we should think about from where we want to call them, next!
+With all of the queries in place, we should think about how we want tie them into the rest of our code, next!
+Where should we place the code that adds and removes likes from `Post` objects?
+
+We're going to add it directly to the `Post` class and you'll shortly see why!
+
+#Extending the Post class
+
+In most object oriented programs we wan't to couple the information that an object stores along with its behavior. If I have access to a `Post` object I would like to be able to like it or unlike it with a simple method call. I would also like to be able to access of all of the likes of a `Post` directly through a simple method call.
+
+Now we're going to add this functionality to the `Post` class. It consists of two different parts:
+
+1. Storing likes
+2. Adding / removing likes
+
+Let's start with storage. **Why do we want to store likes in the first place?**
+
+##Storing likes
+
+We want to avoid to perform network requests, every single time we want to access the likes that belong to a post. Instead, similar to the post's image, we want to cache the information we have fetched.
+
+Towards the end of this tutorial we will add a pull-to-refresh mechanism that allows users to refresh the timeline. We want to cache all information until such a refresh happens.
+
+In which format should we store likes? For our purposes the best format is an array of users that have liked a certain post.
+
+Just as with the image of a `Post`, we won't load all of the likes directly with the timeline query. Instead, we will load them lazily as soon as a post is displayed. This means, we once again need to deal with data is available _asynchronously_. Our favorite tool for such cases is the `Dynamic` wrapper - as we discussed in detail when we implemented the image download.
+
+With all this in mind, let's add the `likes` property to the `Post` class.
+
+<div class="action"></div>
+Add the following property to the `Post` class:
+
+    var likes =  Dynamic<[PFUser]?>(nil)
+
+We create the `likes` property as a _dynamic_, _optional_ array of `PFUser` - now that's a mouthful! However, we've used all of these concepts before. We make the property `Dynamic` so that we can listen to changes and update our UI after we've downloaded the likes for a post. We make it _optional_, because before we've downloaded the likes this property will be `nil`. 
