@@ -91,13 +91,71 @@ Add the following method to the `PostTableViewCell`:
 
     // Generates a comma seperated list of usernames from an array (e.g. "User1, User2")
     func stringFromUserlist(userList: [PFUser]) -> String {
+      // 1
       let usernameList = userList.map { user in user.username! }
-      var commaSeperatedUserList = ", ".join(usernameList)
+      // 2
+      let commaSeperatedUserList = ", ".join(usernameList)
 
       return commaSeperatedUserList
     }
 
+1. You have already seen and used `map` before. As we discussed it allows you to replace objects in a collection with other objects. Typically you use `map` to create a different representation of the same _thing_. In this case we are mapping from `PFUser` objects to the `username`s of these `PFObjects`.
+2. We now use that array of strings to create one joint string. We can do that by using the `join` method provided by Swift. We first need to define the delimiter (_", "_ in our case) and can the call the `join` method on it. The `join` method takes an array of strings. After this method is called, we have create a string of the following form: _"Test User 1, Test User 2"_.
+
+Time to see this in action!
+
+You should be able to hit the like button on a post and see the UI updating correctly:
+
+![image](like_working.png)
+
+Awesome! You can even close the app, restart it again and you should see the like status being nicely restored in the UI:
+
+![image](like_update_bug.png)
+
+**Uh, what's that?** The heart isn't displayed in red, even though we have liked this post before! However, the _test_ username shows up in the list of users that liked the post. And if you hit the like button, you get to like the same post a second time.
+
+**What's happening here? Spend a few minutes and try to debug this issue on your own.**
+
+#When equal isn't equal
+
+If you had luck with debugging this issue, you will have notice that the issue occurs in the line where we set the `selected` property of the like button. This is the evil line, it's inside of the `likeBond`:
+
+    self.likeButton.selected = contains(likeList, PFUser.currentUser()!)
+
+The `contains` function is supposed to check whether or not an object is contained in a provided list. However, this line doesn't always seem to work correctly. Whenever we restart our app, this line returns `false`, even though the current user has definitely liked the post before.
+
+The underlying problem is the different ways of how we can define equality and identity in computer programs. By default, when working with `PFObject`s, two variables are equal when they are referencing *exactly the same* object. However, in our app, we can have multiple _different_ `PFUser` objects that actually represent the same user on the Parse server!
+
+Every time we retrieve a post or a user through a `PFQuery`, a new object is created. That new object is not the same as objects that we have received from previous queries - even though some of them reference exactly the same objects on the server.
+
+For our Parse app we want to consider objects _equal_ whenever they reference the same object on the server. This means two objects are equal when they have the same `objectID`.
+
+Luckily, Swift provides us with a way to change the definition of equality for different classes. We can do that by implementing the `Equatable` protocol on a class and adding an implementation of the `==` operator.
+
+<div class="action"></div>
+Add the following extension to the end of the _ParseHelper.swift_ class (outside of the class definition of `ParseHelper`):
+
+    extension PFObject : Equatable {
+
+    }
+
+    public func ==(lhs: PFObject, rhs: PFObject) -> Bool {
+      return lhs.objectId == rhs.objectId
+    }
+
+Now Swift knows to consider any two Parse objects equal if they have the same `objectId`.
+
+You can run the app again and you should see that the issue shown earlier no longer exists! Our app now always correctly detects whether or not the current user has liked a post.
+
 
 #Conclusion
 
-`unowened`
+This was an extremely important step: we have finished the entire _like_ feature of _Makestagram_. By now you have learned how to load information lazily and how to update server information based on user input.
+
+In this chapter you have learned how to use a second type of _binding_. One where you create a _Bond_ object and provide a closure that contains code that runs whenever the Bond receives a new value. We have used that Bond to update our UI based on the likes a post has received. Bindings will be an extremely useful tool for your own app, so remember to come back to this chapter if you have forgotten how to use them.
+
+As part of setting up the binding, we have also briefly spoken about _strong reference cycles_ - and how to avoid them. You have learned what the word _capture list_ means and how the `unowned` keyword can break potential retain cycles. Make sure to take a note of that section as well, it will also be very important for your own app.
+
+Lastly, you have learned what object equality and identity mean. We have changed the default behavior of how Swift compares Parse objects to avoid bugs in _Makestagram_.
+
+In the next step, we will improve our timeline a little bit. We'll allow users to manually refresh their timeline! And, no need to worry, soon we will also take care of adding some more users to our app and making it less lonely.
