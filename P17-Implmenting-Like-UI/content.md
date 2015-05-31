@@ -58,8 +58,44 @@ Add the following initializer to the `PostTableViewCell` class:
       }
     }
 
-1. We create a new `Bond`. That `Bond` has exactly the same type (`[PFUser]?`) as the `likeBond` property that we declared. The Bond takes a _trailing closure_ when it is initialized. That closure contains the code that will run, whenever the `Bond` receives a new value. The Bond receives the list of users that have liked a post in the `likeList` parameter. There's something new hidden in this line `[unowned self]`. The list in square brackets is called a _capture list_. We need the capture list to avoid _retain cycles_. Since `PostTableViewCell` is creating and storing this `Bond`, it has a _strong_ reference to it. Because we are accessing `self` from within the Bond's closure, the Bond would also have a _strong_ reference to the `PostTableViewCell`. This way we would have _retain cycle_ in which two objects reference each other strongly. You can [read in detail about this issue in Apple's Documentation](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/AutomaticReferenceCounting.html#//apple_ref/doc/uid/TP40014097-CH20-ID48) in the chapter _Strong Reference Cycles Between Class Instances_. The `unowned` keyword works similar to the `weak` keyword - we store a reference to `self`, but it isn't a strong reference that would keep the object in memory
-2.
+1. We create a new `Bond`. That `Bond` has exactly the same type (`[PFUser]?`) as the `likeBond` property that we declared. The Bond takes a _trailing closure_ when it is initialized. That closure contains the code that will run whenever the `Bond` receives a new value. The Bond receives the list of users that have liked a post in the `likeList` parameter. There's something new hidden in this line:`[unowned self]`. The list in square brackets is called a _capture list_. We need the capture list to avoid _retain cycles_. Since `PostTableViewCell` is creating and storing this `Bond`, it has a _strong_ reference to it. Because we are accessing `self` from within the Bond's closure, the Bond would also have a _strong_ reference to the `PostTableViewCell`. This way we would have _retain cycle_ in which two objects reference each other strongly. You can [read in detail about this issue in Apple's Documentation](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/AutomaticReferenceCounting.html#//apple_ref/doc/uid/TP40014097-CH20-ID48) in the chapter _Strong Reference Cycles Between Class Instances_. The `unowned` keyword works similar to the `weak` keyword - we store a reference to `self`, but it isn't a strong reference that would keep the object in memory.
+2. As a reminder: this code runs as soon as the value of `likes` on a `Post` changes. First, we check whether we have received a value for `likeList` or if we have received `nil`.
+3. If we have received a value, we perform different updates. First of all, we update the `likesLabel` to display a list of usernames of all users that have liked the post. We use a utility method `stringFromUserlist` to generate that list. We'll add and discuss that method later on!
+4. Next, we set the state of the like button (the heart) based on whether or not the current user is in the list of users that like the currently displayed post. If the user has liked the post, we want the button to be in the `Selected` state so that the heart appears red. If not `selected` will be set to `false` and the heart will be displayed in gray.
+5. Finally, if no one likes the current post, we want to hide the small heart icon displayed in front of the list of users that like a post.
+6. If the value we have received in `likeList` is `nil`, we set the label text to be empty, set the like button not to be selected and hide the small heart icon.
+
+Now we have the `likeBond` set up! Next, we need to actually bind it to the `likes` property of the `Post` class. Just as with the `image` of the `Post`, we want to establish a binding as soon as our `PostTableViewCell` receives a new `Post` instance. This means we need to extend the property observer of the `post` property:
+
+<div class="action"></div>
+Extend the `didSet` property observer of the `post` property as following:
+
+    var post:Post? {
+      didSet {
+        if let post = post {
+          // bind the image of the post to the 'postImage' view
+          post.image ->> postImageView
+
+          // bind the likeBond that we defined earlier, to update like label and button when likes change
+          post.likes ->> likeBond
+        }
+      }
+    }
+
+Not too much news in this change. We use the `->>` operator to bind the `likes` property of `post` to our `likeBond`.
+
+There's a last step required before we can test our new binding: adding the `stringFromUserlist` method!
+
+<div class="action"></div>
+Add the following method to the `PostTableViewCell`:
+
+    // Generates a comma seperated list of usernames from an array (e.g. "User1, User2")
+    func stringFromUserlist(userList: [PFUser]) -> String {
+      let usernameList = userList.map { user in user.username! }
+      var commaSeperatedUserList = ", ".join(usernameList)
+
+      return commaSeperatedUserList
+    }
 
 
 #Conclusion
