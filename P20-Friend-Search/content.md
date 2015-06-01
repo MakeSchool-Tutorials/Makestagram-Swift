@@ -20,7 +20,6 @@ At the root level we only have two components: a Search Bar and a Table View.
 ##Adding a Search Bar
 
 > [action]
->
 > Add a Search Bar to the `FriendSearchViewController` as show in the video below:
 > <video width="100%" height="400pt" controls>
   <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/SearchBarConstraints_small.mov" type="video/mp4">
