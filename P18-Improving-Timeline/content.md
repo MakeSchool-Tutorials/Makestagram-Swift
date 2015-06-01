@@ -92,6 +92,7 @@ Let's first take a look at what the protocol looks like. You can _CMD+Click_ ont
     }
 
 We can ignore the `typealias`, which leaves use with four requirements for classes that implement the `TimelineComponentTarget` protocol:
+
 1. **`defaultRange`**: A property that defines how many posts should be loaded initially
 2.  **`additionalRangeSize`**: A property that defines how many additional posts should be loaded once the user reaches the bottom of the timeline
 3. **`tableView`**: A reference to a `UITableView` - we've already set that up!
@@ -102,10 +103,10 @@ This means we need to add two properties and one method to implement this protoc
 Let's start with the two properties:
 
 > [action]
-Add the following three properties to the `TimelineViewController` class:
+Add the following two properties to the `TimelineViewController` class:
 >
-  let defaultRange = 0...4
-  let additionalRangeSize = 5
+    let defaultRange = 0...4
+    let additionalRangeSize = 5
 
 We are defining that we start by showing the latest 5 posts (index 0 to 4). Whenever a users reaches the end of the timeline, we load an additional 5. You could change the behavior of your timeline by simply changing these values!
 
@@ -140,6 +141,7 @@ Now our class fully conforms to the `TimelineComponentTarget` protocol! However,
 ##Informing the TimelineComponent about events
 
 There are two events that the `TimelineComponent` needs to know about in order to do its job correctly:
+
 1. The component needs to know when the TableView becomes visible, so that it can load the initial set of data
 2. The component needs to know which cells are currently being displayed, so that it can load more cells as soon as the user has reached the latest cell in the Timeline
 
@@ -262,7 +264,7 @@ And finally, we need to update the `tableView(_, cellForRowAtIndexPath:)` method
 Okay, time to test our app after these major changes! Your timeline now should be working just as shown
 in the video below:
 
-<video width="100%" controls>
+<video width="100%" height="400pt" controls>
   <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/BetterTimlineWorking_small.mov" type="video/mp4">
 
 When you reach the 5th post, additional posts are loaded and displayed!
