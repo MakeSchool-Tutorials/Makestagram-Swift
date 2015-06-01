@@ -194,16 +194,23 @@ As mostly, we are implementing a new protocol in a separate class `extension` - 
 
 Note that this code won't work yet. Firstly, we haven declared the `timelineComponent` property yet. Secondly, the `TimelineViewController` isn't the `delegate` of the TableView yet. Currently it is only the `dataSource`.
 
+Let's set ourselves up as the TableView's delegate. After that we'll initialize and store the `TimelineComponent`.
 
+> [action]
+> Open _Main.storyboard_ and connect the outlet of the TableView's delegate to the `TimelineViewController`:
+>
+> ![image](table_view_delegate.png)
 
 ##Initializing and storing the TimelineComponent
 
-We will also create a property that will store the `TimelineComponent` object.
+Now, let's create the property that will store the `TimelineComponent` object.
 
 > [action]
 Add the following property to the `TimelineViewController` class:
 >
     var timelineComponent: TimelineComponent<Post, TimelineViewController>!
+
+Note that you need to provide two different types in the angled brackets: the type of object you are displaying (`Post`) and the class that will be the target of the `TimelineComponent` (that's the `TimelineViewController` in our case).
 
 Next, we will add code that creates an instance of the `TimelineComponent`. We'll add that to the `viewDidLoad` method. As soon as our view is loaded, we want the `TimelineComponent` to be available:
 
@@ -219,6 +226,51 @@ Next, we will add code that creates an instance of the `TimelineComponent`. We'l
 
 The `TimelineComponent` only takes one argument when it's being initialized: the `target`. The `target` is the object to which the `TimelineComponent` shall add it's functionality. In our case that's the `TimelineViewController`, so we pass `self` to the `initializer`.
 
+##Removing the posts array
+
+One last step remains! We need to remove the `posts` property that currently stores all the posts displayed on the timeline. Now the `TimelineComponent` will take care of storing them!
+
+> [action]
+> Delete the `post` property of the `TimelineViewController` class
+
+This means we also need to modify two locations where this property was used. Instead of accessing the `posts` property we now need to access the `timelineComponent.content` property.
+
+> [action]
+> Change the `tableView(_, numberOfRowsInSection:)` method to look as following:
+>
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+      return timelineComponent.content.count
+    }
+
+And finally, we need to update the `tableView(_, cellForRowAtIndexPath:)` method as well.
+
+> [action]
+>
+> Update the `tableView(_, cellForRowAtIndexPath:)` method to look as following:
+>
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+      let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as! PostTableViewCell
+>
+      let post = timelineComponent.content[indexPath.row]
+      post.downloadImage()
+      post.fetchLikes()
+      cell.post = post
+>
+      return cell
+    }
+
+Okay, time to test our app after these major changes! Your timeline now should be working just as shown
+in the video below:
+
+<video width="100%" controls>
+  <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/BetterTimlineWorking_small.mov" type="video/mp4">
+
+When you reach the 5th post, additional posts are loaded and displayed!
+
 #Conclusion
 
-- PFQuery skip and limit
+In this chapter you have learned two important concepts. First, we modified our timeline query to only load a certain range of posts. That is extremely important! It is very inefficient to load data that the user doesn't need. Using the `skip` and `limit` properties of `PFQuery` you will be able to load exactly that portion of your data that is currently relevant to your user.
+
+You have also learned how to use the `TimelineComponent`. If you happen to build an app that contains a timeline, this component will be very useful!
+
+In the next step, we will tackle a feature that is long overdue: finding and adding friends!
