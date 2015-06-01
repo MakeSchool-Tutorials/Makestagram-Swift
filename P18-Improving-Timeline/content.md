@@ -61,9 +61,10 @@ Now we will discuss, step by step, how to use the `TimelineComponent`. Remember 
 
 The very first step is importing the `ConvenienceKit` framework into the `TimelineViewController`. That framework contains the `TimelineComponent`.
 
-<div class="action"></div>
-Add the following import statement to the top of _TimelineViewController.swift_:
-
+> [action]
+> Add the following import statement to the top of _TimelineViewController.swift_:
+>
+>
     import ConvenienceKit
 
 Next, our `TimelineViewController` needs to implement the `TimelineComponentTarget` protocol. The `TimelineComponent` needs our cooperation in a couple of different ways, this protocol defines which methods and properties need to be available on classes that want to work with it.
@@ -72,8 +73,6 @@ Next, our `TimelineViewController` needs to implement the `TimelineComponentTarg
 Extend the class definition of `TimelineViewController` as following:
 
     class TimelineViewController: UIViewController, TimelineComponentTarget {
-
-
 
 #Conclusion
 
