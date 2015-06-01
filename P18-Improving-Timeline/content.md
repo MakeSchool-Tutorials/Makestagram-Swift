@@ -203,12 +203,13 @@ We will also create a property that will store the `TimelineComponent` object.
 > [action]
 Add the following property to the `TimelineViewController` class:
 >
-  var timelineComponent: TimelineComponent<Post, TimelineViewController>!
+    var timelineComponent: TimelineComponent<Post, TimelineViewController>!
 
 Next, we will add code that creates an instance of the `TimelineComponent`. We'll add that to the `viewDidLoad` method. As soon as our view is loaded, we want the `TimelineComponent` to be available:
 
 > [action]
 > Extend the `viewDidLoad` method so that it initializes a `TimelineComponent`
+>
     override func viewDidLoad() {
       super.viewDidLoad()
 >
