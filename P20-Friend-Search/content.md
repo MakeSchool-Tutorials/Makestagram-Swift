@@ -23,3 +23,21 @@ At the root level we only have two components: a Search Bar and a Table View.
 > Add a Search Bar to the `FriendSearchViewController` as show in the video below:
 > <video width="100%" height="400pt" controls>
   <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/SearchBarConstraints_small.mov" type="video/mp4">
+>
+> Remember that the last step is to use the shortkey _⌘⌥=_ to update the frame according to its new constraints.
+
+##Adding a Table View
+
+> [action]
+> Add a Table View to the `FriendSearchViewController` as shown in the video below:
+> <video width="100%" height="400pt" controls>
+  <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/FriendSearchTableViewConstraints_small.mov" type="video/mp4">
+
+##Adding a Custom Table View Cell
+
+> [action]
+> Add a Table View Cell to the `FriendSearchViewController` as shown in the video below:
+> <video width="100%" height="400pt" controls>
+  <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/CustomCellFriendSearch_small.mov" type="video/mp4">
+
+#Creating Code Connections
