@@ -211,11 +211,80 @@ First we are going to add 5 different Parse request.
       return query
     }
 
-These are a total of 5 differnent queries.
+We've added a total of 5 different queries. All of these queries will be used by the `FriendSearchViewController`.
 
-##Implementing the FriendSerchTableViewCell
+Two are used to search for users. One returns all users (except the signed in one) - that query is used when the Search Bar in the `FriendSearchViewController` is empty.
 
-Code...
+The other user search query takes the current search string and returns the users that match it.
+
+It's noteworthy that both of these methods return a `PFQuery` object. This allows the `FriendSearchViewController` to keep a reference to the request that is currently going on. When a user types into the search field, we will kick of a new search request every time the text changes; you'll see that later in the code for the `FriendSearchViewController`. Using the reference to the current query, the `FriendSearchViewController` will cancel the current request before starting a new one. That way we avoid that a fast-typing user causes many requests to start in parallel. Whenever we start a new search query, the old query is outdated. So if it is still ongoing, we can cancel it since we are no longer interested in these outdated results.
+
+The other three methods are used to add, remove and retrieve followees of the current user. These are pretty standard Parse queries without any noteworthy implementation details.
+
+Using these 5 queries the `FriendSearchViewController` will be able to display users that we are searching for _and_ to mark whether or not we are following them.
+
+##Implementing the FriendSearchTableViewCell
+
+Next, let's discuss the implementation of the `FriendSearchTableViewCell`. The main features of that cell are displaying a username and a _follow_ button. That follow button can indicate whether or not we are already following a user.
+
+When the button is tapped, we want _Makestagram_ to follow / unfollow the person. However, we won't implement that directly in the `FriendSearchTableViewCell`. Typically we want to keep more complex functionality outside of our views. Our solution is to define a `delegate` that will be responsible for performing the follow / unfollow.
+
+The `delegate` of each cell will be the `FriendSearchViewController`. When the follow button is tapped, the `FriendTableViewCell` will inform it's delegate.
+
+> [action]
+> Replace the content of _FriendSearchTableViewCell.swift_ with the following one:
+>
+    import UIKit
+    import Parse
+>
+    protocol FriendSearchTableViewCellDelegate: class {
+      func cell(cell: FriendSearchTableViewCell, didSelectFollowUser user: PFUser)
+      func cell(cell: FriendSearchTableViewCell, didSelectUnfollowUser user: PFUser)
+    }
+>
+    class FriendSearchTableViewCell: UITableViewCell {
+>
+      @IBOutlet weak var usernameLabel: UILabel!
+      @IBOutlet weak var followButton: UIButton!
+      weak var delegate: FriendSearchTableViewCellDelegate?
+>
+      var user: PFUser? {
+        didSet {
+          usernameLabel.text = user?.username
+        }
+      }
+>
+      var canFollow: Bool? = true {
+        didSet {
+          /*
+            Change the state of the follow button based on whether or not
+            it is possible to follow a user.
+          */
+          if let canFollow = canFollow {
+            followButton.selected = !canFollow
+          }
+        }
+      }
+>
+      @IBAction func followButtonTapped(sender: AnyObject) {
+        if let canFollow = canFollow where canFollow == true {
+          delegate?.cell(self, didSelectFollowUser: user!)
+          self.canFollow = false
+        } else {
+          delegate?.cell(self, didSelectUnfollowUser: user!)
+          self.canFollow = true
+        }
+      }
+    }
+
+Once again, there aren't too many new concepts in this code. After you took a detailed look at the code, we can move on to the core component: the `FriendSearchViewController`.
+
+
+##Implementing the FriendSearchViewController
+
+The `FriendSearchViewController` is very similar to the main View Controller in _Make School Notes_. It has two different states: searching or not searching. Based on that state it calls one of the two different Parse queries that we defined earlier.
+
+The biggest novelty in the `FriendSearchViewController` is the concept of a local cache. We create a special property called `followingUsers` that stores which users the current user is following. When one of the `FriendSearchTableViewCell`s triggers a unfollow / follow, we send a request to Parse, **but** we also update the `followingUsers` property immediately. 
 
 #Getting Additional Users into Makestagram
 
