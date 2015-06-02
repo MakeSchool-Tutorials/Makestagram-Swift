@@ -41,3 +41,27 @@ At the root level we only have two components: a Search Bar and a Table View.
   <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/CustomCellFriendSearch_small.mov" type="video/mp4">
 
 #Creating Code Connections
+
+We'll need multiple Code Connections to generate the cells from code and to implement the _follow_ button. We'll also need code connections for the Search Bar.
+
+##Cell identifier
+
+Let's start by setting up an identifier for our new Table View Cell.
+
+> [action]
+> Set the identifier for the `FriendSearchViewController`'s Table View Cell to _UserCell_:
+> ![image](custom_cell_identifier.png)
+
+##Custom Cell Class
+
+Next, create a new class for this Cell.
+
+> [action]
+> Create a new `UITableViewCell` subclass called `FriendSearchTableViewCell` and add it to the _View_ group as shown below. Remember to first add a folder on the filesystem, then add that folder to Xcode. That way groups and folders stay in sync:
+> ![image](friendsearchtableviewcell.png)
+
+Then connect the new class to the Table View Cell.
+
+> [action]
+> Set the custom class of the TableViewCell to `FriendSearchTableViewCell`:
+> ![image](friend_cell_custom_class.png)
