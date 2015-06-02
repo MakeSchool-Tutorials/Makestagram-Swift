@@ -60,8 +60,29 @@ Next, create a new class for this Cell.
 > Create a new `UITableViewCell` subclass called `FriendSearchTableViewCell` and add it to the _View_ group as shown below. Remember to first add a folder on the filesystem, then add that folder to Xcode. That way groups and folders stay in sync:
 > ![image](friendsearchtableviewcell.png)
 
+##Referencing Outlets and Button Callback
+
 Then connect the new class to the Table View Cell.
 
 > [action]
 > Set the custom class of the TableViewCell to `FriendSearchTableViewCell`:
 > ![image](friend_cell_custom_class.png)
+
+Next, set up referencing outlets for the label and the button on the Table View Cell. Also add a callback for button taps:
+> [action]
+> Create the three code connections outlined below with the `FriendSearchTableViewCell`:
+> ![image](code_connections.png)
+
+##Table View Data Source
+
+Now, set the Table View's Data Source to be the `FriendSearchViewController`.
+
+> [action]
+> Set the Table View Data Source as as shown below:
+> ![image](setup_data_source.png)
+
+Next, set up referencing outlets to the `FriendSearchViewController` from the Table View and the Search Bar.
+
+> [action]
+> Set up the following referencing outlets:
+> ![image](referencing_outlet.png)
