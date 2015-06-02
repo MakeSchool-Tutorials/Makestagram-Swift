@@ -137,7 +137,6 @@ Now you can run the app again. And for the first time you should see our photos 
 
 That's awesome! This app is very slowly starting to look like a real photo sharing app!
 
-
 #Conclusion
 
 In this chapter you have learned how to set up a custom Table View Cell. Almost all iOS apps use Table Views in combination with custom cells, so this knowledge will be very useful for your own app! You have also learned that `PFFile`s are stored as references in other `PFObject`s and are not automatically downloaded. For now we have implemented a primitive approach of downloading the photos for each post - after all, the focus of this chapter was to make some visual progress!
