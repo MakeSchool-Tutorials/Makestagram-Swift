@@ -275,4 +275,4 @@ In this chapter you have learned two important concepts. First, we modified our 
 
 You have also learned how to use the `TimelineComponent`. If you happen to build an app that contains a timeline, this component will be very useful!
 
-In the next step, we will tackle a feature that is long overdue: finding and adding friends!
+In the next step, we will take a little step back and review all the things you have learned through this tutorial so far.
