@@ -1,7 +1,7 @@
 ---
 title: "Setting up the App Structure with a UITabBarController"
 slug: setup-app-structure-uitabbarcontroller
----     
+---
 
 In this section we're going to set up the basic structure of our app. While building the *Make School Notes* app, you have learnt about *Container View Controllers*.
 
@@ -12,7 +12,7 @@ iOS provides another very popular Container View Controller: the `UITabBarContro
 Using a `UITabBarController`, the user switches between different View Controllers by selecting one of the Tab Bar Items in a Tab Bar. Below is a screenshot from the finished *Makestagram* app that contains a Tab Bar:
 ![image](tab_bar_example.png)
 
-The user can switch between the timeline, taking a photo, or finding friends, by selecting the respective button from the Tab Bar. 
+The user can switch between the timeline, taking a photo, or finding friends, by selecting the respective button from the Tab Bar.
 
 Many apps use multiple types of Container View Controllers in one App. We will see how that approach works when we add the image filter feature to the *Makestagram* app later on.
 
@@ -34,7 +34,7 @@ The Xcode project template has a simple `UIViewController` as its initial View C
 Let's first go ahead and delete it.
 
 <div class="action"></div>
-Open *Main.storyboard*. Select the existing View Controller; after you have selected it you should see a blue border surrounding it: 
+Open *Main.storyboard*. Select the existing View Controller; after you have selected it you should see a blue border surrounding it:
 ![image](selected_vc.png)
 
 <div class="action"></div>
@@ -58,7 +58,7 @@ If you run the app now, you will see a blank, black screen, after the splash ima
 Every app needs to define an *initial View Controller*. Our app doesn't have one right now - we have deleted the default View Controller, and haven't set the Tab Bar Controller as the initial one. Let's fix that.
 
 <div class="action"></div>
-Configure the Tab Bar Controller to be our app's initial View Controller. First select the *Attributes Inspector* in the right bar (1). Then check the *is Initial View Controller* checkbox (2). As a confirmation you should see an arrow pointing to the Tab Bar View Controller (3): 
+Configure the Tab Bar Controller to be our app's initial View Controller. First select the *Attributes Inspector* in the right bar (1). Then check the *is Initial View Controller* checkbox (2). As a confirmation you should see an arrow pointing to the Tab Bar View Controller (3):
 ![image](initial_vc.png)
 
 Great! When you run the app now, you should see a tab bar with two items:
@@ -78,16 +78,16 @@ Now we have all required View Controllers set up.
 
 #Decorating the Tab Bar Items
 
-The empty Tab Bar looks pretty sad - let's add an image to each Tab Bar Item. That will also make it easier to identify the different tabs. 
+The empty Tab Bar looks pretty sad - let's add an image to each Tab Bar Item. That will also make it easier to identify the different tabs.
 
 Currently the Tab Bar has three entries and looks like this:
 
-![image](tab_bar.png) 
+![image](tab_bar.png)
 
 Each of these three entries is called a *Tab Bar Item*. Every View Controller that has a relationship to a Tab Bar View Controller owns one such a *Tab Bar Item*. The Tab Bar Items are named rather generically right now (*Item 1*, *Item 2*, etc.). Instead of names, we will use icons to decorate our *Tab Bar Items*.
 
 <div class="action"></div>
-[Download the art pack for this tutorial!](https://www.dropbox.com/s/kt9w4m94z4y3m4f/Art.zip?dl=0)
+[Download the art pack for this tutorial!](https://s3.amazonaws.com/mgwu-misc/SA2015/Makestagram_Art.zip)
 
 ##Adding assets to an App
 
@@ -159,7 +159,7 @@ Now we have a nice looking Tab Bar that connects to the three View Controllers o
 
 #Creating classes for our View Controllers
 
-To complete this whole scaffolding section, let's create the Source Code Files for all three View Controllers that we will be working on throughout this tutorial. 
+To complete this whole scaffolding section, let's create the Source Code Files for all three View Controllers that we will be working on throughout this tutorial.
 
 As a very first step, let's delete View Controller that is part of the template project:
 <div class="action"></div>
@@ -184,7 +184,7 @@ If you see the line `import Cocoa` instead, you mistakenly created an OS X file,
 
 ##Configuring custom classes in Storyboard
 
-The last setup step that remains, is connecting the classes that we just created to our View Controllers in Storyboard. 
+The last setup step that remains, is connecting the classes that we just created to our View Controllers in Storyboard.
 
 <div class="action"></div>
 **Repeat the following steps for all three View Controllers**:

@@ -7,7 +7,7 @@ Now we'll spend some time in Interface Builder and with Auto Layout to polish up
 
 #Adding additional resources
 
-This step is pretty simple; we're going to add some more resources to our Asset Catalog. You've already downloaded the Art Pack for this tutorial earlier on, in case you no longer know where you've stored it, you can get it again [here](https://www.dropbox.com/s/kt9w4m94z4y3m4f/Art.zip?dl=0) (I don't blame you; my file system is pretty messy!).
+This step is pretty simple; we're going to add some more resources to our Asset Catalog. You've already downloaded the Art Pack for this tutorial earlier on, in case you no longer know where you've stored it, you can get it again [here](https://s3.amazonaws.com/mgwu-misc/SA2015/Makestagram_Art.zip) (I don't blame you; my file system is pretty messy!).
 
 <div class="action"></div>
 Add new image sets for each of these resources (if you no longer know how this works, go back to the step where we set up the Tab Bar). The result should look like this (note that you don't need to set up _camera_ and _AppIcon_):
