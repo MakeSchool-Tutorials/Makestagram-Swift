@@ -463,3 +463,16 @@ The downloaded data contains multiple users and a few posts. You can import them
 > <video width="100%" height="400pt" controls>
   <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/ParseImport_small.mov" type="video/mp4">
 > 3. Make sure to import the *_User* file and the _Post_ file  
+
+Now you should be able to try out the new feature. Follow another user, then refresh the timelime:
+
+> <video width="100%" height="400pt" controls>
+  <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/FollowNewUser_small.mov" type="video/mp4">
+
+You should see our posts show up on the timeline! This is very exciting. Now you can use the app with multiple user!
+
+#Conclusion
+
+This step serves as a nice template for implementing a search screen in Parse. It was mostly a re-iteration of things you have learned earlier on. Hopefully this re-iteration made you more comfortable in working with Storyboard and building View Controllers from scratch!
+
+In the next step we will discuss how to add a signup and login screen to _Makestagram_!
