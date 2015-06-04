@@ -86,13 +86,76 @@ Let's create one of these `ParseLoginHelper`s.
       parseLoginHelper = ParseLoginHelper {[unowned self] user, error in
         // Initialize the ParseLoginHelper with a callback
         if let error = error {
+          // 1
           ErrorHandling.defaultErrorHandler(error)
         } else  if let user = user {
           // if login was successful, display the TabBarController
+          // 2
           let storyboard = UIStoryboard(name: "Main", bundle: nil)
           let tabBarController = storyboard.instantiateViewControllerWithIdentifier("TabBarController") as! UIViewController
->
+>         // 3
           self.window?.rootViewController!.presentViewController(tabBarController, animated:true, completion:nil)
         }
       }
     }
+
+
+1. In case an we receive an `error` in our closure, we call the `ErrorHandling.defaultErrorHandler` method. That error handler method was part of the template project. It displays a popup with the error message. We'll discuss error handling in more detail in one of the later steps.
+2. If we didn't receive an `error`, but received a `user`, we know that our login was successful. In this case we load the _Main_ storyboard and create the _TabBarController_. This is the line where we use the _Storyboard ID_ that we've set up earlier. Before we removed _Main.storyboard_ as default entry point to  our app, all of this was happening under the covers. Now we have to load Storyboards and View Controllers manually.
+3. After we have loaded the View Controller, we are also responsible for presenting it. We can choose the main View Controller of our app, in code, by setting the `rootViewController` property of the `AppDelegate`'s `window`. When the code in this closure runs, our app will already have the login screen as its `rootViewController`. As soon as the successful login completes, we present the _TabBarController_ on top of the login screen.
+
+Now we have the code in place that runs after a user attempted to log in - but where's the code that presents the login screen in the first place? We'll take care of that now.
+
+We'll extend the `application(_:, didFinishLaunchingWithOptions:)` method to decide which View Controller should be the `rootViewController` of our app.
+
+> [action]
+>
+> Add the following code to the end of the `application(_:, didFinishLaunchingWithOptions:)` method:
+>
+    // Initialize Facebook
+    // 1
+    PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions)
+>
+    // check if we have logged in user
+    // 2
+    let user = PFUser.currentUser()
+>
+    let startViewController: UIViewController;
+>
+    if (user != nil) {
+      // 3
+      // if we have a user, set the TabBarController to be the initial View Controller
+      let storyboard = UIStoryboard(name: "Main", bundle: nil)
+      startViewController = storyboard.instantiateViewControllerWithIdentifier("TabBarController") as! UITabBarController
+    } else {
+      // 4
+      // Otherwise set the LoginViewController to be the first
+      let loginViewController = PFLogInViewController()
+      loginViewController.fields = .UsernameAndPassword | .LogInButton | .SignUpButton | .PasswordForgotten | .Facebook
+      loginViewController.delegate = parseLoginHelper
+      loginViewController.signUpController?.delegate = parseLoginHelper
+>
+      startViewController = loginViewController
+    }
+>
+>     // 5
+    self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+    self.window?.rootViewController = startViewController;
+    self.window?.makeKeyAndVisible()
+
+
+1. We start of by initializing the `PFFacebookUtils` - this is only boilerplate code, once again.
+2. We check whether or not a user is currently logged in.
+3. If a user is logged in, we load the _TabBarControlller_, just as we did in the closure of the `ParseLoginHelper`, and let the user jump directly to the timeline.
+4. If we don't have a user, we need to present the Login View Controller. We create one, using the `PFLoginViewController` provided by Parse. The component allows for some customization, you can read the details [here.](https://parse.com/tutorials/login-and-signup-views) We also set the `parseLoginHelper` as the `delegate` of the `PFLoginViewController`. The `ParseLoginHelper` will be notified about logins and signups by the `PFLoginViewController`. It will then forward the information to us by calling the closure that we defined when creating the `ParseLoginHelper`.
+5. The last step is creating the `UIWindow` for our application. That's the container for all the views in our app. We then display the `startViewController` as the `rootViewController` of the app. Depending on whether we had a logged in user or not, this will be the `TabBarViewController` or the `PFLoginViewController`.
+
+Awesome! Our login code is almost in place. There's one last change the Facebook SDK requires from us.
+
+> [action]
+> Replace the existing return statement in `application(_:, didFinishLaunchingWithOptions:)` with this one:
+>
+    return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+
+
+Once again a boilerplate code requirement by the Facebook SDK that we don't need to discuss in detail.
