@@ -159,3 +159,23 @@ Awesome! Our login code is almost in place. There's one last change the Facebook
 
 
 Once again a boilerplate code requirement by the Facebook SDK that we don't need to discuss in detail.
+
+Now it's time to try this new code out in action! First we need to delete the _Makestagram_ app from the simulator to destroy our session. Otherwise Parse would remember that we're logged in and wouldn't show us the login screen.
+
+> [action]
+> Delete the _Makestagram_ app from the Simulator:
+> <video width="100%" height="400pt" controls>
+  <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/DeleteApp_small.mov" type="video/mp4">
+
+
+Now you can run the app again and it will be installed from scratch. When the app starts, you should see the login screen appear:
+
+![image](login_screen.png)
+
+When you enter the credentials for the test user (username: _test_, password: _test_), you should be successfully logged in and see the timeline show up!
+
+Awesome! Our login feature is almost complete! Except for one thing: when you hit the _Login with Facebook_ button your app will crash.
+
+We'll tackle that issue next.
+
+#Making the Facebook Login Work
