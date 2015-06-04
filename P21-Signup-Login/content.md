@@ -179,3 +179,36 @@ Awesome! Our login feature is almost complete! Except for one thing: when you hi
 We'll tackle that issue next.
 
 #Making the Facebook Login Work
+
+To be able to login with Facebook, we need to register our app with their platform. Make sure you are signed up and logged in to Facebook so that you are able to access the Facebook Developer Portal. For future reference you can find the general set up guide (here)[https://developers.facebook.com/docs/ios/getting-started]. For now it will be easier to follow our instructions that are more specific to the _Makestagram_ app.
+
+Let's create a new Facebook app.
+
+> [action]
+> Open the Developer Portal through [this link](https://developers.facebook.com/?advanced_app_create=true). You should immediately see a popup that asks you for information about your app. Fill it out as shown below:
+![image](facebook/new_app_popup.png)
+
+After you provided the information you will be redirected to the dashboard of your app.
+Now we've set up a basics app, but Facebook also needs to know which platforms our app will support. For each platform (iOS, Android, Web, etc.) Facebook requires some specific information.
+
+Let's tell Facebook that we're building an iOS app.
+
+> [action]
+> Switch to the _Settings_ page and select the _Add Platform_ button:
+![image](facebook/app_config_add_ios.png)
+In the popup that shows up, select _iOS_:
+![image](facebook/select_ios.png)
+
+Great! Now we need to configure on property of the iOS app that we created on Facebook: the _bundle identifier_. The bundle identifier is _the_ unique identifier for your app. Facebook will use the identifier to ensure that only our iOS app gets access to our Facebook app.
+
+Let's find the bundle identifier for our app and provide it to Facebook.
+
+> [action]
+> Copy the _bundle identifier_ from your app, as shown in the image below:
+![image](facebook/find_bundle_id.png)
+> Then add it to your Facebook app as shown in this image:
+![image](facebook/app_details.png)
+
+Before we can test the Facebook login we'll need to make some changes to the _Info.plist_ file of our application. The _Info.plist_ is the main configuration file for every app.
+
+![image](facebook/finished_plist.png)
