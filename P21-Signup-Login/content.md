@@ -180,7 +180,7 @@ We'll tackle that issue next.
 
 #Making the Facebook Login Work
 
-To be able to login with Facebook, we need to register our app with their platform. Make sure you are signed up and logged in to Facebook so that you are able to access the Facebook Developer Portal. For future reference you can find the general set up guide (here)[https://developers.facebook.com/docs/ios/getting-started]. For now it will be easier to follow our instructions that are more specific to the _Makestagram_ app.
+To be able to login with Facebook, we need to register our app with their platform. Make sure you are signed up and logged in to Facebook so that you are able to access the Facebook Developer Portal. For future reference you can find the general setup guide (here)[https://developers.facebook.com/docs/ios/getting-started]. For now it will be easier to follow our instructions that are more specific to the _Makestagram_ app.
 
 Let's create a new Facebook app.
 
@@ -211,4 +211,35 @@ Let's find the bundle identifier for our app and provide it to Facebook.
 
 Before we can test the Facebook login we'll need to make some changes to the _Info.plist_ file of our application. The _Info.plist_ is the main configuration file for every app.
 
+> [action]
+Open the app's _Info.plist_ as shown in the image below. Then configured it by performing the following steps from Facebook's setup guide (_Note that you can add new lines to a .plist by selecting an existing line and hitting the + button._):
+1. Create a key called _FacebookAppID_ with a string value, and add the app ID there.
+2. Create a key called _FacebookDisplayName_ with a string value, and add the Display Name you configured in the App Dashboard.
+3. Create an array key called _URL types_ with a single array sub-item called _URL Schemes_. Give this a single item with your app ID prefixed with fb.
+
+
+This is what the final plist should look like:
+
 ![image](facebook/finished_plist.png)
+
+Now you should be good to test the Facebook login!
+
+Delete the app from the Simulator, to destroy any existing sessions. Then run it again from Xcode. When you reach the login screen, select the _Login with Facebook_ button. The app should go into the background and you should be redirected to a screen that looks like this:
+
+![image](facebook/facebook_auth_screen.png)
+
+If you grant permission on this screen, you will be redirected to your app and you should be logged in successfully! If the login is not working as just described, go back and make sure you have followed the setup instructions exactly.
+
+If it is working: Congratulations! You have learned how to implement a fully working login flow for your app!
+
+#Conclusion
+
+In this step you learned how to change the configuration of an app, so that the _Main.storyboard_ isn't automatically chosen as the entry point. You have learned how you can instead implement the selection of the main View Controller in code. That allows us to elegantly hide the app content behind a login wall if a user isn't signed in.
+
+You have also learned how to use the `ParseLoginHelper` and the `PFLoginViewController` to create signup and login flow for your app.
+
+Finally, you have learned how to set up your app on Facebook. That allows user to sign up for your app using their Facebook account.
+
+This step should server as a good template for implementing the login and signup feature in your own app.
+
+In the next step we will look into a small optimization for _Makestagram_. Even though it isn't obvious, it turns out that the app is using a large amount of memory...
