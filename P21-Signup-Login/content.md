@@ -36,7 +36,7 @@ Let's provide a Storyboard ID for that controller.
 >
 ![image](storyboard_id.png)
 
-In many ways programming is a creative pursuit. When it comes to naming things however, you're mostly better of making the obvious yet boring choice.
+In many ways programming is a creative pursuit. However, when it comes to naming things you're mostly better of making the obvious yet boring choice.
 
 We're done with preparing our configuration, we can now get down to coding!
 
@@ -52,3 +52,47 @@ Let's start by getting a dull task done - importing some modules.
 >
     import FBSDKCoreKit
     import ParseUI
+
+
+Another thing that we should get out of our way is the boilerplate code that the Facebook SDK requires. There's nothing interesting about it; it just needs to be there to make things work.
+
+> [action]
+> Add the following two methods to the `AppDelegate` class and remove the existing implementation of `applicationDidBecomeActive`:
+>
+    //MARK: Facebook Integration
+>
+    func applicationDidBecomeActive(application: UIApplication) {
+      FBSDKAppEvents.activateApp()
+    }
+>
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+      return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+    }
+
+Now we can finally get down to the actual login code. We're going to use a helper class makes using the Parse login functionality even easier. It is called `ParseLoginHelper`. We initialize that class with a closure that takes two arguments: a `user` and an `error`.
+
+The closure that we provide when initializing the `ParseLoginHelper` will be called once the user has hit the login button and the server has responded with a success or failure message. We'll then either receive an `error` or a `user` and that will allow us to determine if the login was successful.
+
+Let's create one of these `ParseLoginHelper`s.
+
+> [action]
+> Add the following property and initializer to the `AppDelegate`:
+>
+    var parseLoginHelper: ParseLoginHelper!
+>
+    override init() {
+      super.init()
+>
+      parseLoginHelper = ParseLoginHelper {[unowned self] user, error in
+        // Initialize the ParseLoginHelper with a callback
+        if let error = error {
+          ErrorHandling.defaultErrorHandler(error)
+        } else  if let user = user {
+          // if login was successful, display the TabBarController
+          let storyboard = UIStoryboard(name: "Main", bundle: nil)
+          let tabBarController = storyboard.instantiateViewControllerWithIdentifier("TabBarController") as! UIViewController
+>
+          self.window?.rootViewController!.presentViewController(tabBarController, animated:true, completion:nil)
+        }
+      }
+    }
