@@ -151,10 +151,10 @@ First we are going to add 5 different Parse request.
       query.findObjectsInBackgroundWithBlock {
         (results: [AnyObject]?, error: NSError?) -> Void in
 >
-          let results = results as! [PFObject]
+          let results = results as? [PFObject] ?? []
 >
-          for object in results {
-            object.deleteInBackgroundWithBlock(nil)
+          for likes in results {
+            likes.deleteInBackgroundWithBlock(nil)
           }
       }
     }

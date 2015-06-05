@@ -155,11 +155,11 @@ Here's our solution:
       query.findObjectsInBackgroundWithBlock {
         (results: [AnyObject]?, error: NSError?) -> Void in
          // 2
-          if let results = results as? [PFObject] {
-            for object in results {
-              object.deleteInBackgroundWithBlock(nil)
-            }
-          }
+           if let results = results as? [PFObject] {
+             for likes in results {
+               likes.deleteInBackgroundWithBlock(nil)
+             }
+           }
       }
     }
 
@@ -220,9 +220,13 @@ Just to make sure we're on the same page, here's what all the queries that we ju
 
       query.findObjectsInBackgroundWithBlock {
         (results: [AnyObject]?, error: NSError?) -> Void in
+          if let error = error {
+            ErrorHandling.defaultErrorHandler(error)
+          }
+
           if let results = results as? [PFObject] {
-            for object in results {
-              object.deleteInBackgroundWithBlock(nil)
+            for likes in results {
+              likes.deleteInBackgroundWithBlock(nil)
             }
           }
       }
