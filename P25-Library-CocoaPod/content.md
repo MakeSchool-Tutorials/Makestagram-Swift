@@ -101,4 +101,40 @@ If you have installed a Swift library, you can import it with the regular, well 
 
     import MyLibrary
 
-However, most of the Libraries that you will use will be written in Objetive-C. These libraries need to be imported a little bit differently.
+However, most of the Libraries that you will use will be written in Objetive-C, Apple's old default programming language for iOS. These libraries need to be imported a little bit differently.
+
+To import Objective-C libraries, you need to add them to a _Bridging Header_. Our template project already comes with such a bridging header, so let's add the _DateTools_ library to it.
+
+> [action]
+> Add the _DateTools_ library to _Makestagram's_ bridging header as shown below:
+![image](add_lib.png)
+
+#Using the Library
+
+Now we can finally use the Library to display how long ago a post has been created!
+Let's extend the `PostSectionHeaderView` to use the new library.
+
+> [action]
+> Extend the `didSet` observer of the `post` property in the `PostSectionHeaderView` as following:
+>
+    var post: Post? {
+      didSet {
+        if let post = post {
+          usernameLabel.text = post.user?.username
+          // 1
+          postTimeLabel.text = post.createdAt?.shortTimeAgoSinceDate(NSDate()) ?? ""
+        }
+      }
+    }
+
+1. We are reading the `createdAt` date from the `post`. This is a property that Parse sets by default on all `PFObjects`. Then we use an extension provided by the _DateTools_ library: `shortTimeAgoSinceDate(_:)`. This method takes a comparison date. By calling `NSDate()` we create a date object with the current time. If the post has been created 4 hours ago, this line of code will generate the string _"4h"_. Since `createdAt?` is an optional, we use the `??` operator to fall back to an empty string, in case the 'createdAt' date should be nil.
+
+Awesome! Now it's once again time to test this new feature. When running the app you should now see that the header cells display correctly, how long ago a post has been created:
+
+![image](working.png)
+
+#Conclusion
+
+In this step you have learned how to leverage the power of open source software in your project. There couldn't be a better way to end this _Makestagram_ tutorial!
+
+Now it's time to take everything you have learned and build your very own app! And always remember: some developer might already have solved your problem for you. The answers are at your fingertips!
