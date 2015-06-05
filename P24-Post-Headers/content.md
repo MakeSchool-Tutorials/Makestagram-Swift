@@ -144,4 +144,35 @@ We need to apply the same change to the `tableView(_:, willDisplayCell:, forRowA
 
 Now we are informing the `timelineComponent` about which post is currently being displayed by sending it the `indexPath.section` instead of the `indexPath.row`.
 
-At this point we have successfully swapped the meaning of row and section throughout the entire `TimelineViewController`.
+At this point we have successfully swapped the meaning of rows and sections throughout the entire `TimelineViewController`. Now we can add the code that will display our section headers.
+
+We need to implement two methods of the `UITableViewDelegate` protocol. One defines the height of our header, the other is responsible for providing the view that should be displayed.
+
+> [action]
+> Add the following two methods to the `UITableViewDelegate` extension of the `TimelineViewController`:
+>
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+      let headerCell = tableView.dequeueReusableCellWithIdentifier("PostHeader") as! PostSectionHeaderView
+>
+      let post = self.timelineComponent.content[section]
+      headerCell.post = post
+>
+      return headerCell
+    }
+>
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+      return 40
+    }
+
+The implementation for providing header cells is almost identical to the code that provides the post cells - there aren't any new concepts in these few lines. We dequeue a _PostHeader_ cell, fetch the corresponding post and assign it to the cell. The cell then displays the username based on the user associated with the provided post.
+
+Time to run the app and try this feature out. Ideally it should look similar to this:
+![image](headers_working.png)
+
+Awesome! Now this app looks very similar to a famous photo sharing app!
+
+#Conclusion
+
+In this step you have learned more about how rows and sections compose the content of a Table View. You have also learned how to display section headers.
+
+In the next step we will improve these headers, by displaying the amount of time that has passed since a post has been created. You will also learn how to install a third-party library to help us with that feature.
