@@ -50,7 +50,7 @@ Now we'll connect our class and the cell in Interface Builder and create referen
 
 > [action]
 > Set the _Custom Class_ of the new Table View Cell:
-![image](post_section_header.png)
+![image](custom_class.png)
 
 Now we can create the referencing outlets.
 
