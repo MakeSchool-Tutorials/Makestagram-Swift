@@ -19,9 +19,9 @@ Throughout this tutorial you will get to know Parse in detail. Our very first st
 
 First, sign up for an account.
 
-> [action]
 Go to [Parse.com](http://parse.com). Enter name, email address and choose a password:
 ![image](signup_parse.png)
+
 On the next screen you will be able to create an app. Choose *Makestagram* as the app title and select *Individual Developer* as the company size:
 ![image](setup_app.png)
 
@@ -29,7 +29,6 @@ Now you have created your first Parse app!
 
 On the next screen you will see a bunch of services that Parse provides. We will only be using the *Core* product which allows us to create a data model for our application.
 
-> [action]
 Select *Core* in the top bar to open the Parse Data Browser:
 ![image](parse_core.png)
 

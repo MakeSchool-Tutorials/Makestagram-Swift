@@ -10,7 +10,7 @@ In this tutorial we will touch many advanced iOS development topics and you will
 Here are the most important things you will learn throughout this tutorial:
 
 - How to define a data model for your app using Parse
-- How to implement a logging for your app using Parse and Facebook
+- How to implement a login for your app using Parse and Facebook
 - How to capture photos and upload them to Parse
 - How to perform work in the background to keep your user interface responsive
 - How to build complex Parse queries
