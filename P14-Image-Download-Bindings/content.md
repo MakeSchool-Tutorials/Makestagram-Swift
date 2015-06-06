@@ -55,16 +55,16 @@ We're setting the image by directly accessing the `postImageView` property of th
 
 We're going to store the `Post` in the `PostTableViewCell` and let the cell itself be responsible for changing its appearance.
 
-<div class="action"></div>
+> [action]
 First, add an `import` statement for the Swift Bond library that we'll be using to _PostTableViewCell.swift_:
-
+>
     import Bond
 
 Then we can add the property to store the `Post`.
 
-<div class="action"></div>
+> [action]
 Add the following property and property observer to the `PostTableViewCell` class:
-
+>
     var post:Post? {
       didSet {
         // 1
@@ -89,9 +89,9 @@ If you've tried, you will realize that the current version of our code does not 
 
 Let's change the `image` property of `Post` to be `Dynamic` - then we'll discuss in detail what `Dynamic` means.
 
-<div class="action"></div>
+> [action]
 Change the property definition of `image` in the `Post` class to look as following:
-
+>
     var image: Dynamic<UIImage?> = Dynamic(nil)
 
 Ok, so what is this whole `Dynamic` thing? Basically it is just a wrapper around the actual value that we want to store. That wrapper allows us to listen for changes to the wrapped value. The `Dynamic` wrapper enables us to use the property together with bindings. You can see the type of the wrapped value in the angled brackets (`<UIImage?>`). These angled brackets mark the use of _generics_; a concept that we don't need to discuss now.
@@ -103,18 +103,18 @@ As soon as we are making a property `Dynamic`, we need to refer to the wrapped v
 
 This means we'll need to update the code that is currently referencing the `image` property. Before we can move on to that you need to import the _Bond_ framework into the _Post.swift_ file.
 
-<div class="action"></div>
+> [action]
 Add the following import statement to _Post.swift_:
-
+>
     import Bond
 
 ##Updating the Upload Post Method
 
 Now we can start updating our code to work with the new `Dynamic` `image` property. Let's first update the `uploadPost` method.
 
-<div class="action"></div>
+> [action]
 Update the first line of `uploadPost` to access `image.value` instead of `image`:
-
+>
     func uploadPost() {
       let imageData = UIImageJPEGRepresentation(image.value, 0.8)
       // ...
@@ -124,9 +124,9 @@ Update the first line of `uploadPost` to access `image.value` instead of `image`
 
 We also wanted to move the image download form the `TimelineViewController` into the `Post` class. We're going to wrap the functionality into a new `downloadImage` method.
 
-<div class="action"></div>
+> [action]
 Add the `downloadImage` method to the `Post` class:
-
+>
     func downloadImage() {
       // if image is not downloaded yet, get it
       // 1
@@ -152,9 +152,9 @@ With this step we have solved two issues! The download code has been moved into 
 
 Lastly, we need to update the `TimelineViewController`. Let's start with a very small update to the `takePhoto` method.
 
-<div class="action"></div>
+> [action]
 Update the `takePhoto` method in `TimelineViewController` to access `image.value` instead of `image`
-
+>
     func takePhoto() {
       // instantiate photo taking class, provide callback for when photo is selected
       photoTakingHelper =
@@ -172,16 +172,16 @@ No time for a break - we have some more significant changes to make to the `Time
 
 We no longer want to download all images immediately after the timeline query completes, instead we want to load them lazily as soon as a post is displayed.
 
-<div class="action"></div>
+> [action]
 Update the `viewDidAppear` method in `TimelineViewController` by removing the image download code. The result should look like this:
-
+>
     override func viewDidAppear(animated: Bool) {
       super.viewDidAppear(animated)
-
+>
       ParseHelper.timelineRequestforCurrentUser {
         (result: [AnyObject]?, error: NSError?) -> Void in
           self.posts = result as? [Post] ?? []
-
+>
           self.tableView.reloadData()
       }
     }
@@ -192,23 +192,23 @@ Now we are only downloading the metadata of all posts upfront and deferring the 
 The last step - before we have a _Makestagram_ app that works correctly again - is to trigger the image download for our visible posts.
 
 **What do you think? Where should we call the `downloadImage` method of our posts?**
-<div class="solution"></div>
+> [action]
 Correct, inside of the `cellForRowAtIndexPath` method. The `cellForRowAtIndexPath` method is called when the Table View is about to present a cell - immediately before the cell becomes visible. That's a great place to call the `downloadImage()` method. ([This method in the `UITableViewDelegate` protocol](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UITableViewDelegate_Protocol/#//apple_ref/occ/intfm/UITableViewDelegate/tableView:willDisplayCell:forRowAtIndexPath:) is another correct answer, but we won't go with that approach here)
 
 Let's extend the `cellForRowAtIndexPath` method to include the call to `downloadImage`. We also want to assign a `post` to each cell instead of setting the displayed image on the cell directly.
 
-<div class="action"></div>
+> [action]
 Change the `cellForRowAtIndexPath` method to look as following:
-
+>
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
       let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as! PostTableViewCell
-
+>
       let post = posts[indexPath.row]
       // 1
       post.downloadImage()
       // 2
       cell.post = post
-
+>
       return cell
     }
 
@@ -222,6 +222,4 @@ After disassembling almost our entire app we are now finally back in a state tha
 Wow, this step consisted of a huge set of changes! While restructuring our code you have learned how to deal with data that is available asynchronously. When working with network requests you will frequently come back to use this knowledge.
 You have also learned how to load information lazily. Especially on mobile devices we should defer any network requests and computationally expensive tasks until they are absolutely necessary!
 
-In the next step we will focus on some visual progress again. We will bring the `PostTableViewCell` into its final design, including a like button and a header that displays user info!
-
-TODO: Extend as soons as next step is complete
+In the next step we will focus on some visual progress again. We will bring the `PostTableViewCell` into its final design, which will include a lovely shaped heear button!

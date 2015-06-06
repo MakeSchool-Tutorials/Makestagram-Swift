@@ -1,5 +1,5 @@
 ---
-title: "Implementing the Like feature"
+title: "Implementing the Like Feature"
 slug: parse-implement-like
 ---
 
@@ -13,7 +13,7 @@ has liked a certain post
 
 We will start with adding new Parse queries! However, I first want to suggest some further cleanup of our existing Parse query!
 
-#Cleaning up the Timeline Query - once again
+#Cleaning up the Timeline Query - Once Again
 
 Take a look at the query we have right now:
 
@@ -45,33 +45,33 @@ Secondly, if we use those strings in multiple places, we need to remember to upd
 Instead of using plain strings it would be much better to use constants!
 Let's add constants for all the different Parse classes and fields we are going to access! Since this isn't too exciting of an exercise, I'll provide you with the full list of constants that we need.
 
-<div id="class"></div>
+> [action]
 Add the following constants to the `ParseHelper` class:
-
+>
     class ParseHelper {
-
+>
       // Following Relation
       static let ParseFollowClass       = "Follow"
       static let ParseFollowFromUser    = "fromUser"
       static let ParseFollowToUser      = "toUser"
-
+>
       // Like Relation
       static let ParseLikeClass         = "Like"
       static let ParseLikeToPost        = "toPost"
       static let ParseLikeFromUser      = "fromUser"
-
+>
       // Post Relation
       static let ParsePostUser          = "user"
       static let ParsePostCreatedAt     = "createdAt"
-
+>
       // Flagged Content Relation
       static let ParseFlaggedContentClass    = "FlaggedContent"
       static let ParseFlaggedContentFromUser = "fromUser"
       static let ParseFlaggedContentToPost   = "toPost"
-
+>
       // User Relation
       static let ParseUserUsername      = "username"
-
+>
       // ...
 
 This approach has a third advantage that we did not discuss yet: all of the fields are now unambiguous. Before this change we could have used _"toPost"_ to refer to either the _toPost_ column in the _FlaggedContent_ class, or to the _toPost_ column in the _Like_ class. Through giving all of these constants a name, we have removed this ambiguity.
@@ -80,29 +80,29 @@ Note that the constant names follow this pattern: _Parse[ClassName][FieldName]_.
 
 With these constants in place, we can now update our timeline query to use them.
 
-<div class="action"></div>
+> [action]
 Change the timeline query to use constants instead of string literals:
-
+>
     static func timelineRequestforCurrentUser(completionBlock: PFArrayResultBlock) {
       let followingQuery = PFQuery(className: ParseFollowClass)
       followingQuery.whereKey(ParseLikeFromUser, equalTo:PFUser.currentUser()!)
-
+>
       let postsFromFollowedUsers = Post.query()
       postsFromFollowedUsers!.whereKey(ParsePostUser, matchesKey: ParseFollowToUser, inQuery: followingQuery)
-
+>
       let postsFromThisUser = Post.query()
       postsFromThisUser!.whereKey(ParsePostUser, equalTo: PFUser.currentUser()!)
-
+>
       let query = PFQuery.orQueryWithSubqueries([postsFromFollowedUsers!, postsFromThisUser!])
       query.includeKey(ParsePostUser)
       query.orderByDescending(ParsePostCreatedAt)
-
+>
       query.findObjectsInBackgroundWithBlock(completionBlock)
     }
 
 Same, same but nicer! Now we have a solid foundation to add more queries!
 
-#Adding Parse queries for likes
+#Adding Parse Queries for Likes
 
 There are three types of things our app needs to with likes:
 
@@ -126,14 +126,14 @@ So, how can we create a method that adds likes to a certain post? **I want to gi
 
 If you come up with your own solution that seems to work but looks different from ours - please replace your solution with the provided one. That way we can avoid that you run into issues later on.
 
-<div class="solution"></div>
+> [solution]
 Here's our solution:
-
+>
     static func likePost(user: PFUser, post: Post) {
       let likeObject = PFObject(className: ParseLikeClass)
       likeObject.setObject(user, forKey: ParseLikeFromUser)
       likeObject.setObject(post, forKey: ParseLikeToPost)
-
+>
       likeObject.saveInBackgroundWithBlock(nil)
     }
 
@@ -143,15 +143,15 @@ It is pretty straight forward! the method takes a `PFUser` and a `Post` referenc
 
 Deleting a like is a tiny bit trickier. We need to first build a query to find the like object before we can delete it. Can you still come up with the `unlikePost` method on your own?
 
-<div class="solution"></div>
+> [solution]
 Here's our solution:
-
+>
     static func unlikePost(user: PFUser, post: Post) {
       // 1
       let query = PFQuery(className: ParseLikeClass)
       query.whereKey(ParseLikeFromUser, equalTo: user)
       query.whereKey(ParseLikeToPost, equalTo: post)
-
+>
       query.findObjectsInBackgroundWithBlock {
         (results: [AnyObject]?, error: NSError?) -> Void in
          // 2
@@ -173,16 +173,16 @@ Technically, there never should be more then one like for a given user on a give
 It's once again on you! Try to come up with an implementation for the `likesForPost` method.
 Hint: it should take a completion block and call it when the query completes! We already have implemented one Parse request that does this...
 
-<div class="solution"></div>
+> [solution]
 And here's our solution:
-
+>
     // 1
     static func likesForPost(post: Post, completionBlock: PFArrayResultBlock) {
       let query = PFQuery(className: ParseLikeClass)
       query.whereKey(ParseLikeToPost, equalTo: post)
       // 2
       query.includeKey(ParseLikeFromUser)
-
+>
       query.findObjectsInBackgroundWithBlock(completionBlock)
     }
 
@@ -197,7 +197,7 @@ By taking this default block as argument, we can hand it directly to the `findOb
 
 2. We are using the `includeKey` method to tell Parse to fetch the `PFUser` object for each of the likes (we've discussed `includeKey` in detail when building the timeline request). We want to fetch the `PFUser` along with the likes, because we later on want to display the usernames of all users that have liked a post. Remember, without the `includeKey` line we would just have a reference to a `PFUser` and would have to start a separate request to fetch the information about the user.
 
-##Summing it up
+##Summing It up
 
 Awesome! We now have request to add / delete and fetch likes. Hopefully this section has helped to get a little bit more comfortable in writing and understanding Parse queries.
 
@@ -251,7 +251,7 @@ Where should we place the code that adds and removes likes from `Post` objects?
 
 We're going to add it directly to the `Post` class and you'll shortly see why!
 
-#Extending the Post class
+#Extending the Post Class
 
 In most object oriented programs we wan't to couple the information that an object stores along with its behavior. If I have access to a `Post` object I would like to be able to like it or unlike it with a simple method call. I would also like to be able to access of all of the likes of a `Post` directly through a simple method call.
 
@@ -262,7 +262,7 @@ Now we're going to add this functionality to the `Post` class. It consists of tw
 
 Let's start with storage. **Why do we want to store likes in the first place?**
 
-##Storing likes
+##Storing Likes
 
 We want to avoid to perform network requests, every single time we want to access the likes that belong to a post. Instead, similar to the post's image, we want to cache the information we have fetched.
 
@@ -274,40 +274,40 @@ Just as with the image of a `Post`, we won't load all of the likes directly with
 
 With all this in mind, let's add the `likes` property to the `Post` class.
 
-<div class="action"></div>
+> [action]
 Add the following property to the `Post` class:
-
+>
     var likes =  Dynamic<[PFUser]?>(nil)
 
 We create the `likes` property as a _dynamic_, _optional_ array of `PFUser` - now that's a mouthful! However, we've used all of these concepts before. We make the property `Dynamic` so that we can listen to changes and update our UI after we've downloaded the likes for a post. We make it _optional_, because before we've downloaded the likes this property will be `nil`.
 
 Now that we can store likes, we can add methods to the `Post` class that make it easy to retrieve, add and remove likes.
 
-##Fetching likes
+##Fetching Likes
 
 We'll handle fetching likes very similar to fetching images. They are fetched lazily and that lazy fetching can be triggered by a method call.
 
 Let's add this functionality in the form of a `fetchLikes` method. There are a bunch of a new concepts in that method, so I'll provide it for you and we'll discuss it in detail afterwards.
 
-<div class="action"></div>
+> [action]
 Add the following method to the `Post` class:
-
+>
     func fetchLikes() {
       // 1
       if (likes.value != nil) {
         return
       }
-
+>
       // 2
       ParseHelper.likesForPost(self, completionBlock: { (var likes: [AnyObject]?, error: NSError?) -> Void in
         // 3
         likes = likes?.filter { like in like[ParseHelper.ParseLikeFromUser] != nil }
-
+>
         // 4
         self.likes.value = likes?.map { like in
           let like = like as! PFObject
           let fromUser = like[ParseHelper.ParseLikeFromUser] as! PFUser
-
+>
           return fromUser
         }
       })
@@ -321,15 +321,15 @@ Add the following method to the `Post` class:
 Now we're able to lazily fetch the likes for a post!
 
 
-##Checking if a post is liked by a given user
+##Checking If a Post is Liked by a given User
 
 Next, we'll add a method that will allow us to find out whether a post is liked by a user or not.
 We'll use that method to decide if the like button for a post should be displayed in gray or in red.
 This method will be quite a lot simpler than `fetchLikes`. All we need to do is check if a given user is contained in the array stored in the `likes` property.
 
-<div class="action"></div>
+> [action]
 Add the `doesUserLikePost` method to the `Post` class:
-
+>
     func doesUserLikePost(user: PFUser) -> Bool {
       if let likes = likes.value {
         return contains(likes, user)
@@ -340,13 +340,13 @@ Add the `doesUserLikePost` method to the `Post` class:
 
 As promised, this method is pretty straightforward. The only part that might be new to you is the `contains` function. The `contains` function takes an array and an object and returns whether or not the object is stored inside of the array.
 
-##Liking / unliking a Post
+##Liking and Unliking a Post
 
 The the last piece of functionality that we need to squeeze into the `Post` class for now is the like / unlike functionality. And we can actually wrap it into a single method that toggles whether or not a post is liked by a user - after all, the app only provides a single button to like / unlike. Furthermore it doesn't make sense to create a second `Like` object if the user a already likes a given post.
 
-<div class="action"></div>
+> [action]
 Add the following method to the `Post` class:
-
+>
     func toggleLikePost(user: PFUser) {
       if (doesUserLikePost(user)) {
         // if image is liked, unlike it now
@@ -366,47 +366,47 @@ Add the following method to the `Post` class:
 
 Great! Our changes to the `Post` class are complete. Next, we can make use of our new methods!
 
-#Loading likes lazily
+#Loading Likes Lazily
 
 Wow, did you notice the three _l_'s in the header? Joking aside, let's take care of loading the likes for each post, as soon as it gets displayed. Now that our `Post` class provides a method for exactly that, it's pretty easy to implement the feature.
 
 **Do you remember where we should place the lazy loading code?**
 
-<div class="solution"></div>
+> [solution]
 Exactly: inside the `cellForRowAtIndexPath` method of the `TimelineViewController`. Why? Because that method gets called immediately before a cell gets displayed. Extend the method to look like this:
-
+>
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
       let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as! PostTableViewCell
-
+>
       let post = posts[indexPath.row]
       post.downloadImage()
       post.fetchLikes()
       cell.post = post
-
+>
       return cell
     }
 
-#Toggling likes from the UI
+#Toggling Likes from the UI
 
 Now it's time to add some interactivity to our app. Let's hook the like functionality up to our like button in the `PostTableViewCell`.
 
-<div class="action"></div>
+> [action]
 Change the implementation of `likeButtonTapped` in the `PostTableViewCell` to call the `toggleLikePost` method:
-
+>
     @IBAction func likeButtonTapped(sender: AnyObject) {
       post?.toggleLikePost(PFUser.currentUser()!)
     }
 
 Awesome! Since we are using the Parse framework to access the current user, you will also need to import the Parse framework into the `PostTableViewCell`.
 
-<div class="action"></div>
+> [action]
 Import the Parse framework inside of the `PostTableViewCell` by adding the following import statement
-
+>
     import Parse
 
 Now we have created the first interactive connection between our code and the UI!
 
-#Testing the like functionality
+#Testing the Like Functionality
 
 Now it's time to test! Run the app and hit the like button on the first post. Then open the Parse data browser.
 You should see one like instance:
