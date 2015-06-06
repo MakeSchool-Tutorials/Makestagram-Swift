@@ -21,7 +21,7 @@ You know most of the features from popular social network apps. You might wonder
 
 Through building this app you will learn how to use Parse and many iOS features to build a rather complex application. That will enable you to build your own apps when you have completed the tutorial.
 
-#Finding the classes in our app
+#Finding the Classes in Our App
 
 Now that we know which features our app will have, how can we derive a data model?
 
@@ -29,16 +29,16 @@ Typically the first step in defining a data model is finding different classes t
 
 **Looking at the feature list above, which classes can you identify?**
 
-<div class="solution"></div>
+> [solution]
 Looking at the features above we can identify at least the three following classes:
-
-- **User**
-- **Post**
-- **Photo**
+>
+>- **User**
+>- **Post**
+>- **Photo**
 
 These three classes will definitely be part of our data model!
 
-#Modelling object relationships
+#Modelling Object Relationships
 
 In addition to finding classes we also need to think about the possible interactions with them. Some of the interactions need to be considered when defining our data model.
 
