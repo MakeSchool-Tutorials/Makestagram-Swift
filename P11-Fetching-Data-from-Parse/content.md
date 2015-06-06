@@ -14,33 +14,30 @@ Let's add a Table View to the `TimelineViewController` - we will use that Table 
 
 The Table View should be a full-screen view. However, we need to leave space for the status bar on the top and the Tab Bar on the bottom.
 
-<div class="action"></div>
+> [action]
 Open _Main.storyboard_ and add a Table View to the _TimelineViewController_. The resulting scene hierarchy should look like this:
-
+>
 ![image](add_tableview.png)
 
 ##Setting up Constraints
 
-<div class="action"></div>
+> [action]
 Next, set up the horizontal constraints. Make sure that the Table View is selected. Then open the constraints menu. Uncheck _Constrain to margins_. Then set the constraints for _left_ and _right_ to _0_. Finally, hit _Add Constraints_:
-
+>
 ![image](horizontal_constraints.png)
-
-<div class="action"></div>
+>
 Now, set up the top constraint. Hold the _Control_ key and, in the _Document Outline_, drag a line from the Table View to the _Top Layout Guide_:
 ![image](top_layout_guide1.png)
 Select _Vertical Spacing_ in the popup that shows up after you created the connection:
 ![image](top_layout_guide2.png)
-
-<div class="action"></div>
+>
 Then, set up the bottom constraint.
 ![image](bottom_layout_guide.png)
 Select _Vertical Spacing_ in the popup that shows up after you created the connection:
 ![image](top_layout_guide2.png)
-
+>
 As a last step, we need to set the top and bottom constraints to _0_.
-
-<div class="action"></div>
+>
 1. Select the Table View.
 2. Open the size inspector.
 3. Hit the _Edit_ button for each of the constraints and set their value to _0_
@@ -54,16 +51,16 @@ If you don't want your views to overlap with the Status Bar or the Tab Bar, you 
 
 In order to fill this Table View with data, we need to define a Data Source (just as we did in the _Make School Notes_ app).
 
-<div class="action"></div>
+> [action]
 Set the _Timeline View Controller_ to be the data source of the Table View, as shown in the image below:
-
+>
 ![image](data_source_setup.png)
 
 ##Defining a Referencing Outlet
 
 We will also need to access this Table View in code; therefore we need to set up a referencing outlet.
 
-<div class="action"></div>
+> [action]
 Set up a referencing outlet, as shown below, and name the property `tableView`:
 ![image](referencing_outlet.png)
 
@@ -71,7 +68,7 @@ Set up a referencing outlet, as shown below, and name the property `tableView`:
 
 We'll need a cell to display the posts that we download. Let's add it to the Table View.
 
-<div class="action"></div>
+> [action]
 Add a new Table View Cell to the Table View:
 ![image](add_tableview_cell.png)
 Next, set up an identifier for this cell, so that we can reference it from code:
@@ -81,7 +78,7 @@ Well done!
 
 We have done our due diligence - the Table View is set up! Now we can take a look at how we can fetch data from Parse and display it in this Table View.
 
-#Basics of Quering in Parse
+#Basics of Querying in Parse
 
 To retrieve data from Parse we use the `PFQuery` class. A _query_ is a set of requirements that we can define - Parse will then provide all objects that fulfill these requirements.
 
@@ -153,31 +150,31 @@ This concept we have used here is called a _subquery_. We use the result of one 
 This should give you enough theoretical knowledge to understand the timeline query.
 Let's add it to the `TimelineViewController` and discuss some of its details:
 
-<div class="action"></div>
+> [action]
 Add the following implementation of `viewDidAppear` to the `TimelineViewController`:
-
+>
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-
+>
         // 1
         let followingQuery = PFQuery(className: "Follow")
         followingQuery.whereKey("fromUser", equalTo:PFUser.currentUser()!)
-
+>
         // 2
         let postsFromFollowedUsers = Post.query()
         postsFromFollowedUsers!.whereKey("user", matchesKey: "toUser", inQuery: followingQuery)
-
+>
         // 3
         let postsFromThisUser = Post.query()
         postsFromThisUser!.whereKey("user", equalTo: PFUser.currentUser()!)
-
+>
         // 4
         let query = PFQuery.orQueryWithSubqueries([postsFromFollowedUsers!, postsFromThisUser!])
         // 5
         query.includeKey("user")
         // 6
         query.orderByDescending("createdAt")
-
+>
         // 7
         query.findObjectsInBackgroundWithBlock {(result: [AnyObject]?, error: NSError?) -> Void in
           // 8
@@ -205,32 +202,32 @@ There are two more required steps before we can test this code:
 1. We need to add the `posts` property that we're referencing
 2. We need to implement the `UITableViewDataSource` protocol
 
-<div class="action"></div>
+> [action]
 Add the `posts` property to `TimelineViewController`:
-
+>
     var posts: [Post] = []
 
 Now, let's add a simple implementation of the `UITableViewDataSource` protocol. That will allow us to see if our request is working as expected:
 
-<div class="action"></div>
+> [action]
 Add the following extension to `TimelineViewController`:
-
+>
     extension TimelineViewController: UITableViewDataSource {
-
+>
       func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // 1
         return posts.count
       }
-
+>
       func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // 2
         let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as! UITableViewCell
-
+>
         cell.textLabel!.text = "Post"
-
+>
         return cell
       }
-
+>
     }
 
 1. Our Table View needs to have as many rows as we have posts stored in the `posts` property

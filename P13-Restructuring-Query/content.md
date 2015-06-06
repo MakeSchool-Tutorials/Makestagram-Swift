@@ -17,40 +17,40 @@ Currently the entire timeline request is written within the `TimelineViewControl
 
 We're going to introduce a _ParseHelper.swift_ file that will contain most of our code that's responsible for talking to our Parse server. That way we can avoid code sprawl in our View Controllers.
 
-<div class="action"></div>
+> [action]
 Start by adding the new _ParseHelper.swift_ file to the _Helpers_ group in your Xcode project:
 ![image](add_parse_helper.png)
 
 Now we're going to tidy up the `TimelineViewController` by moving the timeline query into our new _ParseHelper.swift_ file.
 
-<div class="action"></div>
+> [action]
 Fill the _ParseHelper.swift_ file with the following content:
-
+>
     import Foundation
     import Parse
-
+>
     // 1
     class ParseHelper {
-
+>
       // 2
       static func timelineRequestforCurrentUser(completionBlock: PFArrayResultBlock) {
         let followingQuery = PFQuery(className: "Follow")
         followingQuery.whereKey("fromUser", equalTo:PFUser.currentUser()!)
-
+>
         let postsFromFollowedUsers = Post.query()
         postsFromFollowedUsers!.whereKey("user", matchesKey: "toUser", inQuery: followingQuery)
-
+>
         let postsFromThisUser = Post.query()
         postsFromThisUser!.whereKey("user", equalTo: PFUser.currentUser()!)
-
+>
         let query = PFQuery.orQueryWithSubqueries([postsFromFollowedUsers!, postsFromThisUser!])
         query.includeKey("user")
         query.orderByDescending("createdAt")
-
+>
         // 3
         query.findObjectsInBackgroundWithBlock(completionBlock)
       }
-
+>
     }
 
 1. We are going to wrap all of our helper methods into a class called `ParseHelper`. We only do this so that all of the functions are bundled under the `ParseHelper` _namespace_. That makes the code easier to read in some cases. To call the timeline request function you call `ParseHelper.timelineRequestforUser...` instead of simply `timelineRequestforUser`. That way you always know exactly in which file you can find the methods that are being called.
@@ -59,21 +59,21 @@ Fill the _ParseHelper.swift_ file with the following content:
 
 Now we can tidy up the `TimelineViewController` and replace the query in there with a call to our newly crafted helper method.
 
-<div class="action"></div>
+> [action]
 Update the `viewDidAppear` method in `TimelineViewController` to look as following:
-
+>
     override func viewDidAppear(animated: Bool) {
       super.viewDidAppear(animated)
-
+>
       ParseHelper.timelineRequestforCurrentUser {
         (result: [AnyObject]?, error: NSError?) -> Void in
           self.posts = result as? [Post] ?? []
-
+>
           for post in self.posts {
             let data = post.imageFile?.getData()
             post.image = UIImage(data: data!, scale:1.0)
           }
-
+>
           self.tableView.reloadData()
       }
     }
