@@ -3,7 +3,7 @@ title: "Pull-To-Refresh and Endless Scrolling"
 slug: pull-to-refresh-endless-scrolling
 ---
 
-You have done a lot of work on this app so far - in this step we wan't to make your life just a little bit easier.
+You have done a lot of work on this app so far - in this step we want to make your life just a little bit easier.
 
 We will implement a Pull-To-Refresh mechanism as you know it from most iOS apps. We will also implement a feature that will limit the amount of posts we download. Right now our approach is pretty inefficient; we download all posts in one query. Even though Parse automatically limits us to 100 posts, we are potentially downloading much more data then necessary.
 
