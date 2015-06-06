@@ -7,13 +7,13 @@ It's time to implement our very first feature: uploading Photos to Parse! In our
 
 Typically at Tab Bar View Controller only allows a user to switch between different View Controllers. We don't want to switch to a View Controller when the button is tapped, instead we want to show an Action Dialog that lets the user take or select a picture:
 
-![](taking_photo.png)
+![image](taking_photo.png)
 
 Unfortunately, using a Tab Bar View Controller, we cannot **easily** perform an arbitrary method when one of the Tab Bar Items is selected.
 
 However,there's a **workaround**.
 
-#Using a Tab Bar Item like a Button
+#Using a Tab Bar Item Like a Button
 Essentially we want to use the Photo Tab Bar Item like a button. When it is tapped we want to call a method to present dialog shown above.
 
 One of the ways to accomplish this is to make use of the `UITabBarControllerDelegate` protocol.
@@ -28,7 +28,7 @@ Using this method, the Tab Bar View Controller asks its delegate whether or not 
 
 **Can you imagine how we could use this method to accomplish our goal?**
 
-<div class="solution"></div>
+> [solution]
 One of our classes can become the `delegate` of the `UITabBarViewController` and implement the method above. We can implement the method such that whenever the `PhotoViewController` should be presented, we show the photo capture dialog instead!
 
 Let's implement this solution!
@@ -42,25 +42,25 @@ Implementing our solution involves two steps:
 1. Set the `TimelineViewController` as the delegate of `UITabBarViewController`
 2. Implement the `tabBarController(_ , shouldSelectViewController:)` delegate method
 
-<div class="action"></div>
+> [action]
 Replace the entire source code in `TimelineViewController.swift` with the following one:
-
+>
     import UIKit
-
+>
     class TimelineViewController: UIViewController {
-
+>
       override func viewDidLoad() {
         super.viewDidLoad()
-
+>
         self.tabBarController?.delegate = self
       }
-
+>
     }
-
+>
     // MARK: Tab Bar Delegate
-
+>
     extension TimelineViewController: UITabBarControllerDelegate {
-
+>
       func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
         if (viewController is PhotoViewController) {
           println("Take Photo")
@@ -69,7 +69,7 @@ Replace the entire source code in `TimelineViewController.swift` with the follow
           return true
         }
       }
-
+>
     }
 
 What are we doing here? In `viewDidLoad` we are setting the `TimelineViewController` to be the `tabBarController`s delegate. Every `UIViewController` in iOS has the `tabBarController?` property; if the View Controller is presented from a `UITabBarViewController` (as it's the case in our app), this property will store a reference to it.
@@ -103,9 +103,9 @@ Keep this in mind when working on your own app: *implementing all of your featur
 
 Before we create that new photo taking class, let's create a new folder for it to keep our project structure tidy.
 
-<div id="action"></div>
+> [action]
 Open the folder that contains your Xcode project in Finder and create a new folder called *PhotoTaking*. It should be on the same level as the *ViewController* folder:
-![](photo_taking_folder.png)
+![image](photo_taking_folder.png)
 Then add this new folder to your Xcode project:
 <video width="100%" controls>
   <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/AddPhotoFolder_small.mov" type="video/mp4">
@@ -114,14 +114,14 @@ You should always add new folders with this two-step process. If you create a ne
 
 Now we can add our new Source Code File to the *PhotoTaking* group.
 
-<div id="action"></div>
+> [action]
 1. Create a new Source Code File within the *PhotoTaking* group
 2. Name this class *PhotoTakingHelper* and make it a subclass of *NSObject* (we will discuss why this is necessary later on): ![](photo_taking_helper_class.png)
 
 Before we dive into writing code, let's discuss how we're going to structure our Photo Taking code.
 
 There are multiple classes and steps involved in taking a photo:
-![](photo_taking_structure.png)
+![image](photo_taking_structure.png)
 
 Let's discuss the process, step by step:
 
@@ -151,36 +151,36 @@ Let's get started with building the `PhotoTakingHelper`!
 
 First, let's take care of the initializer and the properties of the `PhotoTakingHelper`.
 
-<div class="action"></div>
+> [action]
 Replace the entire content of `PhotoTakingHelper.swift` with the following code:
-
+>
     import UIKit
-
+>
     typealias PhotoTakingHelperCallback = UIImage? -> Void
-
+>
     class PhotoTakingHelper : NSObject {
-
+>
       /** View controller on which AlertViewController and UIImagePickerController are presented */
       weak var viewController: UIViewController!
       var callback: PhotoTakingHelperCallback
       var imagePickerController: UIImagePickerController?
-
+>
       init(viewController: UIViewController, callback: PhotoTakingHelperCallback) {
         self.viewController = viewController
         self.callback = callback
-
+>
         super.init()
-
+>
         showPhotoSourceSelection()
       }
-
+>
       func showPhotoSourceSelection() {
-
+>
       }
-
+>
     }
 
-Let's discuss this code. In the first line after `import UIKit` we are declaring a `typealias`. Using the `typealias` keyword we can provide a function signature with a name. In this case we are saying that a function of type `PhotoTakingHelperCallback` takes an `UIImage?` as parameter and returns `Void`. This means: any function that wants to be the callback of the `PhotoTakingHelper` needs to have exaxctly this signature.
+Let's discuss this code. In the first line after `import UIKit` we are declaring a `typealias`. Using the `typealias` keyword we can provide a function signature with a name. In this case we are saying that a function of type `PhotoTakingHelperCallback` takes an `UIImage?` as parameter and returns `Void`. This means: any function that wants to be the callback of the `PhotoTakingHelper` needs to have exactly this signature.
 
 `PhotoTakingHelper` has three properties. The first one `viewController` stores a `weak` reference to a `viewController`. As we discussed earlier, this reference is necessary because the `PhotoTakingHelper` needs a `UIViewController` on which it can present other View Controllers. It is a `weak` reference, since the `PhotoTakingHelper` does not own the referenced View Controller.
 
@@ -200,31 +200,31 @@ However, we need to keep one thing in mind: we want to run our App on the iOS Si
 
 Let's add the code for the popup to `PhotoTakingHelper`:
 
-<div class="action"></div>
+> [action]
 Replace the empy implementation of `showPhotoSourceSelection()` with the following one:
-
+>
       func showPhotoSourceSelection() {
         // Allow user to choose between photo library and camera
         let alertController = UIAlertController(title: nil, message: "Where do you want to get your picture from?", preferredStyle: .ActionSheet)
-
+>
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         alertController.addAction(cancelAction)
-
+>
         // Only show camera option if rear camera is available
         if (UIImagePickerController.isCameraDeviceAvailable(.Rear)) {
           let cameraAction = UIAlertAction(title: "Photo from Camera", style: .Default) { (action) in
             // do nothing yet...
           }
-
+>
           alertController.addAction(cameraAction)
         }
-
+>
         let photoLibraryAction = UIAlertAction(title: "Photo from Library", style: .Default) { (action) in
           // do nothing yet...
         }
-
+>
         alertController.addAction(photoLibraryAction)
-
+>
         viewController.presentViewController(alertController, animated: true, completion: nil)
       }
 
@@ -251,9 +251,9 @@ Time to switch back to the `TimelineViewController`. Currently we are printing a
 
 First, let's change the Tab Bar related code:
 
-<div class="action"></div>
+> [action]
 Change the the Tab Bar related code to call the `takePhoto` method, instead of printing to the console:
-
+>
     func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
       if (viewController is PhotoViewController) {
         takePhoto()
@@ -265,9 +265,9 @@ Change the the Tab Bar related code to call the `takePhoto` method, instead of p
 
 Within the `takePhoto` method, which we'll implement next, we will create the `PhotoTakingHelper`.
 
-<div class="action"></div>
+> [action]
 Add the `takePhoto` method to the `TimelineViewController` class:
-
+>
     func takePhoto() {
       // instantiate photo taking class, provide callback for when photo  is selected
       photoTakingHelper = PhotoTakingHelper(viewController: self.tabBarController!) { (image: UIImage?) in
@@ -311,14 +311,14 @@ Using trailing closures can make our code a little bit more readable because we 
 
 One last step before are ready to test the interaction between the `TimelineViewController` and the `PhotoTakingHelper`.
 
-<div class="action"></div>
+> [action]
 Add the property definition for `photoTakingHelper` to the top of the `TimelineViewController` class:
-
+>
     var photoTakingHelper: PhotoTakingHelper?
 
 Now our code should compile and run! Time to test if everything is working as expected.
 
-hen you run the app and tap the camera button, you should see a popup show up:
+When you run the app and tap the camera button, you should see a popup show up:
 
 ![image](popup_working.png)
 
@@ -330,9 +330,9 @@ Now that we've successfully connected the `PhotoTakingHelper` with the `Timeline
 
 Let's add  a method to the `PhotoTakingHelper` that presents the `UIImagePickerController` (you might remember, this is the system component that will allows the user to take pictures!).
 
-<div id=action></div>
+> [action]
 Add the `showImagePickerController` method to the `PhotoTakingHelper` class:
-
+>
     func showImagePickerController(sourceType: UIImagePickerControllerSourceType) {
       imagePickerController = UIImagePickerController()
       imagePickerController!.sourceType = sourceType
@@ -345,24 +345,24 @@ Once the `imagePickerController` is initialized and configured, we present it.
 
 Now we need to call this method when a popup button is selected. Currently we aren't performing any code when a user selects one of the two options.
 
-<div id=action></div>
+> [action]
 Change the following section within `showPhotoSourceSeletion()` so that the `showImagePickerController` method is called:
-
+>
     ...
-
+>
     // Only show camera option if rear camera is available
     if (UIImagePickerController.isCameraDeviceAvailable(.Rear)) {
       let cameraAction = UIAlertAction(title: "Photo from Camera", style: .Default) { (action) in
         self.showImagePickerController(.Camera)
       }
-
+>
       alertController.addAction(cameraAction)
     }
-
+>
     let photoLibraryAction = UIAlertAction(title: "Photo from Library", style: .Default) { (action) in
       self.showImagePickerController(.PhotoLibrary)
     }
-
+>
     ...
 
 The changes are pretty simple. We call `showImagePickerController` and pass either `.PhotoLibrary` or `.Camera` as argument - based on the user's choice.
@@ -374,10 +374,9 @@ Now you should be able to see an `UIImagePickerController` pop up when you selec
 
 Now we can let the user pick an image. However, currently we don't get informed when the user has selected an image and we don't gain access to the selected image.
 
-#Closing the loop
+#Closing the Loop
 
-To gain access to the selected image we will use a pattern with which you should be familiar by now: _Delegation_.
-The `UIImagePickerController` allows a delegate to listen for selected images and other events.
+To gain access to the selected image we will use a pattern with which you should be familiar by now: _Delegation_. The `UIImagePickerController` allows a delegate to listen for selected images and other events.
 
 Take a short look at the documentation for the [`UIImagePickerControllerDelegate`](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIImagePickerControllerDelegate_Protocol/) protocol.
 
@@ -392,14 +391,14 @@ We'll need to implement this in two steps:
 
 Let's start with the simple part - becoming the delegate of `UIImagePickerController`.
 
-<div id=action></div>
+> [action]
 Extend the `showImagePickerController` method to include a line that sets up the `delegate` property of `imagePickerController`:
-
+>
     func showImagePickerController(sourceType: UIImagePickerControllerSourceType) {
       imagePickerController = UIImagePickerController()
       imagePickerController!.sourceType = sourceType
       imagePickerController!.delegate = self
-
+>
       self.viewController.presentViewController(imagePickerController!, animated: true, completion: nil)
     }
 
@@ -411,21 +410,21 @@ However, all methods in the `UINavigationControllerDelegate` protocol are `optio
 
 As always, we will implement the code that is relevant for a certain protocol within an `extension`.
 
-<div class="action"></div>
+> [action]
 Add the extension following extension to _PhotoTakingHelper.swift_ - always make sure that the extension is placed outside of the class definition:
-
+>
     extension PhotoTakingHelper: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+>
       func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
         viewController.dismissViewControllerAnimated(false, completion: nil)
-
+>
         callback(image)
       }
-
+>
       func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         viewController.dismissViewControllerAnimated(true, completion: nil)
       }
-
+>
     }
 
 We don't have too much code in this extension. We implement two different delegate methods. One is called when an image is selected, the other is called when the cancel button is tapped.
@@ -438,15 +437,14 @@ The `imagePickerController(_:, didFinishPickingImage:)` method is also pretty si
 
 Let's test if that is actually working correctly.
 
-<div class="action"></div>
+> [action]
 Open _`TimelineViewController.swift`_ and replace the comment in our `PhotoTakingHelper` callback method with a print line statement:
-
+>
     println("received a callback")
-
-Then set a breakpoint in that line. Next, run the app and select an image using the Image Picker
-.
+>
+Then set a breakpoint in that line. Next, run the app and select an image using the Image Picker.
 The debugger should halt on the breakpoint and you should see that the callback receives a value for the `image` parameter:
-
+>
 ![image](callback_successful.png)
 
 If the value in the red circle is showing anything different than `0x0000000000000000` (which would mean the `image` argument is `nil`) then everything is working! We now have access to the selected Image inside of the `TimelineViewController`.
