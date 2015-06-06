@@ -7,7 +7,7 @@ You have come a very long way since starting of with the _Makestagram_ project!
 
 At this point you have covered many of the most important fundamentals of iOS development. This chapter is designed to be decision point for you: you can stop the tutorial here and start working on your individual app. You can also keep on going and dive more into the design details and the fine tuning of our app. You can also pause here and come back later.
 
-#What you have learned so far
+#What You Have Learned so Far
 
 Let's take a look at what you have learned so far.
 
@@ -86,5 +86,7 @@ You learned how to be more thoughtful of your user's resources, by querying the 
 You have two options. You have learned enough to get started on your own app and come back if you are interested in any of the tweaks and features that we will be implementing throughout the next steps.
 
 However, you can also continue with this tutorial and learn what goes into finishing the entire _Makestagram_ app.
+
+The remainder of this tutorial can also be used as a reference and you can back to it after you have started working on your own app.
 
 **It's up to you and your schedule!**

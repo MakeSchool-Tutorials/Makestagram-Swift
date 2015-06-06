@@ -15,7 +15,7 @@ The component will be responsible for storing all of the posts displayed on the 
 
 First, we will change our timeline query so that we can load posts in certain ranges instead of all at once. Then we will walk through the different steps of adding the `TimelineComponent` to _Makestagram_.
 
-#Making the Timeline Query more flexible
+#Making the Timeline Query More Flexible
 
 In order to load posts in chunks, we will need to change out timeline query to accept a _range_ parameter. That allows the caller to specify how many posts should be loaded.
 
@@ -59,7 +59,7 @@ This wasn't too difficult! Now we are prepared to use the `TimelineComponent` in
 
 Now we will discuss, step by step, how to use the `TimelineComponent`. Remember this step so that you can come back here in case you want to use the component in your own app!
 
-##Basic setup
+##Basic Setup
 
 The very first step is importing the `ConvenienceKit` framework into the `TimelineViewController`. That framework contains the `TimelineComponent`.
 
@@ -78,7 +78,7 @@ Extend the class definition of `TimelineViewController` as following:
 
 Now we are ready to implement the `TimelineComponentTarget` protocol!
 
-##Implementing the TimelineComponentTarget protocol
+##Implementing the TimelineComponentTarget Protocol
 
 Let's first take a look at what the protocol looks like. You can _CMD+Click_ onto the protocol name and Xcode will jump to the protocol definition:
 
@@ -138,7 +138,7 @@ All we need to do, is implement the `loadInRange` method, so that the component 
 
 Now our class fully conforms to the `TimelineComponentTarget` protocol! However, there are few additional changes we need to make to the `TimelineViewController`.
 
-##Informing the TimelineComponent about events
+##Informing the TimelineComponent About Events
 
 There are two events that the `TimelineComponent` needs to know about in order to do its job correctly:
 
@@ -147,7 +147,7 @@ There are two events that the `TimelineComponent` needs to know about in order t
 
 Let's start by informing the component when the TableView becomes visible.
 
-###Triggering the initial timeline request
+###Triggering the Initial Timeline Request
 
 The `TimelineComponent` wants us to call the `loadInitialIfRequired()` method when that happens. We can implement that method call inside of the `viewDidAppear` method, which is called as soon as the TableView becomes visible.
 

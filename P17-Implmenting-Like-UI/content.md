@@ -9,7 +9,7 @@ which users have liked a post. And the like button won't activate, and become re
 In this step we will make some more use of our _Bond_ framework, to update the UI whenever users like posts.
 We have already defined the `likes` stored within each `Post` as a `Dynamic` property. As you might remember from the implementation of the lazy image loading, having a `Dynamic` property allows us to listen for changes by using a _binding_.
 
-#Adding a binding for likes
+#Adding a Binding for Likes
 
 Before we start coding, I want to remind what our first binding looked like. It was a binding between the `image` property of a `Post` and the `postImageView` in the `PostTableViewCell`:
 
@@ -21,9 +21,10 @@ This is one of the two types of bindings that we will be using. It connects a pr
 Now, to update our UI based on the `likes` property of our `Post`, we will use the second type of binding. That second type simply allows us to perform an arbitrary block of code whenever a property changes. In the example above, the receiver of the binding was a `UIImageView`. Now, the receiver will be an instance of the class `Bond` that we will need to create ourselves.
 
 We start by creating a property that will store our `Bond`.
-<div class="action"></div>
-Add this property to the `PostTableViewCell` class:
 
+> [action]
+Add this property to the `PostTableViewCell` class:
+>
     var likeBond: Bond<[PFUser]?>!
 
 Defining a `Bond` property is fairly similar to defining a `Dynamic` property - in the angled brackets we provide the type of information that we will receive through this bond. In this case it's an optional array of `PFUser`s. This array represents the list of users that have liked a certain post.
@@ -32,12 +33,12 @@ We won't dive into the details of the `!` after this property declaration for no
 
 Next, we can initialize the `Bond` in an initializer of `PostTableViewCell`. As soon as we initialize the `Bond`, we need to provide a closure with all of the code that will run whenever our Bond receives a new value. We'll add the Bond now, then we'll discuss the code in detail.
 
-<div class="action"></div>
+> [action]
 Add the following initializer to the `PostTableViewCell` class:
-
+>
     required init(coder aDecoder: NSCoder) {
       super.init(coder: aDecoder)
-
+>
       // 1  
       likeBond = Bond<[PFUser]?>() { [unowned self] likeList in
         // 2
@@ -67,15 +68,15 @@ Add the following initializer to the `PostTableViewCell` class:
 
 Now we have the `likeBond` set up! Next, we need to actually bind it to the `likes` property of the `Post` class. Just as with the `image` of the `Post`, we want to establish a binding as soon as our `PostTableViewCell` receives a new `Post` instance. This means we need to extend the property observer of the `post` property:
 
-<div class="action"></div>
+> [action]
 Extend the `didSet` property observer of the `post` property as following:
-
+>
     var post:Post? {
       didSet {
         if let post = post {
           // bind the image of the post to the 'postImage' view
           post.image ->> postImageView
-
+>
           // bind the likeBond that we defined earlier, to update like label and button when likes change
           post.likes ->> likeBond
         }
@@ -86,16 +87,16 @@ Not too much news in this change. We use the `->>` operator to bind the `likes` 
 
 There's a last step required before we can test our new binding: adding the `stringFromUserlist` method!
 
-<div class="action"></div>
+> [action]
 Add the following method to the `PostTableViewCell`:
-
+>
     // Generates a comma seperated list of usernames from an array (e.g. "User1, User2")
     func stringFromUserlist(userList: [PFUser]) -> String {
       // 1
       let usernameList = userList.map { user in user.username! }
       // 2
       let commaSeperatedUserList = ", ".join(usernameList)
-
+>
       return commaSeperatedUserList
     }
 
@@ -116,7 +117,7 @@ Awesome! You can even close the app, restart it again and you should see the lik
 
 **What's happening here? Spend a few minutes and try to debug this issue on your own.**
 
-#When equal isn't equal
+#When Equal Isn't Equal
 
 If you had luck with debugging this issue, you will have notice that the issue occurs in the line where we set the `selected` property of the like button. This is the evil line, it's inside of the `likeBond`:
 
@@ -132,13 +133,13 @@ For our Parse app we want to consider objects _equal_ whenever they reference th
 
 Luckily, Swift provides us with a way to change the definition of equality for different classes. We can do that by implementing the `Equatable` protocol on a class and adding an implementation of the `==` operator.
 
-<div class="action"></div>
+> [action]
 Add the following extension to the end of the _ParseHelper.swift_ class (outside of the class definition of `ParseHelper`):
-
+>
     extension PFObject : Equatable {
-
+>
     }
-
+>
     public func ==(lhs: PFObject, rhs: PFObject) -> Bool {
       return lhs.objectId == rhs.objectId
     }
@@ -146,7 +147,6 @@ Add the following extension to the end of the _ParseHelper.swift_ class (outside
 Now Swift knows to consider any two Parse objects equal if they have the same `objectId`.
 
 You can run the app again and you should see that the issue shown earlier no longer exists! Our app now always correctly detects whether or not the current user has liked a post.
-
 
 #Conclusion
 
