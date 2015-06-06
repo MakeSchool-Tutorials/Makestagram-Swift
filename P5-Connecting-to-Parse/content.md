@@ -81,8 +81,7 @@ Add a test user to your Parse database by following the steps in the video below
    Hit the *+Row* button in the top left corner. This will create a new blank entry. The double click into the *password* column of this row and enter *"text"* as a password. Then double click into the *username* column and enter *text* as a password.
 </video>
 You have created your first set of data for this application! Now we can use this test user to log in on the iOS App.
-
-> [action]
+>
 Extend the `AppDelegate` to log in with our test credentials. We'll also add an `if` statement to test if the login was successful. Change the relevant code in the `AppDelegate` to look like this:
 >
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
