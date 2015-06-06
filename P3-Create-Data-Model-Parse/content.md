@@ -73,6 +73,7 @@ Let's create the remaining classes so that we can start coding!
 We will skip the step-by-step instructions on how to create the classes and columns - if you happen to get stuck, skim back through the previous instructions!
 
 > [action]
+> Perform the following steps to create all relevant Parse classes:
 >
 1. Add a new custom class called *Like*.
 	1. Add a *Pointer* column that points to the class *_User* and name it *fromUser*
