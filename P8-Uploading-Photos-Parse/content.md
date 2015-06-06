@@ -1,5 +1,5 @@
 ---
-title: "Uploading photos to Parse"
+title: "Uploading Photos to Parse"
 slug: uploading-photos-to-parse
 ---
 
@@ -7,7 +7,7 @@ Up until now we have barely interacted with the Parse SDK, besides the initial s
 
 In this step we will write the code that uploads our photo to Parse!
 
-#Writing information to Parse
+#Writing Information to Parse
 
 Which steps are involved in writing Data to Parse? In most cases it is a three step process. Here's the simplest example from the Parse Quickstart guide:
 
@@ -27,7 +27,7 @@ After the last step completes, your data is stored in the Parse database. Howeve
 
 Uploading a photo in Makestagram is a little bit more complex, but it's still only a few lines of code.
 
-#Adding the upload code
+#Adding the Upload Code
 
 Why is our use case a little bit more complicated than the one shown above? Primarily, because we do not only want to upload an image, but we also want to create an instance of the Parse `Post` class.
 
@@ -41,14 +41,14 @@ Files are handled a little different than regular objects in Parse, so we don't 
 
 **Try to implement this step on your own! First create a PFFile with the image data, then a PFObject for the post. Remember that the post needs a reference to the uploaded image! Place your solution in the `PhotoHelper` callback within `TimelineViewController`**
 
-<div class="solution"></div>
+> [solution]
 Here's one possible implementation for the callback:
-
+>
     photoTakingHelper = PhotoTakingHelper(viewController: self.tabBarController!, callback: { (image: UIImage?) in
       let imageData = UIImageJPEGRepresentation(image, 0.8)
       let imageFile = PFFile(data: imageData)
       imageFile.save()
-
+>
       let post = PFObject(className: "Post")
       post["imageFile"] = imageFile
       post.save()
@@ -60,7 +60,7 @@ Then we create and `save` the `PFFile`.
 
 In the next step we create a `PFObject` of type post. We assign the `"imageFile"` to this post and then save it as well.
 
-##Testing the uploading code
+##Testing the Uploading Code
 
 Now it's time to test our solution! Run the app and select an image. You should see a similar result as shown below:
 

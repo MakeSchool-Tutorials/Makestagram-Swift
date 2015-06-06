@@ -1,5 +1,5 @@
 ---
-title: "A word on Security"
+title: "A Word on Security"
 slug: security-parse
 ---
 
@@ -7,7 +7,7 @@ Security is a very important topic - so we should discuss it as early as possibl
 
 There is one aspect that we need to take care off - _Access Control Lists_.
 
-#An introduction to Access Control Lists
+#An Introduction to Access Control Lists
 
 _Access Control Lists_ (ACL) allow you to define lists of users that have certain rights to read, modify or delete certain objects. The default ACL is _Public Read and Write_. This means any user can read this object, modify it and even delete it.
 
@@ -20,7 +20,7 @@ If you store all of your objects with the default ACL, that would allow an attac
 
 How can we avoid that? By changing the default ACL!
 
-#Changing the default ACL
+#Changing the Default ACL
 
 Parse provides an API call that allows us to change the default ACL for all objects created in the app. We will use that to change the default to a security setting that:
 
@@ -29,17 +29,17 @@ Parse provides an API call that allows us to change the default ACL for all obje
 
 We will set up this default ACL directly after app launch, within our `AppDelegate`.
 
-<div class="action"></div>
+> [action]
 Extend the `application(_:, didFinishLaunchingWithOptions:)` method, in the `AppDelegate` class, by adding the three lines of code that change the default ACL:
-
+>
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-
+>
       //...
-
+>
       let acl = PFACL()
       acl.setPublicReadAccess(true)
       PFACL.setDefaultACL(acl, withAccessForCurrentUser: true)
-
+>
       return true
     }
 
@@ -51,13 +51,13 @@ If you upload a new photo to Parse, you should now see a different entry in the 
 
 With this new default setting our app content is already much safer!
 
-#Cleaning up the old data
+#Cleaning up the Old Data
 
 Throughout the last steps we have created multiple posts, using code that is now outdated. Some posts don't have users assigned to them; others have the wrong ACL. Let's delete all of the existing posts - that way we will avoid debugging issues related to outdated objects.
 
-<div class="action"></div>
+> [action]
 Use the Parse data browser to delete all rows of the `Post` class:
-
+>
 ![image](delete_posts.png)
 
 #Conclusion
