@@ -50,7 +50,7 @@ Some interactions are more complex, such as liking a post or following a user.
 
 Your first reaction is very likely similar to this: we can store the likes as part of the post object and the followers as part of the user object!
 
-However, there are is a non-obvious issues with this approach.
+However, there is a non-obvious issue with this approach.
 
 Imagine the following scenario: we are building the timeline feature for our app. We want to find all the users that the current user is following, in order to show their latest post. How can we find these users? If we store the information about *followers* as part of the user object, we need to search through **all** users of the app and see if we are part of the follower list for each of them.
 
