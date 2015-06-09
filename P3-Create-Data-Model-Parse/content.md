@@ -77,7 +77,7 @@ We will skip the step-by-step instructions on how to create the classes and colu
 >
 1. Add a new custom class called *Like*.
 	1. Add a *Pointer* column that points to the class *_User* and name it *fromUser*
-	2. Add a *Pointer* column that points to the class *Post* and name it
+	2. Add a *Pointer* column that points to the class *Post* and name it *toPost*
 2. Add a new custom class called *Follow*
 	1. Add a *Pointer* column that points to the class *_User* and name it *fromUser*
 	2. Add a *Pointer* column that points to the class *_User* and name it *toUser*
