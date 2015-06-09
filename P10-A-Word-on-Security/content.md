@@ -5,7 +5,7 @@ slug: security-parse
 
 Security is a very important topic - so we should discuss it as early as possible. Luckily, when using Parse we don't need to spend too much time thinking about security features. Storing of passwords, the login mechanism, etc. are all taken care of.
 
-There is one aspect that we need to take care off - _Access Control Lists_.
+There is one aspect that we need to take care of - _Access Control Lists_.
 
 #An Introduction to Access Control Lists
 
