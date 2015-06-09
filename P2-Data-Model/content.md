@@ -58,7 +58,7 @@ If your app has a lot of users, such a request will take a very long time!
 
 For this reason most apps, including ours, use separate classes to model the relationship between objects. This means we will have the following three additional classes:
 
-- **Follow** - stores all *follow* relationships between users. Whenever a user follows another user, a *Following* object is created
+- **Follow** - stores all *follow* relationships between users. Whenever a user follows another user, a *Follow* object is created
 - **Like** - stores all the *like* relationships. When a user likes a post, a *Like* object is created
 - **FlaggedContent** - stores which content was flagged by which user. When a user flags a post, a *FlaggedContent* object is created
 
