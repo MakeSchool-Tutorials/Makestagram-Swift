@@ -131,8 +131,8 @@ Here's our solution:
 >
     static func likePost(user: PFUser, post: Post) {
       let likeObject = PFObject(className: ParseLikeClass)
-      likeObject.setObject(user, forKey: ParseLikeFromUser)
-      likeObject.setObject(post, forKey: ParseLikeToPost)
+      likeObject[ParseLikeFromUser] = user
+      likeObject[ParseLikeToPost] = post
 >
       likeObject.saveInBackgroundWithBlock(nil)
     }
@@ -207,8 +207,8 @@ Just to make sure we're on the same page, here's what all the queries that we ju
 
     static func likePost(user: PFUser, post: Post) {
       let likeObject = PFObject(className: ParseLikeClass)
-      likeObject.setObject(user, forKey: ParseLikeFromUser)
-      likeObject.setObject(post, forKey: ParseLikeToPost)
+      likeObject[ParseLikeFromUser] = user
+      likeObject[ParseLikeToPost] = post
 
       likeObject.saveInBackgroundWithBlock(nil)
     }
