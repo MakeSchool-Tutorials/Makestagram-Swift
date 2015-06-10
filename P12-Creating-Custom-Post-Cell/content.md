@@ -35,7 +35,7 @@ Add an Image View to the Table View Cell, as shown below:
 ![image](add_image_view.png)
 By dragging the corners of the Image View, change its size to be the full size of the cell. We won't be using constraints until later on.
 
-Additionally we need to change the _Content Mode_ of the Image View. Currently it is set to the default value which is _Sacle To Fill_. That will distort the image to fit into the size of the Image View. Distorted images look ugly! It's much better to crop them. To do that, we change the _Content Mode_ to _Aspect Fill_.
+Additionally we need to change the _Content Mode_ of the Image View. Currently it is set to the default value which is _Scale To Fill_. That will distort the image to fit into the size of the Image View. Distorted images look ugly! It's much better to crop them. To do that, we change the _Content Mode_ to _Aspect Fill_.
 
 > [action]
 > Change the _Content Mode_ of the Image View in the _Attributes inspector_, as shown in the image below. Also select

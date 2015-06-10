@@ -9,7 +9,7 @@ Now that all of this is working - let's work on cleaning up the code a little bi
 
 #Adding a Parse Helper Class
 
-In my opinion, the most difficult part about tiding up is finding a _good_ place for every object at hand. I've mentioned it a few times throughout this tutorial: we want to avoid putting all of our code into View Controllers.
+In my opinion, the most difficult part about tidying up is finding a _good_ place for every object at hand. I've mentioned it a few times throughout this tutorial: we want to avoid putting all of our code into View Controllers.
 
 Currently the entire timeline request is written within the `TimelineViewController`. Later on we're going to add a bunch of more such requests, which could quickly result in a `TimelineViewController` with well over 1000 lines.
 
