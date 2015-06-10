@@ -33,7 +33,7 @@ Now we're good to got!
 
 #Setting up Constraints for the Image View
 
-Throughout this step we will add many UI elements and place them using constraints. Currently the Image View is our only UI component and it doesn't have any constraints set up. Once you starting adding constraints to a View, you will have to add constraints to **all** child views - otherwise you will run into some serious Interface Builder problems.
+Throughout this step we will add many UI elements and place them using constraints. Currently the Image View is our only UI component and it doesn't have any constraints set up. Once you start adding constraints to a View, you will have to add constraints to **all** child views - otherwise you will run into some serious Interface Builder problems.
 
 So before we get started on adding new UI elements, let's define some constraints for the Image View, so that it stays nicely in place.
 
