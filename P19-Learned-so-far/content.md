@@ -3,7 +3,7 @@ title: "What You Have Learned So Far"
 slug: learned-so-far
 ---
 
-You have come a very long way since starting of with the _Makestagram_ project!
+You have come a very long way since starting off with the _Makestagram_ project!
 
 At this point you have covered many of the most important fundamentals of iOS development. This chapter is designed to be decision point for you: you can stop the tutorial here and start working on your individual app. You can also keep on going and dive more into the design details and the fine tuning of our app. You can also pause here and come back later.
 
@@ -87,6 +87,6 @@ You have two options. You have learned enough to get started on your own app and
 
 However, you can also continue with this tutorial and learn what goes into finishing the entire _Makestagram_ app.
 
-The remainder of this tutorial can also be used as a reference and you can back to it after you have started working on your own app.
+The remainder of this tutorial can also be used as a reference and you can come back to it after you have started working on your own app.
 
 **It's up to you and your schedule!**
