@@ -192,8 +192,8 @@ There are two interesting aspects that should be highlighted:
 
     ([AnyObject]?, NSError?) -> Void
 
-That's the default signature for the callback of most Parse queries. It returns an _optional_ result and and _optional_ error.
-By taking this default block as argument, we can hand it directly to the `findObjectsInBackgroundWithBlock` method! This way, whoever has called the `likesForPost` method will get the results in the callback block that they provide.
+That's the default signature for the callback of most Parse queries. It takes an _optional_ result and an _optional_ error.
+By taking this type of block as an argument, we can hand it directly to the `findObjectsInBackgroundWithBlock` method! This way, whoever has called the `likesForPost` method will get the results in the callback block that they provide.
 
 2. We are using the `includeKey` method to tell Parse to fetch the `PFUser` object for each of the likes (we've discussed `includeKey` in detail when building the timeline request). We want to fetch the `PFUser` along with the likes, because we later on want to display the usernames of all users that have liked a post. Remember, without the `includeKey` line we would just have a reference to a `PFUser` and would have to start a separate request to fetch the information about the user.
 
@@ -244,7 +244,7 @@ A short side note: We haven't discussed the `// MARK:` feature of Xcode yet. It 
 
 ![image](jumpbar.png)
 
-If you include `// MARK:' sections in your source code, they will show up as headers in this view - great for navigating through more complex classes!
+If you include `// MARK:` sections in your source code, they will show up as headers in this view - great for navigating through more complex classes!
 
 With all of the queries in place, we should think about how we want tie them into the rest of our code, next!
 Where should we place the code that adds and removes likes from `Post` objects?
@@ -253,7 +253,7 @@ We're going to add it directly to the `Post` class and you'll shortly see why!
 
 #Extending the Post Class
 
-In most object oriented programs we wan't to couple the information that an object stores along with its behavior. If I have access to a `Post` object I would like to be able to like it or unlike it with a simple method call. I would also like to be able to access of all of the likes of a `Post` directly through a simple method call.
+In most object oriented programs we want to couple the information that an object stores along with its behavior. If I have access to a `Post` object I would like to be able to like it or unlike it with a simple method call. I would also like to be able to access of all of the likes of a `Post` directly through a simple method call.
 
 Now we're going to add this functionality to the `Post` class. It consists of two different parts:
 
@@ -264,7 +264,7 @@ Let's start with storage. **Why do we want to store likes in the first place?**
 
 ##Storing Likes
 
-We want to avoid to perform network requests, every single time we want to access the likes that belong to a post. Instead, similar to the post's image, we want to cache the information we have fetched.
+We want to avoid performing network requests every single time we want to access the likes that belong to a post. Instead, similar to the post's image, we want to cache the information we have fetched.
 
 Towards the end of this tutorial we will add a pull-to-refresh mechanism that allows users to refresh the timeline. We want to cache all information until such a refresh happens.
 
@@ -313,7 +313,7 @@ Add the following method to the `Post` class:
       })
     }
 
-1. First we are checking whether `likes.value` already has stored a value or is nil. If we've already stored a value, we will skip the entire method. As discussed, we will cache all likes until the entire timeline is refreshed (which we haven't implemented yet). So as soon as `likes.value` has a cached value, we don't need to perform the body this method.
+1. First we are checking whether `likes.value` already has stored a value or is nil. If we've already stored a value, we will skip the entire method. As discussed, we will cache all likes until the entire timeline is refreshed (which we haven't implemented yet). So as soon as `likes.value` has a cached value, we don't need to perform the body of this method.
 2. We fetch the likes for the current `Post` using the method of `ParseHelper` that we created earlier
 3. There is a new concept on this line: the `filter` method that we call on our `Array`. The `filter` method takes a closure and returns an array that only contains the objects from the original array that meet the requirement stated in that closure. The closure passed to the `filter` method gets called for each element in the array, each time passing the current element as the `like` argument to the closure. Note that you can pick any arbitrary name for the argument that we called `like`. **So why are we filtering the array in the first place?** We are removing all likes that belong to users that no longer exist in our _Makestagram_ app (because their account has been deleted). Without this filtering the next statement could crash.
 4. Here we are again using a new method: `map`. The `map` method behaves similar to the `filter` method in that it takes a closure that is called for each element in the array and in that it also returns a new array as a result. The difference is, that unlike `filter`, `map` does not remove objects but _replaces_ them. In this particular case, we are replacing the likes in the array with the users that are associated with the like. We start with an array of likes and retrieve an array of users. Then we assign the result to our `likes.value` property.
