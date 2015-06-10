@@ -101,7 +101,7 @@ Add the following method to the `PostTableViewCell`:
     }
 
 1. You have already seen and used `map` before. As we discussed it allows you to replace objects in a collection with other objects. Typically you use `map` to create a different representation of the same _thing_. In this case we are mapping from `PFUser` objects to the `username`s of these `PFObjects`.
-2. We now use that array of strings to create one joint string. We can do that by using the `join` method provided by Swift. We first need to define the delimiter (_", "_ in our case) and can the call the `join` method on it. The `join` method takes an array of strings. After this method is called, we have create a string of the following form: _"Test User 1, Test User 2"_.
+2. We now use that array of strings to create one joint string. We can do that by using the `join` method provided by Swift. We first need to define the delimiter (_", "_ in our case) and can the call the `join` method on it. The `join` method takes an array of strings. After this method is called, we have created a string of the following form: _"Test User 1, Test User 2"_.
 
 Time to see this in action!
 
