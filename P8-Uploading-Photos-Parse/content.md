@@ -35,7 +35,7 @@ Here's a short reminder of what the `Post` class looks like:
 
 ![image](post_model.png)
 
-You can see that the actual image file is stored _as part of the Post_. This means that our upload code needs to create a post object that can be stored in Parse. Additionally at needs to upload the image that gets stored within that post.
+You can see that the actual image file is stored _as part of the Post_. This means that our upload code needs to create a post object that can be stored in Parse. Additionally it needs to upload the image that gets stored within that post.
 
 Files are handled a little different than regular objects in Parse, so we don't use the `PFObject` class to create them. Instead we used the specialized `PFFile` class.
 
@@ -54,7 +54,7 @@ Here's one possible implementation for the callback:
       post.save()
     })
 
-There shouldn't be too many surprises in these lines. The most interesting one is the very first one. We turn the `UIImage` into an `NSData` instance because the `PFFile` class needs an `NSData` argument for its initializer.
+Remember to write 'import Parse' at the top of your new viewControllers in which you have parse related code.There shouldn't be too many surprises in these lines. The most interesting one is the very first one. We turn the `UIImage` into an `NSData` instance because the `PFFile` class needs an `NSData` argument for its initializer.
 
 Then we create and `save` the `PFFile`.
 
