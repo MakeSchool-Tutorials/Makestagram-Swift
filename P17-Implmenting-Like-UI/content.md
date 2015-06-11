@@ -44,7 +44,7 @@ Add the following initializer to the `PostTableViewCell` class:
         // 2
         if let likeList = likeList {
           // 3
-          self.likesLabel.text = self.stringFromUserlist(likeList)
+          self.likesLabel.text = self.stringFromUserList(likeList)
           // 4
           self.likeButton.selected = contains(likeList, PFUser.currentUser()!)
           // 5
@@ -61,7 +61,7 @@ Add the following initializer to the `PostTableViewCell` class:
 
 1. We create a new `Bond`. That `Bond` has exactly the same type (`[PFUser]?`) as the `likeBond` property that we declared. The Bond takes a _trailing closure_ when it is initialized. That closure contains the code that will run whenever the `Bond` receives a new value. The Bond receives the list of users that have liked a post in the `likeList` parameter. There's something new hidden in this line:`[unowned self]`. The list in square brackets is called a _capture list_. We need the capture list to avoid _retain cycles_. Since `PostTableViewCell` is creating and storing this `Bond`, it has a _strong_ reference to it. Because we are accessing `self` from within the Bond's closure, the Bond would also have a _strong_ reference to the `PostTableViewCell`. This way we would have _retain cycle_ in which two objects reference each other strongly. You can [read in detail about this issue in Apple's Documentation](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/AutomaticReferenceCounting.html#//apple_ref/doc/uid/TP40014097-CH20-ID48) in the chapter _Strong Reference Cycles Between Class Instances_. The `unowned` keyword works similar to the `weak` keyword - we store a reference to `self`, but it isn't a strong reference that would keep the object in memory.
 2. As a reminder: this code runs as soon as the value of `likes` on a `Post` changes. First, we check whether we have received a value for `likeList` or if we have received `nil`.
-3. If we have received a value, we perform different updates. First of all, we update the `likesLabel` to display a list of usernames of all users that have liked the post. We use a utility method `stringFromUserlist` to generate that list. We'll add and discuss that method later on!
+3. If we have received a value, we perform different updates. First of all, we update the `likesLabel` to display a list of usernames of all users that have liked the post. We use a utility method `stringFromUserList` to generate that list. We'll add and discuss that method later on!
 4. Next, we set the state of the like button (the heart) based on whether or not the current user is in the list of users that like the currently displayed post. If the user has liked the post, we want the button to be in the `Selected` state so that the heart appears red. If not `selected` will be set to `false` and the heart will be displayed in gray.
 5. Finally, if no one likes the current post, we want to hide the small heart icon displayed in front of the list of users that like a post.
 6. If the value we have received in `likeList` is `nil`, we set the label text to be empty, set the like button not to be selected and hide the small heart icon.
@@ -85,23 +85,23 @@ Extend the `didSet` property observer of the `post` property as following:
 
 Not too much news in this change. We use the `->>` operator to bind the `likes` property of `post` to our `likeBond`.
 
-There's a last step required before we can test our new binding: adding the `stringFromUserlist` method!
+There's a last step required before we can test our new binding: adding the `stringFromUserList` method!
 
 > [action]
 Add the following method to the `PostTableViewCell`:
 >
-    // Generates a comma seperated list of usernames from an array (e.g. "User1, User2")
-    func stringFromUserlist(userList: [PFUser]) -> String {
+    // Generates a comma separated list of usernames from an array (e.g. "User1, User2")
+    func stringFromUserList(userList: [PFUser]) -> String {
       // 1
       let usernameList = userList.map { user in user.username! }
       // 2
-      let commaSeperatedUserList = ", ".join(usernameList)
+      let commaSeparatedUserList = ", ".join(usernameList)
 >
-      return commaSeperatedUserList
+      return commaSeparatedUserList
     }
 
 1. You have already seen and used `map` before. As we discussed it allows you to replace objects in a collection with other objects. Typically you use `map` to create a different representation of the same _thing_. In this case we are mapping from `PFUser` objects to the `username`s of these `PFObjects`.
-2. We now use that array of strings to create one joint string. We can do that by using the `join` method provided by Swift. We first need to define the delimiter (_", "_ in our case) and can the call the `join` method on it. The `join` method takes an array of strings. After this method is called, we have create a string of the following form: _"Test User 1, Test User 2"_.
+2. We now use that array of strings to create one joint string. We can do that by using the `join` method provided by Swift. We first need to define the delimiter (_", "_ in our case) and can the call the `join` method on it. The `join` method takes an array of strings. After this method is called, we have created a string of the following form: _"Test User 1, Test User 2"_.
 
 Time to see this in action!
 

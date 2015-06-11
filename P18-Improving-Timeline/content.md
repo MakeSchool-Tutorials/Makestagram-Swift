@@ -5,7 +5,7 @@ slug: pull-to-refresh-endless-scrolling
 
 You have done a lot of work on this app so far - in this step we want to make your life just a little bit easier.
 
-We will implement a Pull-To-Refresh mechanism as you know it from most iOS apps. We will also implement a feature that will limit the amount of posts we download. Right now our approach is pretty inefficient; we download all posts in one query. Even though Parse automatically limits us to 100 posts, we are potentially downloading much more data then necessary.
+We will implement a Pull-To-Refresh mechanism as you know it from most iOS apps. We will also implement a feature that will limit the amount of posts we download. Right now our approach is pretty inefficient; we download all posts in one query. Even though Parse automatically limits us to 100 posts, we are potentially downloading much more data than necessary.
 
 After we are finished with this step, we will load posts in chunks of 5, only loading additional posts once the user reaches the end of the timeline. This behavior is well known from _Facebook_, _Instagram_ and many other apps.
 
@@ -50,7 +50,7 @@ Modify the `timelineRequestforCurrentUser` method to look as following:
 >    }
 
 1. As discussed, we modify the method signature to accept a `Range` argument. That `Range` argument will define which portions of the timeline will be loaded. Ranges in Swift are defined like this: `5..10`.
-2. `PFQuery` provides a `skip` property. That allows us - as the name let's us suspect - to define how many elements that match our query shall be skipped. This is the equivalent of the `startIndex` of our `range`, so all we need to do is a simple assignment.
+2. `PFQuery` provides a `skip` property. That allows us - as the name lets us suspect - to define how many elements that match our query shall be skipped. This is the equivalent of the `startIndex` of our `range`, so all we need to do is a simple assignment.
 3. We make use of an additional property of `PFQuery`: `limit`. The `limit` property defines how many elements we want to load. We calculate the size of the range (by subtracting the `startIndex` from the `endIndex`) and pass the result to the `limit` property.
 
 This wasn't too difficult! Now we are prepared to use the `TimelineComponent` in our app!
@@ -108,7 +108,7 @@ Add the following two properties to the `TimelineViewController` class:
     let defaultRange = 0...4
     let additionalRangeSize = 5
 
-We are defining that we start by showing the latest 5 posts (index 0 to 4). Whenever a users reaches the end of the timeline, we load an additional 5. You could change the behavior of your timeline by simply changing these values!
+We are defining that we start by showing the latest 5 posts (index 0 to 4). Whenever a user reaches the end of the timeline, we load an additional 5. You could change the behavior of your timeline by simply changing these values!
 
 To conform to the `TimelineComponentTarget` protocol we need to implement one more method: `loadInRange`. Currently we are performing our timeline query inside of the `viewDidAppear` method. We first perform a query, then we update the TableView.
 
@@ -136,7 +136,7 @@ All we need to do, is implement the `loadInRange` method, so that the component 
 2. In the callback of the query we check whether or not we have received a result. If the result is `nil` we store an empty array in the `posts` variable.
 3. We pass the `posts` that have been loaded back to the `TimelineComponent` by calling the `completionBlock`.
 
-Now our class fully conforms to the `TimelineComponentTarget` protocol! However, there are few additional changes we need to make to the `TimelineViewController`.
+Now our class fully conforms to the `TimelineComponentTarget` protocol! However, there are a few additional changes we need to make to the `TimelineViewController`.
 
 ##Informing the TimelineComponent About Events
 
@@ -226,7 +226,7 @@ Next, we will add code that creates an instance of the `TimelineComponent`. We'l
       self.tabBarController?.delegate = self
     }
 
-The `TimelineComponent` only takes one argument when it's being initialized: the `target`. The `target` is the object to which the `TimelineComponent` shall add it's functionality. In our case that's the `TimelineViewController`, so we pass `self` to the `initializer`.
+The `TimelineComponent` only takes one argument when it's being initialized: the `target`. The `target` is the object to which the `TimelineComponent` shall add its functionality. In our case that's the `TimelineViewController`, so we pass `self` to the `initializer`.
 
 ##Removing the posts array
 
