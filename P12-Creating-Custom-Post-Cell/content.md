@@ -13,7 +13,7 @@ First, we will change the height of the cells.
 
 ##Changing the Row Height
 Just as in the Instagram app we want the images
-to be displaced as squares. Since the screen has a width of 320 points we should set the height of each
+to be displayed as squares. Since the screen has a width of 320 points we should set the height of each
 cell to 320 as well. Later you will learn that it isn't a good idea to rely on specific constant numbers in
 your code or Storyboard files - for now the solution is just fine.
 
