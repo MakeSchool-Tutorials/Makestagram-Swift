@@ -83,7 +83,7 @@ Create a referencing outlet from the Image View to the `PostTableViewCell` class
 Now we have a Table View Cell that will allow us to display photos that users have taken. We'll need to update our code to show these photos instead of the placeholder text that we're currently displaying. That means we need to update the code that creates our cells.
 
 > [action]
-> Update the `tableView(_:, cellForRowAtIndexPath:)` method as follownig:
+> Update the `tableView(_:, cellForRowAtIndexPath:)` method in `TimelineViewController` as following:
 >
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
       // 1
