@@ -83,7 +83,7 @@ Create a referencing outlet from the Image View to the `PostTableViewCell` class
 Now we have a Table View Cell that will allow us to display photos that users have taken. We'll need to update our code to show these photos instead of the placeholder text that we're currently displaying. That means we need to update the code that creates our cells.
 
 > [action]
-> Update the `tableView(_:, cellForRowAtIndexPath:)` method as follownig:
+> Update the `tableView(_:, cellForRowAtIndexPath:)` method in `TimelineViewController` as following:
 >
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
       // 1
@@ -95,7 +95,7 @@ Now we have a Table View Cell that will allow us to display photos that users ha
       return cell
     }
 
-1. In this line we have added a cast to `PostTableViewCell`. In Storyboard we've configured a custom class for our Table View Cell. In order to access its specific properties we need to perform a cast to the type of our custom class. Without this cast the `cell` variable would have a type of a plain old `UITableViewCell` instead of our `PostTableViewCell`
+1. In this line we have added a cast to `PostTableViewCell`. In Storyboard we've configured a custom class for our Table View Cell. In order to access its specific properties we need to perform a cast to the type of our custom class. Without this cast the `cell` variable would have a type of a plain old `UITableViewCell` instead of our `PostTableViewCell`.
 2. Using the `postImageView` property of our custom cell we can now decide which image should be displayed in the cell. We grab the `image` property of the post.
 
 Now you can run the app and you will see...
