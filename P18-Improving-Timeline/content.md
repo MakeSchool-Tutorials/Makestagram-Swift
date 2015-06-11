@@ -162,7 +162,7 @@ Change the `viewDidAppear` method of the `TimelineViewController` class to look 
       timelineComponent.loadInitialIfRequired()
     }
 
-Now the `TimelineComponent` will make an initial timeline request, if no data has been loaded so far. If the component has already queried the server and stored a user's posts, this method call does nothing at all. After the initial load, posts will only be reloaded if the user manually chooses to do so (by using the pull-to-refresh mechanism).
+Don't worry, we will declare timelineComponent in just a moment. Now the `TimelineComponent` will make an initial timeline request, if no data has been loaded so far. If the component has already queried the server and stored a user's posts, this method call does nothing at all. After the initial load, posts will only be reloaded if the user manually chooses to do so (by using the pull-to-refresh mechanism).
 
 Next, we need to inform the `TimelineComponent` which cell is currently visible.
 
