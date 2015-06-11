@@ -78,7 +78,7 @@ We will discuss this issue and fix it throughout this tutorial! For now, let's f
 
 The best way to do that is to use the Parse data browser. It will give us a nice overview of all the objects that have been created on our server.
 
-Open you browser and open your parse.com app (ideally you should keep it open throughout the rest of this tutorial). Then select the _Post_ class in the left bar of the data browser. You should see one entry for this class:
+Open your browser and open your parse.com app (ideally you should keep it open throughout the rest of this tutorial). Then select the _Post_ class in the left bar of the data browser. You should see one entry for this class:
 
 ![image](uploaded_post.png)
 
