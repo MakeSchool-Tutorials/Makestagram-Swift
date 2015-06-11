@@ -20,7 +20,6 @@ As you have seen, we can store information in Parse without using custom classes
 
     let imageData = UIImageJPEGRepresentation(image, 0.8)
     let imageFile = PFFile(data: imageData)
-    imageFile.save()
 
     let post = PFObject(className: "Post")
     post["imageFile"] = imageFile
@@ -92,9 +91,9 @@ Replace the content of _Post.swift_ with the following source code:
 
 1. To create a custom Parse class you need to inherit from `PFObject` and implement the `PFSubclassing` protocol
 2. Next, define each property that you want to access on this Parse class. For our `Post` class that's the `user` and the `imageFile` of a post. That will allow you to change the code that accesses properties through strings:
-       post["imageFile"] = imageFile
+       `post["imageFile"] = imageFile`
     Into code that uses Swift properties:
-       post.imageFile = imageFile
+       `post.imageFile = imageFile`
 3. By implementing the `parseClassName` you create a connection between the Parse class and your Swift class.
 4. `init` and `initialize` are pure boilerplate code - copy these two into any custom Parse class that you're creating.
 
@@ -129,14 +128,13 @@ Add the following method to the `Post` class:
       // 1
       let imageData = UIImageJPEGRepresentation(image, 0.8)
       let imageFile = PFFile(data: imageData)
-      imageFile.save()
       // 2
       self.imageFile = imageFile
       save()
     }
 
-1. Whenever the `uploadPost` method is called, we grab the photo that shall be uploaded from the `image` property; turn it into a `PFFile` and upload it.
-2. Once we have saved the `imageFile` we assign it to `self` (which is the `Post` that's being uploaded). Then we call `save()` to store the `Post`.
+1. Whenever the `uploadPost` method is called, we grab the photo that shall be uploaded from the `image` property, and turn it into a `PFFile` that Parse can store.
+2. Once we have a PFFile `imageFile` that Parse can handle, we assign it to `self.imageFile` (`self` being the `Post` that's being uploaded). Then we call `save()` to store the `Post`.
 
 Now creating a `Post` and uploading it has become a lot simpler. We can change the code in the `TimelineViewController` accordingly.
 
@@ -213,7 +211,6 @@ Change the `uploadPost` method to perform saving in the background:
     func uploadPost() {
       let imageData = UIImageJPEGRepresentation(image, 0.8)
       let imageFile = PFFile(data: imageData)
-      imageFile.saveInBackgroundWithBlock(nil)
 >
       self.imageFile = imageFile
       saveInBackgroundWithBlock(nil)
@@ -248,7 +245,6 @@ Extend the `uploadPost` method, so that it sets the `user` property of the post:
     func uploadPost() {
       let imageData = UIImageJPEGRepresentation(image, 0.8)
       let imageFile = PFFile(data: imageData)
-      imageFile.saveInBackgroundWithBlock(nil)
 >
       // any uploaded post should be associated with the current user
       user = PFUser.currentUser()
@@ -284,20 +280,18 @@ Extend the `uploadPost` method to look as follows:
         UIApplication.sharedApplication().endBackgroundTask(self.photoUploadTask!)
       }
 >
-      // 2
-      imageFile.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-        // 3
-        UIApplication.sharedApplication().endBackgroundTask(self.photoUploadTask!)
-      }
->
       // any uploaded post should be associated with the current user
       user = PFUser.currentUser()
       self.imageFile = imageFile
-      saveInBackgroundWithBlock(nil)
+      // 2
+      saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+        // 3
+        UIApplication.sharedApplication().endBackgroundTask(self.photoUploadTask!)
+      }
     }
 
 1. As soon as a post gets uploaded, we create a background task. When a background task gets created, iOS generates a unique ID and returns it. We store that unique id in the `photoUploadTask` property. The API requires us to provide an _expirationHandler_ in the form of a closure. That closure runs when the extra time that iOS permitted us has expired. In case the additional background time wasn't sufficient, we are required to cancel our task! Within this block you should delete any temporary resources that you created - in the case of our photo upload we don't have any. Additionally you have to call `UIApplication.sharedApplication().endBackgroundTask`, otherwise your app will be terminated!
-2. After we've created the background task, we save the `imageFile` by calling `saveInBackgroundWithBlock`. However, this time we aren't handing `nil` as a completion handler!
+2. After we've created the background task, we save the `Post` by calling `saveInBackgroundWithBlock`. However, this time we aren't handing `nil` as a completion handler!
 3. Within the completion handler of `saveInBackgroundWithBlock` we inform iOS that our background task is completed. This block gets called as soon as the image upload is finished. The API for background jobs makes us responsible for calling `UIApplication.sharedApplication().endBackgroundTask` as soon as our work is completed.
 
 Next, we'll need to add the `photoUploadTask` property that we are referencing from the `uploadPhoto` method.

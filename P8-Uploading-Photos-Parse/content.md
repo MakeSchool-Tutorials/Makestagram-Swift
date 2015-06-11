@@ -47,7 +47,6 @@ Here's one possible implementation for the callback:
     photoTakingHelper = PhotoTakingHelper(viewController: self.tabBarController!, callback: { (image: UIImage?) in
       let imageData = UIImageJPEGRepresentation(image, 0.8)
       let imageFile = PFFile(data: imageData)
-      imageFile.save()
 >
       let post = PFObject(className: "Post")
       post["imageFile"] = imageFile
@@ -56,7 +55,7 @@ Here's one possible implementation for the callback:
 
 There shouldn't be too many surprises in these lines. The most interesting one is the very first one. We turn the `UIImage` into an `NSData` instance because the `PFFile` class needs an `NSData` argument for its initializer.
 
-Then we create and `save` the `PFFile`.
+Then we create `imageFile`, the `PFFile`.
 
 In the next step we create a `PFObject` of type post. We assign the `"imageFile"` to this post and then save it as well.
 
