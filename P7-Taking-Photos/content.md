@@ -229,7 +229,7 @@ Replace the empty implementation of `showPhotoSourceSelection()` with the follow
       }
 
 In the first line we set up the the `UIAlertController` by providing it with a `message`
-and a `preferredStyle`. The `UIAlertController` can be used to present different types of popups. By choosing the `.ActionSheet` option, we create a popup that get's displayed from the bottom edge of the screen.
+and a `preferredStyle`. The `UIAlertController` can be used to present different types of popups. By choosing the `.ActionSheet` option, we create a popup that gets displayed from the bottom edge of the screen.
 
 After the initial set up, we add different `UIAlertAction`s to the Alert Controller. Each action will result in one button on the popup.
 
