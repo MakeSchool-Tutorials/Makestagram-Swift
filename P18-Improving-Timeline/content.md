@@ -233,7 +233,7 @@ The `TimelineComponent` only takes one argument when it's being initialized: the
 One last step remains! We need to remove the `posts` property that currently stores all the posts displayed on the timeline. Now the `TimelineComponent` will take care of storing them!
 
 > [action]
-> Delete the `post` property of the `TimelineViewController` class
+> Delete the `posts` property of the `TimelineViewController` class
 
 This means we also need to modify two locations where this property was used. Instead of accessing the `posts` property we now need to access the `timelineComponent.content` property.
 
