@@ -275,7 +275,7 @@ Add the `takePhoto` method to the `TimelineViewController` class:
       }
     }
 
-Within the `takePhoto` method we're creating an instance of `PhotoTakingHelper`. We're assigning that instance to the `photoTakingProperty` (which we'll create in a second).
+Within the `takePhoto` method we're creating an instance of `PhotoTakingHelper`. We're assigning that instance to the `photoTakingHelper` property (which we'll create in a second).
 
 As we know, the initializer of the `PhotoTakingHelper` takes two parameters: the View Controller on which the popup should be presented and the callback that should run as soon as a photo has been selected.
 
