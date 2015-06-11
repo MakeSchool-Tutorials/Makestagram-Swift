@@ -6,7 +6,7 @@ slug: fetching-data-parse-timeline
 We have spent the last few steps discussing how to store data in Parse. In this step we will look at how to fetch it!
 Throughout this step we will discuss the basics of querying data, while starting to work on the important _Timeline_ feature of Makestagram.
 
-As a first step if implementing the _Timeline_ feature, we will set up the basic UI for the `TimelineViewController`.
+As a first step in implementing the _Timeline_ feature, we will set up the basic UI for the `TimelineViewController`.
 
 #Adding a Table View to the TimelineViewController
 
@@ -109,7 +109,7 @@ Once you have set up a query with all the constraints you need, you can start fe
       // ...
     }
 
-These are the absolute basics of querying data in Parse. We will see some more advanced options when implementing the query for out timeline.
+These are the absolute basics of querying data in Parse. We will see some more advanced options when implementing the query for our timeline.
 
 #Building the Timeline Query
 
