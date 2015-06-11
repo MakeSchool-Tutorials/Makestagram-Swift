@@ -147,7 +147,7 @@ To implement the second responsibility the `PhotoTakingHelper` will need to have
 
 Let's get started with building the `PhotoTakingHelper`!
 
-###Initialier and Properties
+###Initializer and Properties
 
 First, let's take care of the initializer and the properties of the `PhotoTakingHelper`.
 
