@@ -361,7 +361,7 @@ Add the following method to the `Post` class:
       }
     }
 
-1. If the `toggleLikePost` method is called and a  user likes a post, we unlike the post. First by removing the the user from the local cache stored in the `likes` property, then by syncing the change with Parse. We remove the user from the local cache by using the `filter` method on the array stored in `likes.value`.
+1. If the `toggleLikePost` method is called and a user likes a post, we unlike the post. First by removing the user from the local cache stored in the `likes` property, then by syncing the change with Parse. We remove the user from the local cache by using the `filter` method on the array stored in `likes.value`.
 2. If the user doesn't like the post yet, we add them to the local cache and then synch the change with Parse.
 
 Great! Our changes to the `Post` class are complete. Next, we can make use of our new methods!
