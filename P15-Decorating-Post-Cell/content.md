@@ -56,6 +56,7 @@ Drag a Button from the object library and add it to the Table View Cell (technic
 Now we're going to configure the like button to show the heart image.
 
 > [action]
+>
 1. Select the Button that you just created.
 2. Open the _Attributes Inspector_.
 3. Set the Button Type to _Custom_. Whenever you want to create a button that just shows an image, you should choose the _Custom_ type. The _System_ type that is selected by default, tints all images in a bright blue.
@@ -106,6 +107,7 @@ I'm not a designer by trade, but to me the like button looks a little bit too bi
 Luckily, the touch area of our button can be larger than the visual one! We can leave the button at 44x44 but make the heart image a little bit smaller. We can do that by defining _Insets_ for the image.
 
 > [action]
+>
 1. Select the like button.
 2. Open the _Attribute Inspector_ Tab in the right panel
 3. Set the all of the four inset values to _4_:
@@ -119,6 +121,7 @@ The touch area remains suitable for a small mobile screen - but the button looks
 Just like the _Instagram_ app, _Makestagram's_ like button will have two different states. If you haven't liked a post yet, you'll see the gray like button. Once you've liked a post, you'll see the a red heart instead.
 
 `UIButtons` have a total of four different states:
+
 1. Default
 2. Highlighted
 3. Selected
@@ -144,6 +147,7 @@ That button will allow users to delete their own posts - and to flag posts of ot
 We'll try to add this button with a little less hand-holding. Slowly but surely you should be becoming more comfortable with Interface Builder and Storyboards.
 
 > [action]
+>
 1. Add the action to the bottom left corner of the Table View Cell.
 2. Make the Button a _Custom_ on and set the image to _More_.
 3. Set it up with a size of _44x44_. Set the _Leading space to Superview_ to _0_ and the _Bottom space to Superview_ to _10_ (both constrained to margins).
@@ -162,6 +166,7 @@ Now we're going to add the _Likes Label_ and the little icon that goes along wit
 Let's start with the heart icon!
 
 > [action]
+>
 1. Add a small Image View below the large Image View (that displays the post image) and above the Action Button
 2. Set the size of this Image View to _20x20_. Define a _Bottom Space_ to the Action Button of _20_. Define a _Leading Space_ (constrained to margin) of _12_.
 3. Set the displayed image to be the _Heart_ image and set the _Alpha_ value to _0.5_.
@@ -173,6 +178,7 @@ Now, your Table View Cell should look more or less like this:
 We're almost there! Next, we need a label that will display the usernames of our "likers"!
 
 > [action]
+>
 1. Add a Label to the right hand side of the Like icon
 2. Set up its basic constraints as following:
 ![image](like_label_constraint1.png)
