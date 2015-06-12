@@ -91,7 +91,7 @@ Let's first take a look at what the protocol looks like. You can _CMD+Click_ ont
       func loadInRange(range: Range<Int>, completionBlock: ([ContentType]?) -> Void)
     }
 
-We can ignore the `typealias`, which leaves use with four requirements for classes that implement the `TimelineComponentTarget` protocol:
+We can ignore the `typealias`, which leaves us with four requirements for classes that implement the `TimelineComponentTarget` protocol:
 
 1. **`defaultRange`**: A property that defines how many posts should be loaded initially
 2.  **`additionalRangeSize`**: A property that defines how many additional posts should be loaded once the user reaches the bottom of the timeline
@@ -192,9 +192,9 @@ This method is called whenever our TableView is about to display a cell! So let'
 >
     }
 
-As mostly, we are implementing a new protocol in a separate class `extension` - that's not required but keeps our code better structured. The implementation of this method is fairly simple - we directly call the `timelineComponent` and inform it that a cell has been displayed.
+As before, we are implementing a new protocol in a separate class `extension` - that's not required but keeps our code better structured. The implementation of this method is fairly simple - we directly call the `timelineComponent` and inform it that a cell has been displayed.
 
-Note that this code won't work yet. Firstly, we haven declared the `timelineComponent` property yet. Secondly, the `TimelineViewController` isn't the `delegate` of the TableView yet. Currently it is only the `dataSource`.
+Note that this code won't work yet. Firstly, we haven't declared the `timelineComponent` property yet. Secondly, the `TimelineViewController` isn't the `delegate` of the TableView yet. Currently it is only the `dataSource`.
 
 Let's set ourselves up as the TableView's delegate. After that we'll initialize and store the `TimelineComponent`.
 
