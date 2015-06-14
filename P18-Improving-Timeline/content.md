@@ -132,6 +132,7 @@ All we need to do, is implement the `loadInRange` method, so that the component 
       }
     }
 >
+>
 1. We start by calling the `timelineRequestforCurrentUser` method. Earlier we have extended the method to take a `range` parameter. We now simply pass on the range that we received in the `range` argument.
 2. In the callback of the query we check whether or not we have received a result. If the result is `nil` we store an empty array in the `posts` variable.
 3. We pass the `posts` that have been loaded back to the `TimelineComponent` by calling the `completionBlock`.

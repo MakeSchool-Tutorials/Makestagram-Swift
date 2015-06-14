@@ -190,8 +190,7 @@ There are two interesting aspects that should be highlighted:
 
 1. Our method is taking a `PFArrayResultBlock` as an argument. We've used the same approach in our `timelineRequestforCurrentUser` method. The `PFArrayResultBlock` has the following signature:
 
-    ([AnyObject]?, NSError?) -> Void
-
+       ([AnyObject]?, NSError?) -> Void
 That's the default signature for the callback of most Parse queries. It takes an _optional_ result and an _optional_ error.
 By taking this type of block as an argument, we can hand it directly to the `findObjectsInBackgroundWithBlock` method! This way, whoever has called the `likesForPost` method will get the results in the callback block that they provide.
 

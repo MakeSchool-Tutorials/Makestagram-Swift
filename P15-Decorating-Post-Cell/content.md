@@ -108,9 +108,9 @@ Luckily, the touch area of our button can be larger than the visual one! We can 
 
 > [action]
 >
-1. Select the like button.
-2. Open the _Attribute Inspector_ Tab in the right panel
-3. Set the all of the four inset values to _4_:
+> 1. Select the like button.
+> 2. Open the _Attribute Inspector_ Tab in the right panel
+> 3. Set the all of the four inset values to _4_:
 >
 ![image](button_insets.png)
 

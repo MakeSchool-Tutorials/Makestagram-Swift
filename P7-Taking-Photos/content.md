@@ -115,6 +115,7 @@ You should always add new folders with this two-step process. If you create a ne
 Now we can add our new Source Code File to the *PhotoTaking* group.
 
 > [action]
+>
 1. Create a new Source Code File within the *PhotoTaking* group
 2. Name this class *PhotoTakingHelper* and make it a subclass of *NSObject* (we will discuss why this is necessary later on): ![](photo_taking_helper_class.png)
 
