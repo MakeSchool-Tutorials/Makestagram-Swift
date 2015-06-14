@@ -3,20 +3,38 @@ title: "Creating the Data Model in Parse"
 slug: create-data-model-parse
 ---
 
-Now, you should pull up your browser again. Make sure that you are on the *Core* page of Parse, where you can see your current (almost empty) data model:
+Now, you should pull up your browser again. Make sure that you are on the *Core* page of Parse, where you can see your current empty data model:
 
 ![image](empty_data_browser.png)
 
-The *User* class is set up by default. It's our job to add the other entities we need for our app.
+#Creating the User Class
 
-#Creating the Post Class
+Let's first create the *User* class. Parse provides a template for this class which makes the setup pretty easy.
 
 > [action]
-Now, select the *Add Class* button on the left hand side to create your first class:
+First, select the *Add Class* button on the left hand side to create your first class:
 >
 ![image](add_class.png)
 
-Next, you will see a popup that allows you to choose the type and name of the class.
+Next, you will see a popup that allows you to choose the type of your class. 
+
+> [action]
+Select the *User* class from the dropdown and hit *create Class*:
+>
+![image](create_user.png)
+
+Now we have a *User* model set up. That will allow us to sign up and log in users!
+
+#Creating the Post Class
+
+Next, let's create our first entirely custom class: the *Post* class.
+
+> [action]
+Select the *Add Class* button on the left hand side to create the *Post* class:
+>
+![image](add_class.png)
+
+Next, you will again see the popup that allows you to choose the type and name of the class.
 
 > [action]
 Choose the name to be *Post* and leave the class type as is (*Custom*). Then hit the *create Class* button:
