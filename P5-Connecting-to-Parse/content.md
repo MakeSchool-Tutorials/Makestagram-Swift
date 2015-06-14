@@ -7,7 +7,7 @@ Since all the features of *Makestagram* rely on the Parse framework, we will set
 
 The Parse framework requires us to provide the *ID* of our Parse App as soon as our iPhone app starts. That way our iPhone app and our backend can establish a connection.
 
-**What is the right place to perform code upon app launch?**
+To set up the Parse SDK we will first need to answer the following question: *What is the right place to perform code upon app launch?*
 
 #Configuring the SDK on App Launch
 
