@@ -13,7 +13,7 @@ First, we will change the height of the cells.
 
 ##Changing the Row Height
 Just as in the Instagram app we want the images
-to be displaced as squares. Since the screen has a width of 320 points we should set the height of each
+to be displayed as squares. Since the screen has a width of 320 points we should set the height of each
 cell to 320 as well. Later you will learn that it isn't a good idea to rely on specific constant numbers in
 your code or Storyboard files - for now the solution is just fine.
 
@@ -35,7 +35,7 @@ Add an Image View to the Table View Cell, as shown below:
 ![image](add_image_view.png)
 By dragging the corners of the Image View, change its size to be the full size of the cell. We won't be using constraints until later on.
 
-Additionally we need to change the _Content Mode_ of the Image View. Currently it is set to the default value which is _Sacle To Fill_. That will distort the image to fit into the size of the Image View. Distorted images look ugly! It's much better to crop them. To do that, we change the _Content Mode_ to _Aspect Fill_.
+Additionally we need to change the _Content Mode_ of the Image View. Currently it is set to the default value which is _Scale To Fill_. That will distort the image to fit into the size of the Image View. Distorted images look ugly! It's much better to crop them. To do that, we change the _Content Mode_ to _Aspect Fill_.
 
 > [action]
 > Change the _Content Mode_ of the Image View in the _Attributes inspector_, as shown in the image below. Also select
@@ -83,7 +83,7 @@ Create a referencing outlet from the Image View to the `PostTableViewCell` class
 Now we have a Table View Cell that will allow us to display photos that users have taken. We'll need to update our code to show these photos instead of the placeholder text that we're currently displaying. That means we need to update the code that creates our cells.
 
 > [action]
-> Update the `tableView(_:, cellForRowAtIndexPath:)` method as follownig:
+> Update the `tableView(_:, cellForRowAtIndexPath:)` method in `TimelineViewController` as following:
 >
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
       // 1
@@ -95,7 +95,7 @@ Now we have a Table View Cell that will allow us to display photos that users ha
       return cell
     }
 
-1. In this line we have added a cast to `PostTableViewCell`. In Storyboard we've configured a custom class for our Table View Cell. In order to access its specific properties we need to perform a cast to the type of our custom class. Without this cast the `cell` variable would have a type of a plain old `UITableViewCell` instead of our `PostTableViewCell`
+1. In this line we have added a cast to `PostTableViewCell`. In Storyboard we've configured a custom class for our Table View Cell. In order to access its specific properties we need to perform a cast to the type of our custom class. Without this cast the `cell` variable would have a type of a plain old `UITableViewCell` instead of our `PostTableViewCell`.
 2. Using the `postImageView` property of our custom cell we can now decide which image should be displayed in the cell. We grab the `image` property of the post.
 
 Now you can run the app and you will see...

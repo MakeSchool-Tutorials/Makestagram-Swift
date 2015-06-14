@@ -33,7 +33,7 @@ Now we're good to got!
 
 #Setting up Constraints for the Image View
 
-Throughout this step we will add many UI elements and place them using constraints. Currently the Image View is our only UI component and it doesn't have any constraints set up. Once you starting adding constraints to a View, you will have to add constraints to **all** child views - otherwise you will run into some serious Interface Builder problems.
+Throughout this step we will add many UI elements and place them using constraints. Currently the Image View is our only UI component and it doesn't have any constraints set up. Once you start adding constraints to a View, you will have to add constraints to **all** child views - otherwise you will run into some serious Interface Builder problems.
 
 So before we get started on adding new UI elements, let's define some constraints for the Image View, so that it stays nicely in place.
 
@@ -164,7 +164,7 @@ Let's start with the heart icon!
 > [action]
 1. Add a small Image View below the large Image View (that displays the post image) and above the Action Button
 2. Set the size of this Image View to _20x20_. Define a _Bottom Space_ to the Action Button of _20_. Define a _Leading Space_ (constrained to margin) of _12_.
-3. Set the displayed image to be the _Heart_ image and set the _ALpha_ value to _0.5_.
+3. Set the displayed image to be the _Heart_ image and set the _Alpha_ value to _0.5_.
 
 Now, your Table View Cell should look more or less like this:
 
@@ -195,10 +195,10 @@ You can grab the exact color for the Label from the Action button using the colo
 #One More Thing...
 
 The Table View Cell is looking great - but there's one last option we should tweak.
-We should turn off the _Selection_ for the Table View Cell. Often Table Views are used to display an overview of information and they allow the user to select a cell to receive more detailed information (such as the _Mail_ and the _Messages_ app on iOS). In _Makestagram_ however, we are displaying the entire information about a post directly within the cell. We provide some buttons for interaction, but nothing happens if a user selects and individual cell. Except that the cell color changes to a light gray which shall indicate that the cell has been selected - in our app that is very confusing.
+We should turn off the _Selection_ for the Table View Cell. Often Table Views are used to display an overview of information and they allow the user to select a cell to receive more detailed information (such as the _Mail_ and the _Messages_ app on iOS). In _Makestagram_ however, we are displaying the entire information about a post directly within the cell. We provide some buttons for interaction, but nothing happens if a user selects an individual cell. Except that the cell color changes to a light gray which shall indicate that the cell has been selected - in our app that is very confusing.
 
 > [action]
-Turn of the _Selection_ for the Table View Cell, so that cells no longer get highlighted:
+Turn off the _Selection_ for the Table View Cell, so that cells no longer get highlighted:
 ![image](cell_selection_none.png)
 
 #Testing it all Together

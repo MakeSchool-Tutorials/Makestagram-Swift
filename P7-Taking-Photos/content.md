@@ -5,13 +5,13 @@ slug: taking-photos
 
 It's time to implement our very first feature: uploading Photos to Parse! In our App we want to allow the users to upload or take a photo as soon as they tap the camera button in the middle of the Tab Bar.
 
-Typically at Tab Bar View Controller only allows a user to switch between different View Controllers. We don't want to switch to a View Controller when the button is tapped, instead we want to show an Action Dialog that lets the user take or select a picture:
+Typically a Tab Bar View Controller only allows a user to switch between different View Controllers. We don't want to switch to a View Controller when the button is tapped, instead we want to show an Action Dialog that lets the user take or select a picture:
 
 ![image](taking_photo.png)
 
 Unfortunately, using a Tab Bar View Controller, we cannot **easily** perform an arbitrary method when one of the Tab Bar Items is selected.
 
-However,there's a **workaround**.
+However, there's a **workaround**.
 
 #Using a Tab Bar Item Like a Button
 Essentially we want to use the Photo Tab Bar Item like a button. When it is tapped we want to call a method to present dialog shown above.
@@ -147,7 +147,7 @@ To implement the second responsibility the `PhotoTakingHelper` will need to have
 
 Let's get started with building the `PhotoTakingHelper`!
 
-###Initialier and Properties
+###Initializer and Properties
 
 First, let's take care of the initializer and the properties of the `PhotoTakingHelper`.
 
@@ -188,9 +188,9 @@ Additionally we store the `callback` function and provide a property to store an
 
 The initializer of this class receives the View Controller on which we will present other View Controllers and the callback that we will call as soon as a user has picked an image.
 
-When the class is entirely initialized we immediately call `showPhotoSourceSeletion()`. The method is still empty right now, later it will present the dialog that allows user to choose between their camera and their photo library.
+When the class is entirely initialized we immediately call `showPhotoSourceSelection()`. The method is still empty right now, later it will present the dialog that allows user to choose between their camera and their photo library.
 
-Because we call `showPhotoSourceSeletion()` directly from the initializer, the dialog will be presented as soon as we create an instance of `PhotoTakingHelper`.
+Because we call `showPhotoSourceSelection()` directly from the initializer, the dialog will be presented as soon as we create an instance of `PhotoTakingHelper`.
 
 ###Implementing the Photo Source Selection Popover
 
@@ -201,7 +201,7 @@ However, we need to keep one thing in mind: we want to run our App on the iOS Si
 Let's add the code for the popup to `PhotoTakingHelper`:
 
 > [action]
-Replace the empy implementation of `showPhotoSourceSelection()` with the following one:
+Replace the empty implementation of `showPhotoSourceSelection()` with the following one:
 >
       func showPhotoSourceSelection() {
         // Allow user to choose between photo library and camera
@@ -229,7 +229,7 @@ Replace the empy implementation of `showPhotoSourceSelection()` with the followi
       }
 
 In the first line we set up the the `UIAlertController` by providing it with a `message`
-and a `preferredStyle`. The `UIAlertController` can be used to present different types of popups. By choosing the `.ActionSheet` option, we create a popup that get's displayed from the bottom edge of the screen.
+and a `preferredStyle`. The `UIAlertController` can be used to present different types of popups. By choosing the `.ActionSheet` option, we create a popup that gets displayed from the bottom edge of the screen.
 
 After the initial set up, we add different `UIAlertAction`s to the Alert Controller. Each action will result in one button on the popup.
 
@@ -247,7 +247,7 @@ None of this code will run at this point - to test it we need to connect it to t
 
 ##Connecting the PhotoTakingHelper
 
-Time to switch back to the `TimelineViewController`. Currently we are printing a text to the console whenever the camera button is tapped; now we want to create an instance of a `PhotoTakingHelper` that will display our popup.
+Time to switch back to the `TimelineViewController`. Currently we are printing a string to the console whenever the camera button is tapped; now we want to create an instance of a `PhotoTakingHelper` that will display our popup.
 
 First, let's change the Tab Bar related code:
 
@@ -275,7 +275,7 @@ Add the `takePhoto` method to the `TimelineViewController` class:
       }
     }
 
-Within the `takePhoto` method we're creating an instance of `PhotoTakingHelper`. We're assigning that instance to the `photoTakingProperty` (which we'll create in a second).
+Within the `takePhoto` method we're creating an instance of `PhotoTakingHelper`. We're assigning that instance to the `photoTakingHelper` property (which we'll create in a second).
 
 As we know, the initializer of the `PhotoTakingHelper` takes two parameters: the View Controller on which the popup should be presented and the callback that should run as soon as a photo has been selected.
 
@@ -307,7 +307,7 @@ Without a trailing closure the call to the initializer would look like this:
     // don't do anything, yet...
     })
 
-Using trailing closures can make our code a little bit more readable because we don't need a closing parentheses after the closing curly braces of the closure. Feel free to choose whichever option you prefer!
+Using trailing closures can make our code a little bit more readable because we don't need a closing parenthesis after the closing curly braces of the closure. Feel free to choose whichever option you prefer!
 
 One last step before are ready to test the interaction between the `TimelineViewController` and the `PhotoTakingHelper`.
 
@@ -328,7 +328,7 @@ Well done! At this point you should have a basic understanding of how informatio
 
 Now that we've successfully connected the `PhotoTakingHelper` with the `TimelineViewController` we can implement the actual Photo Taking code.
 
-Let's add  a method to the `PhotoTakingHelper` that presents the `UIImagePickerController` (you might remember, this is the system component that will allows the user to take pictures!).
+Let's add  a method to the `PhotoTakingHelper` that presents the `UIImagePickerController` (you might remember, this is the system component that will allow the user to take pictures!).
 
 > [action]
 Add the `showImagePickerController` method to the `PhotoTakingHelper` class:
@@ -346,7 +346,7 @@ Once the `imagePickerController` is initialized and configured, we present it.
 Now we need to call this method when a popup button is selected. Currently we aren't performing any code when a user selects one of the two options.
 
 > [action]
-Change the following section within `showPhotoSourceSeletion()` so that the `showImagePickerController` method is called:
+Change the following section within `showPhotoSourceSelection()` so that the `showImagePickerController` method is called:
 >
     ...
 >

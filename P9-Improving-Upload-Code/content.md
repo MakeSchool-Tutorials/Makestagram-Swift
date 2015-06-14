@@ -273,7 +273,7 @@ To avoid this issue, Apple provides an API that allows us to request some extra 
 Let's request some extra time for our photo upload.
 
 > [action]
-Extend the `uploadPost` method to look as following:
+Extend the `uploadPost` method to look as follows:
 >
     func uploadPost() {
       let imageData = UIImageJPEGRepresentation(image, 0.8)
@@ -318,6 +318,6 @@ We've improved the photo upload mechanism a lot! Here's what you have learned in
   - We differentiate between the _Main_ thread and background threads. We want to avoid blocking the main thread.
   - How to use Parse's `saveInBackgroundWithBlock` to perform long-running tasks on a background thread
 - How to access the logged in user
-- How to ask for some extra background time when you are is being suspended
+- How to ask for some extra background time when you are being suspended
 
 In the next step we will discuss some security features in the Parse API!

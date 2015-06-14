@@ -222,4 +222,4 @@ After disassembling almost our entire app we are now finally back in a state tha
 Wow, this step consisted of a huge set of changes! While restructuring our code you have learned how to deal with data that is available asynchronously. When working with network requests you will frequently come back to use this knowledge.
 You have also learned how to load information lazily. Especially on mobile devices we should defer any network requests and computationally expensive tasks until they are absolutely necessary!
 
-In the next step we will focus on some visual progress again. We will bring the `PostTableViewCell` into its final design, which will include a lovely shaped heear button!
+In the next step we will focus on some visual progress again. We will bring the `PostTableViewCell` into its final design, which will include a lovely shaped heart button!
