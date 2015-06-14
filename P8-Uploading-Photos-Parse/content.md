@@ -42,7 +42,11 @@ Files are handled a little different than regular objects in Parse, so we don't 
 **Try to implement this step on your own! First create a PFFile with the image data, then a PFObject for the post. Remember that the post needs a reference to the uploaded image! Place your solution in the `PhotoHelper` callback within `TimelineViewController`**
 
 > [solution]
-Here's one possible implementation for the callback:
+First, add an import statement to the top of the *TimelineViewController.swift* file to import the Parse framework:
+>
+    import Parse
+>
+Now, here's one possible solution for the callback:
 >
     photoTakingHelper = PhotoTakingHelper(viewController: self.tabBarController!, callback: { (image: UIImage?) in
       let imageData = UIImageJPEGRepresentation(image, 0.8)
@@ -54,7 +58,7 @@ Here's one possible implementation for the callback:
       post.save()
     })
 
-Remember to write 'import Parse' at the top of your new viewControllers in which you have parse related code.There shouldn't be too many surprises in these lines. The most interesting one is the very first one. We turn the `UIImage` into an `NSData` instance because the `PFFile` class needs an `NSData` argument for its initializer.
+There shouldn't be too many surprises in these lines. The most interesting one is the very first one. We turn the `UIImage` into an `NSData` instance because the `PFFile` class needs an `NSData` argument for its initializer.
 
 Then we create and `save` the `PFFile`.
 
