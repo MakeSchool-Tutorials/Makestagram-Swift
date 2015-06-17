@@ -20,12 +20,9 @@ Throughout this tutorial you will get to know Parse in detail. Our very first st
 First, sign up for an account.
 
 > [action]
-Go to [Parse.com](http://parse.com). Enter name, email address and choose a password:
+Go to [Parse.com](http://parse.com). Enter your email address, choose a password and name your app *Makestagram*.
 ![image](signup_parse.png)
 
-> [action]
-On the next screen you will be able to create an app. Choose *Makestagram* as the app title and select *Individual Developer* as the company size:
-![image](setup_app.png)
 
 Now you have created your first Parse app!
 

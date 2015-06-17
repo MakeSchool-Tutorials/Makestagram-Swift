@@ -104,7 +104,8 @@ Keep this in mind when working on your own app: *implementing all of your featur
 Before we create that new photo taking class, let's create a new folder for it to keep our project structure tidy.
 
 > [action]
-Open the folder that contains your Xcode project in Finder and create a new folder called *PhotoTaking*. It should be on the same level as the *ViewController* folder:
+Open the folder that contains your Xcode project in Finder: and create a new folder called *PhotoTaking*. It should be on the same level as the *ViewController* folder:
+![image](show_in_finder.png)
 ![image](photo_taking_folder.png)
 Then add this new folder to your Xcode project:
 <video width="100%" controls>
