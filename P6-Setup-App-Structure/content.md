@@ -103,7 +103,7 @@ Unzip the downloaded art pack, then add the camera assets as shown in the video 
   <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/AddImageAssetCatalog_small.mov" type="video/mp4">
 </video>
 >
-Repeat these steps for the *Home* and *Person* assets, so that all Tab Bar Item images are added to the asset catalog:
+Repeat these steps for the *Home* and *People* assets, so that all Tab Bar Item images are added to the asset catalog:
 ![image](more_assets.png)
 
 Let's briefly discuss some important concepts about asset handling on iOS. You probably have realized that we're providing three different image files for each asset we wanted to use in our App (*@1x*, *@2x* and *@3x*). These different images have different resolutions, each suited to a specific type of iOS devices with a different screen resolution. The *@1x* assets are used for the oldest iOS devices, e.g. iPhone 3Gs, which don't have retina displays. The *@2x* images are used for the 3.5 and 4 inch retina screens of the iPhone 4(S) and iPhone 5(S). Finally, the *@3x* images are used by the iPhone 6 and iPhone 6 Plus. In most cases you won't have to spend too much time thinking about this, as long as you provide assets in all relevant resolutions.
@@ -127,7 +127,7 @@ Let's set the images up!
 2. Select the View Controller's Tab Bar Item
 3. Open the *Attributes Inspector* in the right panel
 4. Erase the Item *Title*
-5. Set the Item *Image* to *Camera*, *Home* or *Person*, depending on which View Controller you are currently setting up
+5. Set the Item *Image* to *Home*, *Camera* or *People*, depending on which View Controller you are currently setting up
 >
 ![image](setup_tab_bar_item.png)
 
