@@ -115,9 +115,9 @@ To accomplish this, we need to move the image upload into the `Post` class. This
 All of the code that prepares the `Post` to be uploaded should be part of the `uploadPost` method.
 
 First, let's add an `image` property to our `Post` class:
-<div class="action"></div>
-Add the following property to the `Post` class:
-
+> [action]
+> Add the following property to the `Post` class:
+>
     var image: UIImage?
 
 Next, we'll move the uploading code into the `uploadPost` method.
