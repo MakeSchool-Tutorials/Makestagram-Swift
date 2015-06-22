@@ -36,8 +36,7 @@ Let's first go ahead and delete it.
 > [action]
 Open *Main.storyboard*. Select the existing View Controller; after you have selected it you should see a blue border surrounding it:
 ![image](selected_vc.png)
-
-> [action]
+>
 Hit the *delete* key to remove this View Controller. Now you should see a blank Storyboard:
 ![image](blank_storyboard.png)
 
