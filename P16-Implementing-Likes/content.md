@@ -319,6 +319,10 @@ Add the following method to the `Post` class:
 
 Now we're able to lazily fetch the likes for a post!
 
+Since the concepts behind `filter` and `map` aren't easy to grasp initially, we've created a short lecture that should help you in understanding the topic:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Ma3H5rwCy_Y" frameborder="0" allowfullscreen></iframe>
+
 
 ##Checking If a Post is Liked by a given User
 
