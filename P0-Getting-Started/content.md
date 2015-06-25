@@ -21,4 +21,8 @@ We will touch many more topics, but this is an outline of the biggest chunks of 
 
 By the end of it you will have a good understanding of building complex iOS apps that tie into a backend - from there you will be able to move on and create your original iPhone App!
 
+Here's a video that will give you a brief overview of what you will be learning:
+
+<iframe width="420" height="315" src="https://www.youtube.com/embed/Wd-ZPtc_kNI" frameborder="0" allowfullscreen></iframe>
+
 Let's get started by taking a look at how Parse works and defining the data model for our app.
