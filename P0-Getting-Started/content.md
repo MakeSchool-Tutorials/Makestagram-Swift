@@ -26,3 +26,7 @@ Here's a video that will give you a brief overview of what you will be learning:
 <iframe width="420" height="315" src="https://www.youtube.com/embed/Wd-ZPtc_kNI" frameborder="0" allowfullscreen></iframe>
 
 Let's get started by taking a look at how Parse works and defining the data model for our app.
+
+#Feedback
+
+If you have feedback on this tutorial or find any mistakes, please open issues on the [GitHub Repository](https://github.com/MakeSchool-Tutorials/Makestagram-Swift).
