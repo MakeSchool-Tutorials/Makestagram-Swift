@@ -122,7 +122,7 @@ Update the first line of `uploadPost` to access `image.value` instead of `image`
 
 ##Adding a Download Image Method
 
-We also wanted to move the image download form the `TimelineViewController` into the `Post` class. We're going to wrap the functionality into a new `downloadImage` method.
+We also wanted to move the image download from the `TimelineViewController` into the `Post` class. We're going to wrap the functionality into a new `downloadImage` method.
 
 > [action]
 Add the `downloadImage` method to the `Post` class:
