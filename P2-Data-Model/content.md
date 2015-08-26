@@ -19,11 +19,9 @@ This is the detailed list of features our app will have:
 
 You know most of the features from popular social network apps. You might wonder why include *flagging* content in this simple photo sharing app. We include it, because it's an important feature to get your app into Apple's App Store. Apple requires apps with user created content to have a *flag* feature - this way users can report inappropriate content. Since you will likely need this feature in your original app, we have included it as part of the tutorial.
 
-Through building this app you will learn how to use Parse and many iOS features to build a rather complex application. That will enable you to build your own apps when you have completed the tutorial.
-
 #Finding the Classes in Our App
 
-Now that we know which features our app will have, how can we derive a data model?
+Now that we know which features our app will have, how can we build a data model?
 
 Typically the first step in defining a data model is finding different classes that are involved in our features.
 
@@ -75,7 +73,7 @@ The diagram above illustrates the different classes, their most important proper
 Let's discuss them briefly:
 
 - **User**
-A new *User* class is created whenever a user signs up. The *username* will store the user's display name: this name is used to log in and it displayed in the app when the user creates posts or likes other posts.
+A new *User* class is created whenever a user signs up. The *username* will store the user's display name: this name is used to log in and is displayed in the app when the user creates posts or likes other posts.
 
 - **Post**
 A *Post* class is created whenever a user posts a new photo. The most important properties of a post are the *user* it belongs to and the *imageFile* stored along with the post.
@@ -84,7 +82,7 @@ A *Post* class is created whenever a user posts a new photo. The most important 
 Marks which posts have been flagged. It stores a reference to the *post* that is flagged and the *user* that has flagged it.
 
 - **Like**
-Works just as *FlaggedContent*; stores a reference to the *post* that is like and the *user* that has liked it.
+Works just as *FlaggedContent*; stores a reference to the *post* that is liked and the *user* that has liked it.
 
 - **Follow**
 Stores a following relationship between two users. The *toUser* field stores the user being followed, the *fromUser* user field stores the following user.
