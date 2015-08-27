@@ -90,9 +90,9 @@ Extend the `AppDelegate` to log in with our test credentials. We'll also add an 
       PFUser.logInWithUsername("test", password: "test")
 >
       if let currentUser = PFUser.currentUser() {
-        println("\(currentUser.username!) logged in successfully")
+        print("\(currentUser.username!) logged in successfully")
       } else {
-        println("No logged in user :(")
+        print("No logged in user :(")
       }
 >
       return true
@@ -102,7 +102,7 @@ We are using the `loginWithUsername` method of `PFUser` to programmatically sign
 
 After we performed the login we check if it was successful. The `PFUser.currentUser()` method returns an optional `PFUser?`. If no user is logged in, this method returns `nil` otherwise it returns a `PFUser` object. We use an optional binding (`if let user = PFUser.currentUser()`) to check if the result of the method call was a `PFUser`.
 
-Depending on the result we print a success or failure message to the console using the `println` function.
+Depending on the result we print a success or failure message to the console using the `print` function.
 
 > [action]
 Now it's time to run the app! You should see the following console output (if the console does not show up, use the following shortcut: ⌘+⇧+C):
