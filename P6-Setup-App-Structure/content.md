@@ -3,7 +3,7 @@ title: "Setting up the App Structure"
 slug: setup-app-structure-uitabbarcontroller
 ---
 
-Once you have decided on your app's features, your next step should be to outline your apps structure. The outline should contain all the screens in your app, and should include how they will be connected. For **Makestagram**, the outline would look like this:
+Once you have decided on your app's features, your next step should be to outline your app's structure. The outline should contain all the screens in your app, and should include how they will be connected. For **Makestagram**, the outline would look like this:
 
 ![image](app_structure.png)
 
