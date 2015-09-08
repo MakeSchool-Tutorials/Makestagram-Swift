@@ -3,7 +3,7 @@ title: "Implementing the Like Feature"
 slug: parse-implement-like
 ---
 
-In this step, we will tackle the *core feature* of **Makestagram**: Liking posts!
+In this step we will tackle the *core feature* of **Makestagram**: Liking posts!
 
 To get our post liking mechanism working, we need to do three things:
 
@@ -341,7 +341,7 @@ As promised, this method is pretty straightforward. The only part that might be 
 
 ##Liking and Unliking a Post
 
-The last piece of functionality that we need to squeeze into the `Post` class for now is the like and unlike functionality. And we can actually wrap it into a single method that toggles whether or not a post is liked by a user - after all, the app only provides a single button to like and unlike. Furthermore it doesn't make sense to create a second `Like` object if the use  already likes a given post.
+The last piece of functionality that we need to squeeze into the `Post` class for now is the like and unlike functionality. And we can actually wrap it into a single method that toggles whether or not a post is liked by a user - after all, the app only provides a single button to like and unlike. Furthermore it doesn't make sense to create a second `Like` object if the user already likes a given post.
 
 > [action]
 Add the following method to the `Post` class:
