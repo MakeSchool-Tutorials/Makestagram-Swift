@@ -68,4 +68,4 @@ You also learned how to change the default ACL. Changing the default ACL should 
 
 If you are interested in some more details on ACLs, you can read the official documentation [here](https://parse.com/docs/ios/guide#security-object-level-access-control).
 
-For now, this step concludes our solution for creating new posts. In the next step we will start implementing one of the core features of Makestagram: the timeline!
+For now, this step concludes our solution for creating new posts. In the next step we will start implementing one of the core features of **Makestagram**: the timeline!

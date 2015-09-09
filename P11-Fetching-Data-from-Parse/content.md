@@ -4,15 +4,15 @@ slug: fetching-data-parse-timeline
 ---
 
 We have spent the last few steps discussing how to store data in Parse. In this step we will look at how to fetch it!
-Throughout this step we will discuss the basics of querying data, while starting to work on the important _Timeline_ feature of Makestagram.
+Throughout this step we will discuss the basics of querying data, while starting to work on the important _Timeline_ feature of **Makestagram**.
 
 As a first step in implementing the _Timeline_ feature, we will set up the basic UI for the `TimelineViewController`.
 
 #Adding a Table View to the TimelineViewController
 
-Let's add a Table View to the `TimelineViewController` - we will use that Table View to display the posts in a user's timeline.
+Let's add a table view to the `TimelineViewController` - we will use that table view to display the posts in a user's timeline.
 
-The Table View should be a full-screen view. However, we need to leave space for the status bar on the top and the Tab Bar on the bottom.
+The table view should be a full-screen view. However, we need to leave space for the status bar on the top and the tab bar on the bottom.
 
 > [action]
 Open _Main.storyboard_ and add a Table View to the _TimelineViewController_. The resulting scene hierarchy should look like this:
@@ -45,20 +45,20 @@ As a last step, we need to set the top and bottom constraints to _0_.
 The result should look like this:
 ![image](updated_constraints.png)
 
-If you don't want your views to overlap with the Status Bar or the Tab Bar, you need to set up constraints with the Top and Bottom Layout Guide, instead of setting them up with the Superview.
+If you don't want your views to overlap with the status bar or the tab bar, you need to set up constraints with the Top and Bottom Layout Guides, instead of setting them up with the Superview.
 
 ##Defining a Table View Data Source
 
-In order to fill this Table View with data, we need to define a Data Source (just as we did in the _Make School Notes_ app).
+In order to fill this table view with data, we need to define a data source (just as we did in the _Make School Notes_ app).
 
 > [action]
-Set the _Timeline View Controller_ to be the data source of the Table View, as shown in the image below:
+Set the _Timeline View Controller_ to be the data source of the table view, as shown in the image below:
 >
 ![image](data_source_setup.png)
 
 ##Defining a Referencing Outlet
 
-We will also need to access this Table View in code; therefore we need to set up a referencing outlet.
+We will also need to access this table view in code; therefore we need to set up a referencing outlet.
 
 > [action]
 Set up a referencing outlet, as shown below, and name the property `tableView`:
@@ -76,7 +76,7 @@ Next, set up an identifier for this cell, so that we can reference it from code:
 
 Well done!
 
-We have done our due diligence - the Table View is set up! Now we can take a look at how we can fetch data from Parse and display it in this Table View.
+We have done our due diligence - the table view is set up! Now we can take a look at how we can fetch data from Parse and display it in this table view.
 
 #Basics of Querying in Parse
 
@@ -119,8 +119,8 @@ With this basic knowledge at hand, how can we implement the timeline query? Here
 
 We want to show posts in a user's timeline if they fulfill one of the following two requirements:
 
-1. the post is created by a user which we are following
-2. the post is created by the user that is currently logged in
+1. the post was created by a user which they are following
+2. the post was created by the user that is currently logged in
 
 We have already seen the solution for _2._:
 
@@ -187,7 +187,7 @@ Add the following implementation of `viewDidAppear` to the `TimelineViewControll
 
 1. First, we are creating the query that fetches the `Follow` relationships for the current user.
 2. We use that query to fetch any posts that are created by users that the current user is following.
-3. We create another query to retrieve all posts that the current user has posted herself.
+3. We create another query to retrieve all posts that the current user has posted.
 4. We create a combined query of the _2._ and _3._ queries, using the `orQueryWithSubqueries` method. The query generated this way will return any `Post` that meets either of the constraints of the queries in _2._ or _3._
 5. We define that the combined query should also fetch the `PFUser` associated with a post. As you might remember, we are storing a _pointer_ to a user object in the _user_ column of each post. By using the `includeKey` method we tell Parse to resolve that pointer and download all the information about the user along with the post. We will need the username later when we display posts in our timeline.
 6. We define that the results should be ordered by the _createdAt_ field. This will make posts on the timeline appear in chronological order.
@@ -221,7 +221,7 @@ Add the following extension to `TimelineViewController`:
 >
       func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // 2
-        let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("PostCell")!
 >
         cell.textLabel!.text = "Post"
 >

@@ -255,7 +255,7 @@ Time to switch back to the `TimelineViewController`. Currently we are printing a
 First, let's change the tab bar related code:
 
 > [action]
-Change the the tab barrelated code to call the `takePhoto` method, instead of printing to the console:
+Change the the tab bar related code to call the `takePhoto` method, instead of printing to the console:
 >
     func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
       if (viewController is PhotoViewController) {
