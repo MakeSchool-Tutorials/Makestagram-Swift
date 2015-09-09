@@ -3,7 +3,7 @@ title: "Designing the Data Model"
 slug: data-model
 ---
 
-To design a data model we need to know which features our app will have. The goal of this tutorial is to build a photo sharing app. Users shall be able to share photos, follow users and interact with other users through likes.
+To design a data model we need to know which features our app will have. The goal of this tutorial is to build a photo sharing app. Users shall be able to share photos, follow users, and interact with other users through likes.
 
 This is the detailed list of features our app will have:
 
@@ -17,7 +17,7 @@ This is the detailed list of features our app will have:
 - Delete photos you posted
 - Flag photos other users have posted
 
-You know most of the features from popular social network apps. You might wonder why include *flagging* content in this simple photo sharing app. We include it, because it's an important feature to get your app into Apple's App Store. Apple requires apps with user created content to have a *flag* feature - this way users can report inappropriate content. Since you will likely need this feature in your original app, we have included it as part of the tutorial.
+You know most of the features from popular social network apps. You might wonder why include *flagging* content in this simple photo sharing app. We include it because it's an important feature to get your app into Apple's App Store. Apple requires apps with user created content to have a *flag* feature - this way users can report inappropriate content. Since you will likely need this feature in your original app, we have included it as part of the tutorial.
 
 #Finding the Classes in Our App
 

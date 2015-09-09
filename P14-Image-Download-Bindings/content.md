@@ -13,32 +13,32 @@ We will use bindings to improve our photo downloading code. Currently, it has th
 
 We're going to fix all of these three issues throughout this step:
 
-1. We will perform the download of photos in the background
-2. We will move the photo download code into the `Post` class
-3. We will only download photos of posts that are currently displayed
+1. We will perform the download of photos in the background.
+2. We will move the photo download code into the `Post` class.
+3. We will only download photos of posts that are currently displayed.
 
 #The Concepts of Asynchrony and Bindings
 
-Before we dive into coding, I want to discuss some of the concepts that we will use throughout this step. While implementing the changes outlined above, we will run into an interesting situation.
+Before we dive into coding, let's discuss some of the concepts that we will use throughout this step. While implementing the changes outlined above, we will run into an interesting situation.
 
 The way our timeline currently works, we wait until all data is available, then we create a table view cell that displays the appropriate data.
 
-In the future, we want to download the photos lazily and on a background thread. That will lead to a situation as shown below:
+In the future we want to download the photos lazily and on a background thread. That will lead to a situation as shown below:
 
 ![image](image_download.png)
 
-First, we perform the timeline query. That query downloads all posts for a user's timeline. These posts contain metadata (e.g. which user created the post, when it was created, etc.). As soon as this metadata is available, we create our table view and create all of the table view cells. However, at this point, none of the images are loaded yet.
+First, we perform the timeline query. That query downloads all posts for a user's timeline. These posts contain metadata (e.g. which user created the post, when it was created, etc.). As soon as this metadata is available we create our table view and create all of the table view cells; however, at this point, none of the images are loaded yet.
 
-As soon as a cell appears on screen, we start the download of the image. That's the lazy part in _lazy loading_ - we don't load the information until we need it. That download will take a little time. Once the download completes, we want to update the table view cell so that the downloaded photo gets displayed.
+As soon as a cell appears on screen we start the download of the image. That's the lazy part in _lazy loading_ - we don't load the information until we need it. That download will take a little time. Once the download completes, we want to update the table view cell so that the downloaded photo gets displayed.
 
 This is what we call an _asynchronous_ operation. Instead of having all the information we need available right now, we are getting some time in the future. As soon as that information is available, we want to perform a certain operation - in this case updating the image of the table view cell.
 
-There are many different ways we can deal with data that is available asynchronously. In this tutorial, we will be using _bindings_. Using a Swift library called [Bond](https://github.com/SwiftBond/Bond) we can handle asynchronous data as following:
+There are many different ways we can deal with data that is available asynchronously. In this tutorial we will be using _bindings_. Using a Swift library called [Bond](https://github.com/SwiftBond/Bond), we can handle asynchronous data as following:
 
     // bind the image of the post to the 'postImage' view
     post.image.bindTo(postImageView.bnd_image)
 
-The above line might seem a little obscure, but what it does is relatively straightforward. Whenever the value on the left-hand side of `bindTo` changes, the value on the right-hand side of `bindTo` is updated. In this specific line, we define that the `image` of the `postImageView` shall be updated whenever the `image` property of a `post` changes.
+The above line might seem a little obscure, but what it does is relatively straightforward. Whenever the value on the left-hand side of `.bindTo` changes, the value on the right-hand side of `.bindTo` is updated. In this specific line we define that the `image` of the `postImageView` shall be updated whenever the `image` property of a `post` changes.
 
 Using this technique we will be able to improve our photo download code!
 
@@ -84,7 +84,7 @@ Now our `PostTableViewCell` is able to receive and store a `Post` object and rea
 
 ##Making the Image Property of a Post Observable
 
-To be able to use _bindings_ (`.bindTo`), our properties need to have a special type. They need to be `Observable`.
+To be able to use _bindings_ (`.bindTo`), our properties need to have a special type: They need to be `Observable`.
 
 Let's change the `image` property of `Post` to be `Observable` - then we'll discuss in detail what `Observable` means.
 
@@ -95,7 +95,7 @@ Change the property definition of `image` in the `Post` class to look as followi
 
 Ok, so what is this whole `Observable` thing? Basically it is just a wrapper around the actual value that we want to store. That wrapper allows us to listen for changes to the wrapped value. The `Observable` wrapper enables us to use the property together with bindings. You can see the type of the wrapped value in the angled brackets (`<UIImage?>`). These angled brackets mark the use of _generics_; a concept that we don't need to discuss now.
 
-As soon as we are making a property `Observable`, we need to refer to the wrapped value like this:
+As soon as we make a property `Observable`, we need to refer to the wrapped value like this:
 
     // we need to append .value to access the value wrapped by the Observable
     post.image.value
@@ -158,7 +158,7 @@ Add the `downloadImage` method to the `Post` class:
       }
     }
 
-1. First, we check if `image.value` already has a stored value. We do this to avoid downloading images multiple times. Only if `image.value` is `nil`, we actually want to start the download.
+1. First, we check if `image.value` already has a stored value. We do this to avoid downloading images multiple times. (We only want to start the donwload if `image.value` is `nil`.)
 2. Here we start the download. Instead of using `getData` we are using `getDataInBackgroundWithBlock` - that way we are no longer blocking the main thread!
 3. Once the download completes, we update the `post.image`.  Note that we are now using the `.value` property, because `image` is an `Observable`.
 

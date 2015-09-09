@@ -5,10 +5,10 @@ slug: improving-photo-upload-parse
 
 Now it's time to move from a working solution to a good one. In the last step we have identified two issues with our current uploading code:
 
-1. We need to resolve the warnings in the console
-2. We need to store more information along with the `Post` that we're creating. Right now, we are only storing the image file, but we also need to store the `user` to which the post belongs
+1. We need to resolve the warnings in the console.
+2. We need to store more information along with the `Post` that we're creating. Right now we are only storing the image file, but we also need to store the `user` to which the post belongs
 
-Actually, there's a third issue. All of our uploading code is currently contained in the `TimelineViewController` class. However, that code isn't related to the timeline feature of the app. If we place all of our code directly in the `TimelineViewController` we will end up with a huge mess.
+Actually, there's a third issue. All of our uploading code is currently contained in the `TimelineViewController` class; however, that code isn't related to the timeline feature of the app. If we place all of our code directly in the `TimelineViewController` we will end up with a huge mess.
 
 Instead of having the code in the `TimelineViewController`, the photo upload should be handled by a separate `Post` class.
 
@@ -28,7 +28,7 @@ As you have seen, we can store information in Parse without using custom classes
 
 We can simply use the `PFObject` class and specify a `className`. This way however, we don't have a good place to store the image uploading code. And if we need to modify many more of the post's properties, the code will become difficult to read.
 
-It would be better, if you could upload a post like this:
+It would be better if you could upload a post like this:
 
     let post = Post()
     post.image = image
@@ -108,7 +108,7 @@ We have laid the groundwork to improve our photo uploading code - now lets take 
     post.image = image
     post.uploadPost()
 
-To accomplish this, we need to move the image upload into the `Post` class. This also includes the code for the conversion of a `UIImage` into `NSData`:
+To accomplish this we need to move the image upload into the `Post` class. This also includes the code for the conversion of a `UIImage` into `NSData`:
 
     let imageData = UIImageJPEGRepresentation(image, 0.8)
 
@@ -155,7 +155,7 @@ Update the `takePhoto` method in the `TimelineViewController` class to use the n
       }
     }
 
-If you like, you can test this new version of our solution. You should see that it's working! Now that we've set up a nice structure for uploading posts, we can tackle the two issues stated at the beginning of this step.
+If you like you can test this new version of our solution. You should see that it's working! Now that we've set up a nice structure for uploading posts, we can tackle the two issues stated at the beginning of this step.
 
 #Performing the Photo Upload in the Background
 
@@ -173,15 +173,15 @@ Why is that necessary?
 
 Simply put, one could say that a typical iOS app repeats three steps over and over again while an app is running:
 
-1. The operating system listens for user input, e.g. touch events
-2. The system components respond to that input, e.g. a list of items gets scrolled
-3. Your application code runs and can respond to the user interaction, e.g. performing some code after a button has been tapped
+1. The operating system listens for user input (e.g. touch events).
+2. The system components respond to that input (e.g. a list of items gets scrolled).
+3. Your application code runs and can respond to the user interaction (e.g. performing some code after a button has been tapped).
 
 This means the workflow of your typical app can be visualized like this:
 
 ![image](threading_1.png)
 
-This system works great, as long as your _Application Code_ runs very fast. However, some times we need to perform tasks that can take a longer amount of time - such as uploading an image. With bad connectivity, uploading an image can take multiple seconds.
+This system works great as long as your _Application Code_ runs very fast; however, some times we need to perform tasks that can take a longer amount of time - such as uploading an image. With bad connectivity, uploading an image can take multiple seconds.
 
 If your application code takes longer to run, the workflow diagram will change to something like this:
 
@@ -199,15 +199,15 @@ We can perform the long-running task in the _background_, which means it will ru
 
 ![image](threading_3.png)
 
-You can see that our long-running task is now no longer blocking the operating system's code, because it is running in a different _Thread_. Now our photo upload can happen, while our app still responds smoothly to user input.
+You can see that our long-running task is now no longer blocking the operating system's code, because it is running in a different _Thread_. Now our photo upload can happen while our app still responds smoothly to user input.
 
-We'll dive a little deeper into threading throughout this tutorial. For now it's important to understand that we want to avoid blocking the _Main_ thread, by performing long-running tasks in a _Background_ thread. It's also worth mentioning that every app has exactly **one** main thread but can have many background threads.
+We'll dive a little deeper into threading throughout this tutorial. For now it's important to understand that we want to avoid blocking the _Main_ thread by performing long-running tasks in a _Background_ thread. It's also worth mentioning that every app has exactly **one** main thread but can have many background threads.
 
 Now that you understand the theory; let's fix the practical problem in our app.
 
 ##Saving Objects in the Background
 
-Even though the theory might sound a little bit complicated; the implementation of threading with Parse is fairly simple. For now, we only need to replace the calls to the `save` method with calls to the `saveInBackgroundWithBlock` method.
+Even though the theory might sound a little bit complicated; the implementation of threading with Parse is fairly simple. For now we only need to replace the calls to the `save` method with calls to the `saveInBackgroundWithBlock` method.
 
 > [action]
 Change the `uploadPost` method to perform saving in the background:
@@ -229,7 +229,7 @@ You might wonder why we are passing a `nil` value to this method:
 
     saveInBackgroundWithBlock(nil)
 
-The `saveInBackgroundWithBlock` method allows us to pass it a _callback_ in the form of a closure (the same concept that we've used for our `PhotoTakingHelper`). The code in that callback is executed once the task running on the background thread is completed, e.g. when the photo upload is completed.
+The `saveInBackgroundWithBlock` method allows us to pass it a _callback_ in the form of a closure (the same concept that we've used for our `PhotoTakingHelper`). The code in that callback is executed once the task running on the background thread is completed (e.g. when the photo upload is completed).
 
 This can be extremely useful. Right now however, we don't need be informed when the upload completes, so we pass `nil` to the method.
 
@@ -267,9 +267,9 @@ If you create another `Post` with this new code in place, you should see that th
 
 Great! We have created the first valid post!
 
-There's another detail regarding the photo upload, that we need to take care of. **Apps on iOS get suspended very soon after a user closes the app**. If you have long-running tasks in your app, these will be cancelled as soon as the app gets suspended.
+There's another detail regarding the photo upload that we need to take care of. **Apps on iOS get suspended very soon after a user closes the app**. If you have long-running tasks in your app, these will be cancelled as soon as the app gets suspended.
 
-To avoid this issue, Apple provides an API that allows us to request some extra time to finish up tasks that started before the app got suspended. We're going to set up such a task for our photo upload. That way an ongoing photo upload will be continued in case a user closes our app.
+To avoid this issue Apple provides an API that allows us to request some extra time to finish up tasks that started before the app got suspended. We're going to set up such a task for our photo upload. That way an ongoing photo upload will be continued in case a user closes our app.
 
 #Requesting a Long Running Background Task
 
@@ -299,8 +299,8 @@ Extend the `uploadPost` method to look as follows:
       saveInBackgroundWithBlock(nil)
     }
 
-1. As soon as a post gets uploaded, we create a background task. When a background task gets created, iOS generates a unique ID and returns it. We store that unique id in the `photoUploadTask` property. The API requires us to provide an _expirationHandler_ in the form of a closure. That closure runs when the extra time that iOS permitted us has expired. In case the additional background time wasn't sufficient, we are required to cancel our task! Within this block you should delete any temporary resources that you created - in the case of our photo upload we don't have any. Additionally you have to call `UIApplication.sharedApplication().endBackgroundTask`, otherwise your app will be terminated!
-2. After we've created the background task, we save the `imageFile` by calling `saveInBackgroundWithBlock`. However, this time we aren't handing `nil` as a completion handler!
+1. As soon as a post gets uploaded we create a background task. When a background task gets created iOS generates a unique ID and returns it. We store that unique id in the `photoUploadTask` property. The API requires us to provide an _expirationHandler_ in the form of a closure. That closure runs when the extra time that iOS permitted us has expired. In case the additional background time wasn't sufficient, we are required to cancel our task! Within this block you should delete any temporary resources that you created - in the case of our photo upload we don't have any. Additionally you have to call `UIApplication.sharedApplication().endBackgroundTask`, otherwise your app will be terminated!
+2. After we've created the background task we save the `imageFile` by calling `saveInBackgroundWithBlock`; however, this time we aren't handing `nil` as a completion handler!
 3. Within the completion handler of `saveInBackgroundWithBlock` we inform iOS that our background task is completed. This block gets called as soon as the image upload is finished. The API for background jobs makes us responsible for calling `UIApplication.sharedApplication().endBackgroundTask` as soon as our work is completed.
 
 Next, we'll need to add the `photoUploadTask` property that we are referencing from the `uploadPhoto` method.
@@ -310,7 +310,7 @@ Add the `photoUploadTask` property to the `Post` class:
 >
     var photoUploadTask: UIBackgroundTaskIdentifier?
 
-Most of this code is once again _boilerplate code_. Instead of memorizing all the details of it, rather remember that is the place to come back to when you want to create a background job next time around.
+Most of this code is once again _boilerplate code_. Instead of memorizing all the details of it, remember that is the place to come back to when you want to create a background job next time around.
 
 #Conclusion
 

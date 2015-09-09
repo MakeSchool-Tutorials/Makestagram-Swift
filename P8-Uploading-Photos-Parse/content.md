@@ -23,7 +23,7 @@ The three steps in this code snippet are:
 2. Set a value for a certain property of that instance using a *subscript* (the square brackets after the variable name)
 3. Call one of the available `save...` methods on the instance
 
-After the last step completes, your data is stored in the Parse database. However, this is only the simplest of all use cases.
+After the last step completes, your data is stored in the Parse database; however, this is only the simplest of all use cases.
 
 Uploading a photo in **Makestagram** is a little bit more complex, but it's still only a few lines of code.
 
@@ -80,7 +80,7 @@ When following these steps you will notice two things:
 2. You will see the following message in the console log:
    > Warning: A long-running operation is being executed on the main thread.
 
-We will discuss this issue and fix it throughout this tutorial! For now, let's first see if the upload actually worked as expected.
+We will discuss this issue and fix it throughout this tutorial! For now let's first see if the upload actually worked as expected.
 
 The best way to do that is to use the Parse data browser. It will give us a nice overview of all the objects that have been created on our server.
 
@@ -96,7 +96,7 @@ To be 100% sure that everything worked correctly, you can double-click onto the 
 
 However, there are many things to improve here:
 
-1. We need to resolve the warnings in the console
-2. We need to store more information along with the `Post` that we're creating. Right now we are only storing the image file, but we also need to store the `user` to which the post belongs
+1. We need to resolve the warnings in the console.
+2. We need to store more information along with the `Post` that we're creating. Right now we are only storing the image file, but we also need to store the `user` to which the post belongs.
 
-In the next step, we will move from this very simple upload code to a more mature solution.
+In the next step we will move from this very simple upload code to a more mature solution.

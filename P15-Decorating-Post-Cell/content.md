@@ -7,7 +7,7 @@ Now we'll spend some time in Interface Builder and with Auto Layout to polish up
 
 #Adding Additional Resources
 
-This step is pretty simple; we're going to add some more resources to our asset catalog. You've already downloaded the art pack for this tutorial earlier on, in case you no longer know where you've stored it, you can get it again [here](https://s3.amazonaws.com/mgwu-misc/SA2015/Makestagram_Art.zip)
+This step is pretty simple: we're going to add some more resources to our asset catalog. You've already downloaded the art pack for this tutorial earlier on, in case you no longer know where you've stored it you can get it again [here](https://s3.amazonaws.com/mgwu-misc/SA2015/Makestagram_Art.zip)
 
 > [action]
 Add new image sets for each of these resources (if you no longer know how this works, go back to the step where we set up the tab bar). The result should look like this (note that you don't need to set up _camera_ and _AppIcon_):
@@ -27,7 +27,7 @@ We won't finish the entire set up in this step - but we'll get pretty far!
 First, we'll make the cell a little bit larger to make space for our additional UI elements.
 
 > [action]
-Change the _Row Height_ of the table view cell **and** the table view, in the _Size Insepctor_, to _470_. If you forgot how this works, look back to the step where we set up the Table View Cell's Image View.
+Change the _Row Height_ of the table view cell **and** the table view, in the _Size Insepctor_, to _470_. If you forgot how this works, look back to the step where we set up the table view cell's image view.
 
 Now we're good to got!
 
@@ -75,7 +75,7 @@ Even though the _Traliling Space to Superview_ was set to _50_ at the beginning 
 
 ##Defining Size and Layout
 
-Before designing your Apps, you should at least glance over [Apple's Human Interface Guidelines for iOS](https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/MobileHIG/).
+Before designing your apps, you should at least glance over [Apple's Human Interface Guidelines for iOS](https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/MobileHIG/).
 
 They contain many do's and don'ts for mobile developers and designers.  
 One part of the documentation discusses sizes of buttons:
@@ -118,7 +118,7 @@ The touch area remains suitable for a small mobile screen - but the button looks
 
 ##Changing the Selected Image
 
-Just like the **Instagram** app, **Makestagram's** like button will have two different states. If you haven't liked a post yet, you'll see the gray like button. Once you've liked a post, you'll see the a red heart instead.
+Just like the **Instagram** app, **Makestagram's** like button will have two different states: If you haven't liked a post yet, you'll see the gray like button; once you've liked a post, you'll see the red heart instead.
 
 `UIButtons` have a total of four different states:
 
@@ -155,7 +155,7 @@ We'll try to add this button with a little less hand-holding. Slowly but surely 
 The result should look pretty similar to this:
 ![image](action_button_result.png)
 
-Alright! We are making some good progress here! Next, we're going to add the label that displays the names of all the users that liked a post.
+Alright! We are making some good progress here! Next we're going to add the label that displays the names of all the users that liked a post.
 
 #Adding the Likes Label and the Likes Icon
 
@@ -171,11 +171,11 @@ Let's start with the heart icon!
 2. Set the size of this image view to _20x20_. Define a _Bottom Space_ to the Action Button of _20_. Define a _Leading Space_ (constrained to margin) of _12_.
 3. Set the displayed image to be the _Heart_ image and set the _Alpha_ value to _0.5_.
 
-Now, your table view cell should look more or less like this:
+Now your table view cell should look more or less like this:
 
 ![image](cell_step_like_icon.png)
 
-We're almost there! Next, we need a label that will display the usernames of our "likers"!
+We're almost there! Next we need a label that will display the usernames of our "likers"!
 
 > [action]
 >
@@ -213,7 +213,7 @@ If you run your app, with all of these changes in place, you should see a timeli
 
 ![image](cell_decoration_complete.png)
 
-Now, this is starting to look like a real app!
+Now this is starting to look like a real app!
 
 #Connecting the Pieces
 
