@@ -6,7 +6,7 @@ slug: improving-photo-upload-parse
 Now it's time to move from a working solution to a good one. In the last step we have identified two issues with our current uploading code:
 
 1. We need to resolve the warnings in the console
-2. We need to store more information along with the `Post` that we're creating. Right now we are only storing the image file, but we also need to store the `user` to which the post belongs
+2. We need to store more information along with the `Post` that we're creating. Right now, we are only storing the image file, but we also need to store the `user` to which the post belongs
 
 Actually, there's a third issue. All of our uploading code is currently contained in the `TimelineViewController` class. However, that code isn't related to the timeline feature of the app. If we place all of our code directly in the `TimelineViewController` we will end up with a huge mess.
 
@@ -126,13 +126,15 @@ Next, we'll move the uploading code into the `uploadPost` method.
 Add the following method to the `Post` class:
 >
     func uploadPost() {
-      // 1
-      let imageData = UIImageJPEGRepresentation(image, 0.8)
-      let imageFile = PFFile(data: imageData)
-      imageFile.save()
-      // 2
-      self.imageFile = imageFile
-      save()
+      if let image = image {
+        // 1
+        let imageData = UIImageJPEGRepresentation(image, 0.8)!
+        let imageFile = PFFile(data: imageData)
+        imageFile.save()
+        // 2
+        self.imageFile = imageFile
+        save()
+      }
     }
 
 1. Whenever the `uploadPost` method is called, we grab the photo that shall be uploaded from the `image` property; turn it into a `PFFile` and upload it.
@@ -169,7 +171,7 @@ A typical computer program is a sequence of instructions that get performed afte
 
 Why is that necessary?
 
-Simplified one could say that a typical iOS app repeats three steps over and over again, while an app is running:
+Simply put, one could say that a typical iOS app repeats three steps over and over again while an app is running:
 
 1. The operating system listens for user input, e.g. touch events
 2. The system components respond to that input, e.g. a list of items gets scrolled
@@ -234,13 +236,14 @@ This can be extremely useful. Right now however, we don't need be informed when 
 We have successfully resolved our first issue, let's move on to the next step: associating the post with a user.
 
 #Adding the User to the Post
-If you take a look at any of the posts that we've uploaded so far, you'll see that `user` column in the Parse data browser shows that the entry is _undefined_:
+
+If you take a look at any of the posts that we've uploaded so far, you'll see that the `user` column in the Parse data browser shows that the entry is _undefined_:
 
 ![image](user_undefined.png)
 
 This means that we currently aren't storing information about which post has been created by which user.
 
-This can be fixed very easily. Whenever a `Post` gets uploaded, we associate it with the user that is currently logged into the Makestagram app.
+This can be fixed very easily. Whenever a `Post` gets uploaded, we associate it with the user that is currently logged into the **Makestagram** app.
 
 > [action]
 Extend the `uploadPost` method, so that it sets the `user` property of the post:
