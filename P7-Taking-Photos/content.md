@@ -9,9 +9,7 @@ Typically a tab bar view controller only allows a user to switch between differe
 
 ![image](taking_photo.png)
 
-Unfortunately, using a tab bar view controller, we cannot *easily* perform an arbitrary method when one of the tab bar items is selected.
-
-However, there's a **workaround**.
+Unfortunately, using a tab bar view controller, we cannot *easily* perform an arbitrary method when one of the tab bar items is selected; however, there's a **workaround**.
 
 #Using a Tab Bar Item Like a Button
 
@@ -25,7 +23,7 @@ That protocol contains a method that is interesting for us:
 
 You can read the full documentation of the method [here](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UITabBarControllerDelegate_Protocol/#//apple_ref/occ/intfm/UITabBarControllerDelegate/tabBarController:shouldSelectViewController:).
 
-Using this method, the tab bar view controller asks its delegate whether or not it should present the view controller that belongs to the tab bar item that the user just tapped.
+Using this method the tab bar view controller asks its delegate whether or not it should present the view controller that belongs to the tab bar item that the user just tapped.
 
 **Can you imagine how we could use this method to accomplish our goal?**
 
@@ -34,7 +32,7 @@ One of our classes can become the `delegate` of the `UITabBarViewController` and
 
 Let's implement this solution!
 
-The `TimelineViewController` will be the main view controller in **Makestagram**. When a user opens the App, the timeline will be displayed first.
+The `TimelineViewController` will be the main view controller in **Makestagram**. When a user opens the app, the timeline will be displayed first.
 
 That means we can use the `TimelineViewController` as the delegate for the `UITabBarViewController`.
 
@@ -75,11 +73,11 @@ Replace the entire source code in `TimelineViewController.swift` with the follow
 
 What are we doing here? In `viewDidLoad` we are setting the `TimelineViewController` to be the delegate of the `tabBarController`. Every `UIViewController` (which includes all subclasses) in iOS has the `tabBarController?` property; if the view controller is presented from a `UITabBarViewController` (as is the case in **Makestagram**), this property will store a reference to it.
 
-In the second part of this solution, after:
+In the second part of this solution, we implement the relevant protocol method after:
 
     // MARK: Tab Bar Delegate
 
-we implement the relevant protocol method. The protocol method requires us to return a boolean value. If we return `true` the tab bar will behave as usual and present the view controller that the user has selected. If we return `false` the view controller will not be displayed - exactly the behavior that we want for the Photo Tab Bar Item.
+The protocol method requires us to return a boolean value. If we return `true` the tab bar will behave as usual and present the view controller that the user has selected. If we return `false` the view controller will not be displayed - exactly the behavior that we want for the Photo Tab Bar Item.
 
 Within the protocol method, we check which view controller is about to be selected.  If the view controller is a `PhotoViewController` we return `false` and print "Take Photo" to the console. Later we'll replace this line with the actual photo taking code.
 
@@ -100,20 +98,20 @@ Recall from our *Setting Up the App Structure* tutorial that, after deciding on 
 
 Regarding features, as **Makestagram** is a photo sharing app, users should be able to either upload photos from their existing photo library or capture new photos with the built-in camera.
 
-Regarding structure, let's discuss the process, step-by-step:
+Regarding structure, let's discuss the process step-by-step:
 
 ![image](photo_taking_structure.png)
 
 1. The user taps the camera button, which triggers an event in the `TimelineViewController`. (Currently, we are logging "Take Photo" to the console during this step.)
 2. The `TimelineViewController` notifies a helper class, called `PhotoTakingHelper`, that the camera button was pressed. (We use the `PhotoTakingHelper` to handle all of our photo related features to help make our code more modular and easier to read.)
 3. The `PhotoTakingHelper` presents the popover that allows the user to choose between taking a photo with the camera or picking one from the library. (The popover is implemented as a `UIAlertController`, a standard iOS component.)
-4. Once the user has selected one of the two options, we present a `UIImagePickerController`, another standard iOS component. (The `UIImagePickerController` handles the actual image picking - either by letting the user take a picture, or by letting them pick one from their library)
+4. Once the user has selected one of the two options, we present a `UIImagePickerController`, another standard iOS component. (The `UIImagePickerController` handles the actual image picking - either by letting the user take a picture, or by letting them pick one from their library.)
 5. Once the user is finished, the selected image gets returned to the `PhotoTakingHelper`
 6. The `PhotoTakingHelper` notifies the `TimelineViewController` that a photo has been picked, and returns the image to the `TimelineViewController`.
 
-As you can see, there are many steps to getting our photo features up and running. If we skipped diagramming our structure, and went straight to coding, we would probably make the mistake of putting all of our code into the `TimelineViewController` or `PhotoViewController`, which would lead to an *extremely messy project*!
+As you can see, there are many steps to getting our photo features up and running. If we skipped diagramming our structure and went straight to coding, we would probably make the mistake of putting all of our code into the `TimelineViewController` or `PhotoViewController`, which would lead to an *extremely messy project*!
 
-When working on your own apps, remember to use helper classes to handle distinct features. For instance, a `PhotoTakingHelper` to handle all image capturing or a `MicrophoneRecordingHelper` to record all sound from the microphone.
+When working on your own apps remember to use helper classes to handle distinct features. For instance, a `PhotoTakingHelper` to handle all image capturing or a `MicrophoneRecordingHelper` to record all sound from the microphone.
 
 #Maintaining Project Structure
 
@@ -142,9 +140,9 @@ Now that we have a plan and a place to put our code, let's start implementing th
 
 Our `PhotoTakingHelper` will have three main responsibilities:
 
-1. Presenting the popover to allow the user to choose between taking a new photo or selecting one from the photo library
-2. Depending on the user's selection, presenting the camera or photo library
-2. Returning the image that the user has taken or selected
+1. Presenting the popover to allow the user to choose between taking a new photo or selecting one from the photo library.
+2. Depending on the user's selection, presenting the camera or photo library.
+2. Returning the image that the user has taken or selected.
 
 The first and second responsibilities of the `PhotoTakingHelper` require it to present a `UIAlertController` and 'UIImagePickerController', respectively. However, in iOS, only view controllers can present other view controllers, and the `PhotoTakingHelper` is a simple `NSObject`, not a `UIViewController`. To enable view controller presentation inside the `PhotoTakingHelper` class, we will implement the initializer of the `PhotoTakingHelper` to require a reference to a `UIViewController`.
 
@@ -233,8 +231,8 @@ Replace the empty implementation of `showPhotoSourceSelection()` with the follow
         viewController.presentViewController(alertController, animated: true, completion: nil)
       }
 
-In the first line, we set up the `UIAlertController` by providing it with a `message`
-and a `preferredStyle`. The `UIAlertController` can be used to present different types of popups. By choosing the `.ActionSheet` option, we create a popup that gets displayed from the bottom edge of the screen.
+In the first line we set up the `UIAlertController` by providing it with a `message`
+and a `preferredStyle`. The `UIAlertController` can be used to present different types of popups. By choosing the `.ActionSheet` option we create a popup that gets displayed from the bottom edge of the screen.
 
 After the initial set up, we add different `UIAlertAction`s to the alert controller, each action will result in one additional button on the popup.
 
@@ -244,7 +242,7 @@ The second option allows the user to pick an image from the library. We create a
 
 The third action, allowing the user to take a new photo, is special because it should only be displayed if the device has access to a camera. We check if the current device has a rear camera by using the `isCameraDeviceAvailable(_:UIImagePickerControllerCameraDevice)` method. If the rear camera is available, we add an action to the alert controller that allows the user to take a new photo. (We will add code to the body of this action in the next section as well.)
 
-In the very last line, we present the `alertController`. As we discussed earlier, view controllers can only be presented from other view controllers. We use the reference that we've stored in the `viewController` property and call the `presentViewController` method on it. Now the popup will be displayed on whichever view controller is stored in the `viewController` property!
+In the very last line we present the `alertController`. As we discussed earlier, view controllers can only be presented from other view controllers. We use the reference that we've stored in the `viewController` property and call the `presentViewController` method on it. Now the popup will be displayed on whichever view controller is stored in the `viewController` property!
 
 None of this code will run at this point - to test it we need to connect it to the `TimelineViewController`. Let's do that next! After we've connected the `TimelineViewController` and the `PhotoTakingHelper`, we will come back to complete this code so that we actually present the camera or the photo library when one of the two options is selected.
 
@@ -280,7 +278,7 @@ Add the `takePhoto` method to the `TimelineViewController` class:
 
 Within the `takePhoto` method we're creating an instance of `PhotoTakingHelper`. We're assigning that instance to the `photoTakingHelper` property (which we'll create in a second).
 
-As we know, the initializer of the `PhotoTakingHelper` takes two parameters: the view controller on which the popup should be presented and the callback that should run as soon as a photo has been selected.
+The initializer of the `PhotoTakingHelper` takes two parameters: the view controller on which the popup should be presented and the callback that should run as soon as a photo has been selected.
 
 As the view controller we pass `self.tabBarController`. The tab bar controller is the Root View Controller of our application - typically you want to present most popups directly on the Root View Controller.
 
@@ -331,7 +329,7 @@ Well done! At this point you should have a basic understanding of how informatio
 
 Now that we've successfully connected the `PhotoTakingHelper` with the `TimelineViewController` we can implement the actual photo taking code.
 
-Let's add a method to the `PhotoTakingHelper` that presents the `UIImagePickerController` (you might remember, this is the system component that will allow the user to take pictures!).
+Let's add a method to the `PhotoTakingHelper` that presents the `UIImagePickerController` (you might remember that this is the system component that will allow the user to take pictures!).
 
 > [action]
 Add the `showImagePickerController` method to the `PhotoTakingHelper` class:
@@ -375,11 +373,11 @@ Now you should be able to see a `UIImagePickerController` pop up when you select
 <video width="50%" controls>
   <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/PhotoSelection_small.mov" type="video/mp4">
 
-Now we can let the user pick an image. However, currently we don't get informed when the user has selected an image and we don't gain access to the selected image.
+Now we can let the user pick an image; however, currently we don't get informed when the user has selected an image and we don't gain access to the selected image.
 
 #Closing the Loop
 
-To gain access to the selected image, we will use a pattern with which you should be familiar with by now: _Delegation_. The `UIImagePickerController` allows a delegate to listen for selected images and other events.
+To gain access to the selected image we will use a pattern with which you should be familiar with by now: _Delegation_. The `UIImagePickerController` allows a delegate to listen for selected images and other events.
 
 Take a short look at the documentation for the [`UIImagePickerControllerDelegate`](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIImagePickerControllerDelegate_Protocol/) protocol.
 
@@ -405,7 +403,7 @@ Extend the `showImagePickerController` method to include a line that sets up the
       self.viewController.presentViewController(imagePickerController!, animated: true, completion: nil)
     }
 
-Now that we're the `delegate`, we need to conform to some protocols. Otherwise the compiler will be unhappy and our project won't run!
+Now that we're the `delegate` we need to conform to some protocols. Otherwise the compiler will be unhappy and our project won't run!
 
 By being the delegate of a `UIImagePickerController` we are required to implement the `UIImagePickerControllerDelegate` protocol and the `UINavigationControllerDelegate`.
 
@@ -430,13 +428,13 @@ Add the extension following extension to _PhotoTakingHelper.swift_ - always make
 >
     }
 
-We don't have too much code in this extension. We implement two different delegate methods. One is called when an image is selected, the other is called when the cancel button is tapped.
+We don't have too much code in this extension. We implement two different delegate methods: One is called when an image is selected, the other is called when the cancel button is tapped.
 
 Within `imagePickerControllerDidCancel` we simply hide the image picker controller by calling `dismissViewControllerAnimated` on `viewController`.
 
 Before we became the delegate of the image picker controller, it was automatically hidden as soon as a user hit the cancel button or selected an image. Now that we are the delegate, we are responsible for hiding it.
 
-The `imagePickerController(_:, didFinishPickingImage:)` method is also pretty simple. First we hide the image picker controller, then we call the `callback` and hand it the `image` that has been selected as an argument. After this line runs, the `TimelineViewController` will have received the image through its callback closure.
+The `imagePickerController(_:, didFinishPickingImage:)` method is also pretty simple. First we hide the image picker controller, then we call the `callback` and hand it the `image` that has been selected as an argument. After this line runs the `TimelineViewController` will have received the image through its callback closure.
 
 Let's test if that is actually working correctly.
 

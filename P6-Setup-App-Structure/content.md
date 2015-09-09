@@ -11,7 +11,7 @@ You should come up with a similar diagram before writing code for your original 
 
 #Another Container View Controller: The UITabBarController
 
-In this section, we're going to set up the basic structure of our app, starting with a *container view controller*, a view controller that can present other view controllers.
+In this section we're going to set up the basic structure of our app, starting with a *container view controller*, a view controller that can present other view controllers.
 
 In **Make School Notes** we  used a `UINavigationController` as our container view controller, which allowed us to drill down on content by *pushing* and *popping* view controllers.
 
@@ -106,7 +106,7 @@ Unzip the downloaded art pack, then add the camera assets as shown in the video 
   <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/AddImageAssetCatalog_small.mov" type="video/mp4">
 </video>
 >
-Repeat these steps for the *Home* and *People* assets, so that all Tab Bar Item images are added to the asset catalog:
+Repeat these steps for the *home* and *people* assets, so that all tab bar item images are added to the asset catalog:
 ![image](more_assets.png)
 
 Let's briefly discuss some important concepts about asset handling on iOS. You probably have realized that we're providing three different image files for each asset we wanted to use in our App (*@1x*, *@2x* and *@3x*). These different images have different resolutions, each suited to a specific type of iOS devices with a different screen resolution. The *@1x* assets are used for the oldest iOS devices, e.g. iPhone 3Gs, which don't have retina displays. The *@2x* images are used for the 3.5 and 4 inch retina screens of the iPhone 4(S) and iPhone 5(S). Finally, the *@3x* images are used by the iPhone 6 and iPhone 6 Plus. In most cases you won't have to spend too much time thinking about this, as long as you provide assets in all relevant resolutions.
@@ -117,24 +117,24 @@ You should also note that we don't reference images in asset catalogs by their f
 
 Now that we have added images to our app, we can assign them to our tab bar items.
 
-When we're done, the Tab Bar should look like this:
+When we're done, the tab bar should look like this:
 
 ![image](tab_bar_order.png)
 
 Let's set the images up!
 
 > [action]
-**Repeat the following steps for all three View Controllers**:
+**Repeat the following steps for all three view controllers**:
 >
-1. Select a View Controller in the left panel of the Storyboard
-2. Select the View Controller's Tab Bar Item
+1. Select a view controller in the left panel of the storyboard
+2. Select the view controller's tab bar item
 3. Open the *Attributes Inspector* in the right panel
 4. Erase the Item *Title*
-5. Set the Item *Image* to *home*, *camera* or *people*, depending on which View Controller you are currently setting up
+5. Set the Item *Image* to *home*, *camera* or *people*, depending on which view controller you are currently setting up
 >
 ![image](setup_tab_bar_item.png)
 
-Now we have images on each Tab Bar item - but something doesn't look quite right. The images aren't vertically centered. That's because iOS reserves some space below the image for the *Title* of the Tab Bar Item. For **Makestagram** we don't need titles, instead we want the images to be centered. We can accomplish that by adjusting the *Image Inset* for each Tab Bar Item.
+Now we have images on each tab bar item - but something doesn't look quite right. The images aren't vertically centered. That's because iOS reserves some space below the image for the *Title* of the tab bar item. For **Makestagram** we don't need titles, instead we want the images to be centered. We can accomplish that by adjusting the *Image Inset* for each tab bar item.
 
 > [action]
 **Repeat the following steps for all three view controllers**:
@@ -160,7 +160,7 @@ Now we have a nice looking Tab Bar that connects to the three View Controllers o
 
 #Creating Classes for our View Controllers
 
-To finish this section, let's create the Source Code Files for all three View Controllers that we will be working on throughout this tutorial. We'll add them to the  *ViewControllers* group to keep this project nicely structured.
+To finish this section, let's create the source code files for all three view controllers that we will be working on throughout this tutorial. We'll add them to the  *ViewControllers* group to keep this project nicely structured.
 
 > [action]
 Create the `TimelineViewController` class as a subclass of `UIViewController` as shown in the video below:
@@ -177,7 +177,7 @@ If you see the line `import Cocoa` instead, you mistakenly created an OS X file,
 
 ##Configuring Custom Classes in Storyboard
 
-The last setup step that remains, is connecting the classes that we just created to our View Controllers in Storyboard.
+The last setup step that remains is connecting the classes that we just created to our view controllers in our storyboard.
 
 > [action]
 **Repeat the following steps for all three View Controllers**:

@@ -57,7 +57,7 @@ Fill the _ParseHelper.swift_ file with the following content:
 
 1. We are going to wrap all of our helper methods into a class called `ParseHelper`. We only do this so that all of the functions are bundled under the `ParseHelper` _namespace_. That makes the code easier to read in some cases. To call the timeline request function you call `ParseHelper.timelineRequestforUser...` instead of simply `timelineRequestforUser`. That way you always know exactly in which file you can find the methods that are being called.
 2. We mark this method as `static`. This means we can call it without having to create an instance of `ParseHelper` - you should do that for all helper methods. This method has only one parameter, `completionBlock`: the callback block that should be called once the query has completed. The type of this parameter is `PFArrayResultBlock`. That's the default type for all of the callbacks in the Parse framework. By taking this callback as a parameter, we can call any Parse method and return the result of the method to that `completionBlock` - you'll see how we use that in _3._
-3. The entire body of this method is unchanged, it's the exact timeline query that we've built within the `TimelineViewController`. The only difference is the last line of the method. Instead of providing a closure and handling the results of the query within this method, we hand off the results to the closure that has been handed to use through the `completionBlock` parameter. This means, whoever calls the `timelineRequestForCurrentUser` method will be able to handle the result returned from the query!
+3. The entire body of this method is unchanged, it's the exact timeline query that we've built within the `TimelineViewController`. The only difference is the last line of the method. Instead of providing a closure and handling the results of the query within this method, we hand off the results to the closure that has been handed to use through the `completionBlock` parameter. This means whoever calls the `timelineRequestForCurrentUser` method will be able to handle the result returned from the query!
 
 Now we can tidy up the `TimelineViewController` and replace the query in there with a call to our newly crafted helper method.
 
@@ -84,7 +84,7 @@ Suddenly the `viewDidAppear` method is much, much shorter. All we need to do is 
 
 The content of the completion block remains exactly the same; we store the posts, download all of the images, and finally update the table view.
 
-You can test this version of the app and it should behave exactly as before. However, our code is now better organized.
+You can test this version of the app and it should behave exactly as before; however, our code is now better organized.
 
 #Conclusion
 

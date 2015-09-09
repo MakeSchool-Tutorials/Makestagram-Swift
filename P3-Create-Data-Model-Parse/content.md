@@ -59,7 +59,7 @@ You add a column by hitting the *+Col* button in the top bar of the data browser
 >
 ![image](add_column.png)
 
-Then you'll see a popup that will ask you to specify details about this new column. We need to choose the type and the name of the column. To store binary data, such as photos, zip-files, etc. we use the *File* type.
+Then you'll see a popup that will ask you to specify details about this new column. We need to choose the type and the name of the column. To store binary data (such as photos, zip-files, etc.) we use the *File* type.
 
 > [action]
 Set the type of the column to *File* and name it *imageFile*. Then hit the *Create Column* button:
