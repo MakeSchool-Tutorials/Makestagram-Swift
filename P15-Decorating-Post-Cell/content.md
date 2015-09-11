@@ -5,6 +5,11 @@ slug: decorating-post-table-view-cell
 
 Now we'll spend some time in Interface Builder and with Auto Layout to polish up our extremely simple UI. We'll also add some more assets to our app. That will allow us to improve the look & feel throughout the next chapters.
 
+Auto Layout is an extremely powerful tool and there's lots to learn. If you want a good overview of the core Auto Layout concepts, including a lot of examples of how to
+use Auto Layout with Interface Builder, you should check out our lecture series:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLZ_SI6zSFXvD8fi9dan4UsgDdr3-OXyjV" frameborder="0" allowfullscreen></iframe>
+
 #Adding Additional Resources
 
 This step is pretty simple; we're going to add some more resources to our Asset Catalog. You've already downloaded the Art Pack for this tutorial earlier on, in case you no longer know where you've stored it, you can get it again [here](https://s3.amazonaws.com/mgwu-misc/SA2015/Makestagram_Art.zip) (I don't blame you; my file system is pretty messy!).
