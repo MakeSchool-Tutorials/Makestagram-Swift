@@ -163,6 +163,12 @@ Let's first tackle the warning that we are currently seeing in the console when 
 
 In case you haven't worked with _threads_ before, you will need a little bit of background knowledge before you'll be able to understand the issue.
 
+We've prepared a lecture that discusses many aspects of threading in detail. All of the topics are covered within this tutorial as well, but watching this lecture will help you solidify your knowledge of this fairly complex topic:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/M6CqVoz1tUo" frameborder="0" allowfullscreen></iframe>
+
+You can download the slides [here](https://s3.amazonaws.com/mgwu-misc/SA2015/LectureSlides/Threads_Asynchrony.pdf).
+
 ##A Brief Introduction to Threading
 
 A typical computer program is a sequence of instructions that get performed after each other. Only one instruction is running at any point in time. Most modern apps (mobile apps, web apps, etc.) however, perform multiple tasks in **parallel**.
