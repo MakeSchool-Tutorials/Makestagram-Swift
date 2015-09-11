@@ -13,6 +13,12 @@ Until a few years ago, it was necessary to write an entire server application to
 
 Additionally Parse provides an iOS library. This makes it easy to interact with the Parse server from within our app.
 
+We have prepared a brief lecture that will introduce you to the core concepts of the Parse framework:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/q8NW_FrwQ5A" frameborder="0" allowfullscreen></iframe>
+
+You can download the slides [here](https://s3.amazonaws.com/mgwu-misc/SA2015/LectureSlides/ParseIntro.pdf).
+
 Throughout this tutorial you will get to know Parse in detail. Our very first step is setting up a Parse account and setting up our first app.
 
 #Setting up a Parse Account
