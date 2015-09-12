@@ -7,13 +7,13 @@ You have done a lot of work on this app so far - in this step we want to make yo
 
 We will implement a Pull-To-Refresh mechanism as you know it from most iOS apps. We will also implement a feature that will limit the amount of posts we download. Right now our approach is pretty inefficient; we download all posts in one query. Even though Parse automatically limits us to 100 posts, we are potentially downloading much more data than necessary.
 
-After we are finished with this step, we will load posts in chunks of 5, only loading additional posts once the user reaches the end of the timeline. This behavior is well known from _Facebook_, _Instagram_ and many other apps.
+After we are finished with this step, we will load posts in chunks of 5, only loading additional posts once the user reaches the end of the timeline. This behavior is well known from _Facebook_, _Instagram_, and many other apps.
 
-To make your life easier, we have delivered a lot of this functionality as part of a class called `TimelineComponent`. So instead of implementing all of this from scratch, you will learn how to use the `TimelineComponent`!
+To make your life easier we have delivered a lot of this functionality as part of a class called `TimelineComponent`. So instead of implementing all of this from scratch, you will learn how to use the `TimelineComponent`!
 
 The component will be responsible for storing all of the posts displayed on the timeline. It will also be responsible for triggering requests whenever a user refreshes the timeline. This means we will restructure a fair amount of our existing code in the `TimelineViewController`.
 
-First, we will change our timeline query so that we can load posts in certain ranges instead of all at once. Then we will walk through the different steps of adding the `TimelineComponent` to _Makestagram_.
+First we will change our timeline query so that we can load posts in certain ranges instead of all at once. Then we will walk through the different steps of adding the `TimelineComponent` to _Makestagram_.
 
 #Making the Timeline Query More Flexible
 
@@ -57,7 +57,7 @@ This wasn't too difficult! Now we are prepared to use the `TimelineComponent` in
 
 #Incorporating the TimelineComponent
 
-Now we will discuss, step by step, how to use the `TimelineComponent`. Remember this step so that you can come back here in case you want to use the component in your own app!
+Now we will discuss, step-by-step, how to use the `TimelineComponent`. Remember this step so that you can come back here in case you want to use the component in your own app!
 
 ##Basic Setup
 
@@ -112,9 +112,9 @@ We are defining that we start by showing the latest 5 posts (index 0 to 4). When
 
 To conform to the `TimelineComponentTarget` protocol we need to implement one more method: `loadInRange`. Currently we are performing our timeline query inside of the `viewDidAppear` method. We first perform a query, then we update the table view.
 
-When working with the `TimelineComponent`, we are no longer responsible for updating the table view and starting the queries. Instead, that will be handled for us by the component.
+When working with the `TimelineComponent`, we are no longer responsible for updating the table view and starting the queries. Instead that will be handled for us by the component.
 
-All we need to do is implement the `loadInRange` method, so that the component can call it and receive the posts on a user's timeline.
+All we need to do is implement the `loadInRange` method so that the component can call it and receive the posts on a user's timeline.
 
 **Based on the query code in the `viewDidAppear` method, can you come up with an implementation of `loadInRange`?**
 
@@ -143,8 +143,8 @@ Now our class fully conforms to the `TimelineComponentTarget` protocol! However,
 
 There are two events that the `TimelineComponent` needs to know about in order to do its job correctly:
 
-1. The component needs to know when the table view becomes visible, so that it can load the initial set of data
-2. The component needs to know which cells are currently being displayed, so that it can load more cells as soon as the user has reached the latest cell in the Timeline
+1. The component needs to know when the table view becomes visible so that it can load the initial set of data.
+2. The component needs to know which cells are currently being displayed so that it can load more cells as soon as the user has reached the latest cell in the Timeline.
 
 Let's start by informing the component when the table view becomes visible.
 
@@ -165,7 +165,7 @@ Change the `viewDidAppear` method of the `TimelineViewController` class to look 
 
 Don't worry, we will declare timelineComponent in just a moment. Now the `TimelineComponent` will make an initial timeline request, if no data has been loaded so far. If the component has already queried the server and stored a user's posts, this method call does nothing at all. After the initial load, posts will only be reloaded if the user manually chooses to do so (by using the pull-to-refresh mechanism).
 
-Next, we need to inform the `TimelineComponent` which cell is currently visible.
+Next we need to inform the `TimelineComponent` which cell is currently visible.
 
 ###Informing the TimelineComponent about visible cells
 
@@ -195,7 +195,7 @@ This method is called whenever our TableView is about to display a cell! So let'
 
 To keep our code well structured, we implement the new protocol in a separate class `extension`. The implementation of this method is fairly simple - we directly call the `timelineComponent` and inform it that a cell has been displayed.
 
-Note that this code won't work yet. Firstly, we haven't declared the `timelineComponent` property yet. Secondly, the `TimelineViewController` isn't the `delegate` of the table view yet. Currently, it is only the `dataSource`.
+Note that this code won't work yet. First, we haven't declared the `timelineComponent` property yet. Second, the `TimelineViewController` isn't the `delegate` of the table view yet. Currently, it is only the `dataSource`.
 
 Let's set ourselves up as the table view's delegate. After that, we'll initialize and store the `TimelineComponent`.
 
@@ -206,7 +206,7 @@ Let's set ourselves up as the table view's delegate. After that, we'll initializ
 
 ##Initializing and storing the TimelineComponent
 
-Now, let's create the property that will store the `TimelineComponent` object.
+Now let's create the property that will store the `TimelineComponent` object.
 
 > [action]
 Add the following property to the `TimelineViewController` class:
@@ -215,7 +215,7 @@ Add the following property to the `TimelineViewController` class:
 
 Note that you need to provide two different types in the angled brackets: the type of object you are displaying (`Post`) and the class that will be the target of the `TimelineComponent` (that's the `TimelineViewController` in our case).
 
-Next, we will add code that creates an instance of the `TimelineComponent`. We'll add that to the `viewDidLoad` method. As soon as our view is loaded, we want the `TimelineComponent` to be available:
+Next we will add code that creates an instance of the `TimelineComponent`. We'll add that to the `viewDidLoad` method. As soon as our view is loaded, we want the `TimelineComponent` to be available:
 
 > [action]
 > Extend the `viewDidLoad` method so that it initializes a `TimelineComponent`
@@ -272,8 +272,8 @@ When you reach the 5th post, additional posts are loaded and displayed!
 
 #Conclusion
 
-In this chapter, you learned two important concepts: First, we modified our timeline query to only load a certain range of posts. That is extremely important! It is very inefficient to load data that the user doesn't need. Using the `skip` and `limit` properties of `PFQuery` you will be able to load exactly the portion of your data that is currently relevant to your user.
+In this chapter, you learned two important concepts: First, we modified our timeline query to only load a certain range of posts. That is extremely important! It is very inefficient to load data that the user doesn't need; using the `skip` and `limit` properties of `PFQuery` you will be able to load exactly the portion of your data that is currently relevant to your user.
 
 You have also learned how to use the `TimelineComponent`. If you happen to build an app that contains a timeline, this component will be very useful!
 
-In the next step, we will take a little step back and review all the things you have learned through this tutorial so far.
+In the next step we will take a little step back and review all the things you have learned through this tutorial so far.

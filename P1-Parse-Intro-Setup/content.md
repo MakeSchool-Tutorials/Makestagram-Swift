@@ -5,7 +5,7 @@ slug: setting-up-parse
 
 To build a photo sharing app we will need to exchange information between multiple users on multiple devices.
 
-In the *Make School Notes* tutorial, we built an app that only stores information locally, on the user's phone. There is no way of sharing information with other users or accessing notes from other devices. This is fine for some apps. However, most applications need to provide a way for multiple users to to interact with each other. In such cases we need to store the information used in the app on a server that is accessible by all users.
+In the *Make School Notes* tutorial we built an app that only stores information locally on the user's phone. There is no way of sharing information with other users or accessing notes from other devices. This is fine for some apps; however, most applications need to provide a way for multiple users to to interact with each other. In such cases we need to store the information used in the app on a server that is accessible by all users.
 
 #What Does Parse Do for Us?
 
@@ -20,7 +20,7 @@ Throughout this tutorial you will get to know Parse in detail. Our very first st
 First, sign up for an account.
 
 > [action]
-Go to [Parse.com](http://parse.com). Enter your email address, choose a password and name your app *Makestagram*.
+Go to [Parse.com](http://parse.com). Enter your email address, choose a password, and name your app *Makestagram*.
 ![image](signup_parse.png)
 
 

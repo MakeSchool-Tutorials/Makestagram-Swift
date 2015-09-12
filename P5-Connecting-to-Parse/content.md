@@ -63,7 +63,7 @@ Now we should be ready to work with Parse SDK! In a moment we will see if you've
 
 #Adding a Fake Login
 
-All features in *Makestagram*, e.g. posting photos, following friends, etc. will require a logged in user. This means that before we can start building our actual app, we need a way for a user to log in.
+All features in *Makestagram* (e.g. posting photos, following friends, etc.) will require a logged in user. This means that before we can start building our actual app, we need a way for a user to log in.
 
 For now, we are going to provide a fake login mechanism so that we can start working on the core features of the app. (Later in this tutorial we will spend some time building a full login mechanism, including login with a Facebook account.)
 
@@ -110,7 +110,7 @@ Now it's time to run the app! You should see the following console output (if th
 
 In the last line we can see the output: **Log in successful**. This means everything has worked correctly! Congratulations, you have just logged into your Parse app.
 
-However, we also see a warning message above this output (*Warning: A long-running operation is being executed on the main thread*). For now we can ignore this warning - we will devote a fair amount of time, later in this tutorial, to discuss threading and long-running operations.
+However, we also see a warning message above this output (*Warning: A long-running operation is being executed on the main thread*). For now we can ignore this warning - we will devote a fair amount of time later in this tutorial to discuss threading and long-running operations.
 
 For now, we're good to move on and can start to work on the core of the app. As discussed, later in this tutorial we will replace this fake login with a real login screen.
 

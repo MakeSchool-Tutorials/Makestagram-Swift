@@ -28,18 +28,18 @@ Change the Table View row height to _320_ as well:
 Next, we'll add an image view that will display the uploaded photo.
 
 > [action]
-Add an Image View to the Table View Cell, as shown below:
+Add an image view to the table view cell, as shown below:
 ![image](add_image_view.png)
-By dragging the corners of the Image View, change its size to be the full size of the cell. We won't be using constraints until later on.
+By dragging the corners of the image view, change its size to be the full size of the cell. We won't be using constraints until later on.
 
-Additionally we need to change the _Content Mode_ of the image view. Currently it is set to the default value which is _Scale To Fill_. That will distort the image to fit into the size of the image view. Distorted images look ugly! It's much better to crop them. To do that, we change the _Content Mode_ to _Aspect Fill_.
+Additionally we need to change the _Content Mode_ of the image view. Currently it is set to the default value which is _Scale To Fill_. That will distort the image to fit into the size of the image view. Distorted images look ugly! It's much better to crop them. To do that we change the _Content Mode_ to _Aspect Fill_.
 
 > [action]
-> Change the _Content Mode_ of the Image View in the _Attributes inspector_, as shown in the image below. Also select
+> Change the _Content Mode_ of the image view in the _Attributes inspector_, as shown in the image below. Also select
 > _Clip Subviews_ in the right panel:
 > ![image](imageview_content_mode.png)
 
-The _Clip Subviews_ option ensures that the image is not drawn outside the border of the image view. Without this option, the image leaks over the edges of the image view.
+The _Clip Subviews_ option ensures that the image is not drawn outside the border of the image view. Without this option the image leaks over the edges of the image view.
 
 ##Creating a Custom Class for the Table View Cell
 Since we will want to create an IBOutlet connection from this image view to our table view cell, we will need to create a custom `UITableViewCell` subclass. That IBOutlet connection will allow the `TimelineViewController` to set the image as soon as a post is downloaded.
@@ -67,7 +67,7 @@ Set the _Custom Class_ of the table view cell to our newly created `PostTableVie
 
 ##Creating a Referencing Outlet for the Image View
 
-To complete the last step, we need to create a referencing outlet from the image view to the table view cell. This will allow us set the image displayed inside of each cell.
+To complete the last step we need to create a referencing outlet from the image view to the table view cell. This will allow us set the image displayed inside of each cell.
 
 > [action]
 Create a referencing outlet from the image view to the `PostTableViewCell` class; name the property `postImageView`:
@@ -90,7 +90,7 @@ Now we have a table view cell that will allow us to display photos that users ha
       return cell
     }
 
-1. In this line, we cast `cell` to our custom class `PostTableViewCell`. (In order to access the specific properties of our custom table view cell, we need to perform a cast to the type of our custom class. Without this cast the `cell` variable would have a type of a plain old `UITableViewCell` instead of our `PostTableViewCell`.)
+1. In this line we cast `cell` to our custom class `PostTableViewCell`. (In order to access the specific properties of our custom table view cell, we need to perform a cast to the type of our custom class. Without this cast the `cell` variable would have a type of a plain old `UITableViewCell` instead of our `PostTableViewCell`.)
 2. Using the `postImageView` property of our custom cell we can now decide which image should be displayed in the cell.
 
 Now you can run the app and you will see...
@@ -107,7 +107,7 @@ This system makes a lot of sense - in many cases we want some information about 
 
 This means we need to write some extra code to download the image.
 
-As I promised, this chapter will focus on making some visual progress, so for now we will use a temporary solution to download the images.
+As promised, this chapter will focus on making some visual progress, so for now we will use a temporary solution to download the images.
 
 > [action]
 Extend the callback block of `findObjectsInBackgroundWithBlock` within the `viewDidAppear` method of `TimelineViewController` as shown below:
