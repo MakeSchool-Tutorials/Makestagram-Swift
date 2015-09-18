@@ -43,7 +43,7 @@ Extend the `didSet` property observer of the `post` property as following:>
         // 1
         postDisposable?.dispose()
         likeDisposable?.dispose()
-      
+>      
         if let post = post {
           // 2
           postDisposable = post.image.bindTo(postImageView.bnd_image)
