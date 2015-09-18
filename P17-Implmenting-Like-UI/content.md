@@ -9,6 +9,19 @@ which users have liked a post, and the like button won't activate (i.e. turn red
 In this step we will once again make use of the _Bond_ framework - this time we will use it to update the UI whenever a user likes a post.
 We have already defined the `likes` stored within each `Post` as an `Observable` property. As you might remember from the implementation of the lazy image loading, having an `Observable` property allows us to listen for changes by using a _binding_.
 
+We will also improve our binding code for the post image in this section. You might have noticed a subtle bug when scrolling through the timeline really fast: sometimes an image will show up in the incorrect place. This happens when a table view cell has a binding to multiple posts. In order to avoid this issue we should free our old bindings whenever we bind to a new post. 
+
+For this we will need to use the `DisposableType` that is provided by the Bond framework. Whenever we create a binding an instance of `DispostableType` is created. Later we can use that instance to destroy the created binding. The first step for implementing this is adding to instance variable to the `PostTableViewCell` that will store the `DisposableTypes`:
+
+> [action]
+>
+> Add the following two instance variables to the `PostTableViewCell`:
+>
+    var postDisposable: DisposableType?
+    var likeDisposable: DisposableType?
+
+In a second we'll add code that uses these disposables to free up old bindings and avoid the image flicker issue!
+
 #Adding a Binding for Likes
 
 Before we start coding, I want to remind you what our first binding looked like. It was a binding between the `image` property of a `Post` and the`image` property of a `postImageView` in the `PostTableViewCell`:
@@ -27,20 +40,24 @@ Extend the `didSet` property observer of the `post` property as following:>
 >
     var post: Post? {
       didSet {
+        // 1
+        postDisposable?.dispose()
+        likeDisposable?.dispose()
+      
         if let post = post {
-          post.image.bindTo(postImageView.bnd_image)
-          // 1
-          post.likes.observe { (value: [PFUser]?) -> () in
-            // 2
+          // 2
+          postDisposable = post.image.bindTo(postImageView.bnd_image)
+          likeDisposable = post.likes.observe { (value: [PFUser]?) -> () in
+            // 3
             if let value = value {
-              // 3
-              self.likesLabel.text = self.stringFromUserList(value)
               // 4
-              self.likeButton.selected = value.contains(PFUser.currentUser()!)
+              self.likesLabel.text = self.stringFromUserList(value)
               // 5
+              self.likeButton.selected = value.contains(PFUser.currentUser()!)
+              // 6
               self.likesIconImageView.hidden = (value.count == 0)
             } else {
-              // 6
+              // 7
               self.likesLabel.text = ""
               self.likeButton.selected = false
               self.likesIconImageView.hidden = true
@@ -50,12 +67,13 @@ Extend the `didSet` property observer of the `post` property as following:>
       }
     }
 
-1. The `observe` method is provided by the *Bond* framework and can be called on any object wrapped in the `Observable` type. The `observe` method takes one parameter, a closure (defined as a *trailing closure* in the code above), which in our case has type `[PFUser]? -> ()`. The code defined by the closure will be executed whenever `post.image` receives a new value. The constant named `value` in the closure definition will contain the actual contents of `post.likes`, that is, the `Observable` wrapper will have been removed.
-2. Because `post.likes` contains an *optional* array of `PFUser`s, we use optional binding to ensure that `value` is not `nil`.
-3. If we have received a value, we perform different updates. First of all we update the `likesLabel` to display a list of usernames of all users that have liked the post. We use a utility method `stringFromUserList` to generate that list. We'll add and discuss that method later on!
-4. Next we set the state of the like button (the heart) based on whether or not the current user is in the list of users that like the currently displayed post. If the user has liked the post, we want the button to be in the `Selected` state so that the heart appears red. If not `selected` will be set to `false` and the heart will be displayed in gray.
-5. Finally, if no one likes the current post, we want to hide the small heart icon displayed in front of the list of users that like a post.
-6. If we haven't received a value yet, set all UI elements to default values.
+1. We use the disposable variables to destroy old bindings. This way we avoid that this cell listens to updates from old posts that it's no longer displaying.
+2. In this step, where we bind to the different properties of the post, we assign the disposables that later allow us to destroy the bindings. For binding to the likes of a post we use the `observe` method. The `observe` method is provided by the *Bond* framework and can be called on any object wrapped in the `Observable` type. The `observe` method takes one parameter, a closure (defined as a *trailing closure* in the code above), which in our case has type `[PFUser]? -> ()`. The code defined by the closure will be executed whenever `post.image` receives a new value. The constant named `value` in the closure definition will contain the actual contents of `post.likes`, that is, the `Observable` wrapper will have been removed.
+3. Because `post.likes` contains an *optional* array of `PFUser`s, we use optional binding to ensure that `value` is not `nil`.
+4. If we have received a value, we perform different updates. First of all we update the `likesLabel` to display a list of usernames of all users that have liked the post. We use a utility method `stringFromUserList` to generate that list. We'll add and discuss that method later on!
+5. Next we set the state of the like button (the heart) based on whether or not the current user is in the list of users that like the currently displayed post. If the user has liked the post, we want the button to be in the `Selected` state so that the heart appears red. If not `selected` will be set to `false` and the heart will be displayed in gray.
+6. Finally, if no one likes the current post, we want to hide the small heart icon displayed in front of the list of users that like a post.
+7. If we haven't received a value yet, set all UI elements to default values.
 
 There's a last step required before we can test our new binding: adding the `stringFromUserList` method!
 
