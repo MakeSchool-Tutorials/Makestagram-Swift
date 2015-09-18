@@ -11,7 +11,7 @@ To set up the Parse SDK we will first need to answer the following question: *Wh
 
 #Configuring the SDK on App Launch
 
-Every iOS project gets created with class called `AppDelegate`. This class has multiple methods that get called when our App starts, is put in the background or is closed. Whenever we want to respond to such *lifecycle* events, the `AppDelegate` is the right place to add our code. If you open the *AppDelegate.swift* file, that is part of the *Makestagram* project, you will see the different methods that are part of the `AppDelegate`. Apple also provides some helpful comments about the responsibilities of each method. For now, we are mainly interested in the following method:
+Every iOS project gets created with a class called `AppDelegate`. This class has methods that get called when our app is started, put into the background, or closed. These actions (starting, going into the background, and closing), are referred to as *lifecycle* events.  Whenever we want to respond to such events, the `AppDelegate` is the right place to add our code. If you open the *AppDelegate.swift* file, which is part of the *Makestagram* project, you will see the different lifecycle methods. If you are curious about the responsibilities of each of these methods, checkout this Apple [documentation](https://developer.apple.com/library/ios/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/TheAppLifeCycle/TheAppLifeCycle.html). For now, we are mainly interested in the following method:
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
       // Override point for customization after application launch.
@@ -19,7 +19,7 @@ Every iOS project gets created with class called `AppDelegate`. This class has m
       return true
     }
 
-This is the method that is called as soon as our App starts. Here we need to add the code to configure the Parse SDK. The SDK can be configured with one simple method call.
+This method is called as soon as our app starts - this is where we need to add the code to configure the Parse SDK. The SDK can be configured with one simple method call.
 
 > [action]
 Add an import statement (`import Parse`) to import the Parse SDK into the `AppDelegate`. Then add a method call to `Parse.setApplicationID` into the `application(application:didFinishLaunchingWithOptions:launchOptions:)` method. The result should look like this:
@@ -63,11 +63,9 @@ Now we should be ready to work with Parse SDK! In a moment we will see if you've
 
 #Adding a Fake Login
 
-All features in *Makestagram*, e.g. posting photos, following friends, etc. will require a logged in user. This means that before we can start building our actual app, we need a way for a user to log in.
+All features in *Makestagram* (e.g. posting photos, following friends, etc.) will require a logged in user. This means that before we can start building our actual app, we need a way for a user to log in.
 
-I however don't want to start this tutorial with building a login screen. For now we should provide a fake login mechanism so that we can start working on the core features of the app.
-
-Later in this tutorial we will spend some time building a full login mechanism, including login with a Facebook account.
+For now, we are going to provide a fake login mechanism so that we can start working on the core features of the app. (Later in this tutorial we will spend some time building a full login mechanism, including login with a Facebook account.)
 
 Implementing a fake login mechanism involves two steps:
 
@@ -91,10 +89,10 @@ Extend the `AppDelegate` to log in with our test credentials. We'll also add an 
 >
       PFUser.logInWithUsername("test", password: "test")
 >
-      if let user = PFUser.currentUser() {
-        println("Log in successful")
+      if let currentUser = PFUser.currentUser() {
+        print("\(currentUser.username!) logged in successfully")
       } else {
-        println("No logged in user :(")
+        print("No logged in user :(")
       }
 >
       return true
@@ -104,7 +102,7 @@ We are using the `loginWithUsername` method of `PFUser` to programmatically sign
 
 After we performed the login we check if it was successful. The `PFUser.currentUser()` method returns an optional `PFUser?`. If no user is logged in, this method returns `nil` otherwise it returns a `PFUser` object. We use an optional binding (`if let user = PFUser.currentUser()`) to check if the result of the method call was a `PFUser`.
 
-Depending on the result we print a success or failure message to the console using the `println` function.
+Depending on the result we print a success or failure message to the console using the `print` function.
 
 > [action]
 Now it's time to run the app! You should see the following console output (if the console does not show up, use the following shortcut: ⌘+⇧+C):
@@ -112,7 +110,7 @@ Now it's time to run the app! You should see the following console output (if th
 
 In the last line we can see the output: **Log in successful**. This means everything has worked correctly! Congratulations, you have just logged into your Parse app.
 
-However, we also see a warning message above this output (*Warning: A long-running operation is being executed on the main thread*). For now we can ignore this warning - we will devote a fair amount of time, later in this tutorial, to discuss threading and long-running operations.
+However, we also see a warning message above this output (*Warning: A long-running operation is being executed on the main thread*). For now we can ignore this warning - we will devote a fair amount of time later in this tutorial to discuss threading and long-running operations.
 
 For now, we're good to move on and can start to work on the core of the app. As discussed, later in this tutorial we will replace this fake login with a real login screen.
 

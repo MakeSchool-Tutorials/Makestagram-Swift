@@ -3,20 +3,21 @@ title: "A Word on Security"
 slug: security-parse
 ---
 
-Security is a very important topic - so we should discuss it as early as possible. Luckily, when using Parse we don't need to spend too much time thinking about security features. Storing of passwords, the login mechanism, etc. are all taken care of.
+Security is a very important topic - so we should discuss it as early as possible. Luckily, when using Parse, we don't need to spend too much time thinking about security features, as the login mechanism (including password storage) are all built-in.
 
 There is one aspect that we need to take care of - _Access Control Lists_.
 
 #An Introduction to Access Control Lists
 
-_Access Control Lists_ (ACL) allow you to define lists of users that have certain rights to read, modify or delete certain objects. The default ACL is _Public Read and Write_. This means any user can read this object, modify it and even delete it.
+_Access Control Lists_ (ACL) allow you to define lists of users that have certain rights to read, modify, or delete certain objects. The default ACL is _Public Read and Write_. This means any user can read this object, modify it and even delete it.
 
-You can see the current ACL of each object in the Parse data browser, in the ACL column:
+The current ACL for each object can be found by looking in the column labeled *ACL* in the Parse data browser.
+
 ![image](public_read_write.png)
 
 For most objects you store in Parse **you don't want this default ACL.** If any of your users gets access to your _ClientKey_ (which is possible in multiple different ways) they will be able to modify all objects that have public write access!
 
-If you store all of your objects with the default ACL, that would allow an attacker to delete your entire app data!
+If you store all of your objects with the default ACL, it would allow an attacker to delete all of your app's data!
 
 How can we avoid that? By changing the default ACL!
 
@@ -53,7 +54,7 @@ With this new default setting our app content is already much safer!
 
 #Cleaning up the Old Data
 
-Throughout the last steps we have created multiple posts, using code that is now outdated. Some posts don't have users assigned to them; others have the wrong ACL. Let's delete all of the existing posts - that way we will avoid debugging issues related to outdated objects.
+Thus far in the **Makestagram** tutorial, we have created multiple posts. Most of these posts are invalid as they either don't have a user assigned to them or they have the wrong ACL. To avoid debugging issues related to outdated objects, let's delete all of the existing posts.
 
 > [action]
 Use the Parse data browser to delete all rows of the `Post` class:
@@ -68,4 +69,4 @@ You also learned how to change the default ACL. Changing the default ACL should 
 
 If you are interested in some more details on ACLs, you can read the official documentation [here](https://parse.com/docs/ios/guide#security-object-level-access-control).
 
-For now, this step concludes our solution for creating new posts. In the next step we will start implementing one of the core features of Makestagram: the timeline!
+For now this step concludes our solution for creating new posts. In the next step we will start implementing one of the core features of **Makestagram**: the timeline!

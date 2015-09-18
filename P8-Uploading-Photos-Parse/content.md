@@ -9,7 +9,7 @@ In this step we will write the code that uploads our photo to Parse!
 
 #Writing Information to Parse
 
-Which steps are involved in writing Data to Parse? In most cases it is a three step process. Here's the simplest example from the Parse Quickstart guide:
+Which steps are involved in writing data to Parse? In most cases, it is a three step process. Here's the simplest example from the Parse Quickstart guide:
 
     let testObject = PFObject(className: "TestObject")
     testObject["foo"] = "bar"
@@ -19,23 +19,23 @@ Which steps are involved in writing Data to Parse? In most cases it is a three s
 
 The three steps in this code snippet are:
 
-1. Creating a `PFObject` with a class name that matches on of our Parse classes (in our app this could be "Post", "User", etc.)
+1. Creating a `PFObject` with a class name that matches one of our Parse classes (in our app this could be "Post", "User", etc.)
 2. Set a value for a certain property of that instance using a *subscript* (the square brackets after the variable name)
 3. Call one of the available `save...` methods on the instance
 
-After the last step completes, your data is stored in the Parse database. However, this is only the simplest of all use cases.
+After the last step completes, your data is stored in the Parse database; however, this is only the simplest of all use cases.
 
-Uploading a photo in Makestagram is a little bit more complex, but it's still only a few lines of code.
+Uploading a photo in **Makestagram** is a little bit more complex, but it's still only a few lines of code.
 
 #Adding the Upload Code
 
-Why is our use case a little bit more complicated than the one shown above? Primarily, because we do not only want to upload an image, but we also want to create an instance of the Parse `Post` class.
+Why is our use case a little bit more complicated than the one shown above? Primarily because not only do we want to upload an image, but we also want to create an instance of the Parse `Post` class.
 
 Here's a short reminder of what the `Post` class looks like:
 
 ![image](post_model.png)
 
-You can see that the actual image file is stored _as part of the Post_. This means that our upload code needs to create a post object that can be stored in Parse. Additionally it needs to upload the image that gets stored within that post.
+You can see that the actual image file is stored _as part of the Post_. This means that our upload code needs to create a post object that can be stored in Parse. Additionally, it needs to upload the image that gets stored within that post.
 
 Files are handled a little different than regular objects in Parse, so we don't use the `PFObject` class to create them. Instead we used the specialized `PFFile` class.
 
@@ -49,13 +49,15 @@ First, add an import statement to the top of the *TimelineViewController.swift* 
 Now, here's one possible solution for the callback:
 >
     photoTakingHelper = PhotoTakingHelper(viewController: self.tabBarController!, callback: { (image: UIImage?) in
-      let imageData = UIImageJPEGRepresentation(image, 0.8)
-      let imageFile = PFFile(data: imageData)
-      imageFile.save()
+      if let image = image {
+        let imageData = UIImageJPEGRepresentation(image, 0.8)
+        let imageFile = PFFile(data: imageData)
+        imageFile.save()
 >
-      let post = PFObject(className: "Post")
-      post["imageFile"] = imageFile
-      post.save()
+        let post = PFObject(className: "Post")
+        post["imageFile"] = imageFile
+        post.save()
+      }
     })
 
 There shouldn't be too many surprises in these lines. The most interesting one is the very first one. We turn the `UIImage` into an `NSData` instance because the `PFFile` class needs an `NSData` argument for its initializer.
@@ -78,7 +80,7 @@ When following these steps you will notice two things:
 2. You will see the following message in the console log:
    > Warning: A long-running operation is being executed on the main thread.
 
-We will discuss this issue and fix it throughout this tutorial! For now, let's first see if the upload actually worked as expected.
+We will discuss this issue and fix it throughout this tutorial! For now let's first see if the upload actually worked as expected.
 
 The best way to do that is to use the Parse data browser. It will give us a nice overview of all the objects that have been created on our server.
 
@@ -90,11 +92,11 @@ To be 100% sure that everything worked correctly, you can double-click onto the 
 
 #Conclusion
 
-**Congratulations!** This means you have successfully uploaded data to Parse! The few issues with delays and console warnings aside - this is an important step towards building our Makestagram app.
+**Congratulations!** This means you have successfully uploaded data to Parse! The few issues with delays and console warnings aside - this is an important step towards building **Makestagram**.
 
 However, there are many things to improve here:
 
-1. We need to resolve the warnings in the console
-2. We need to store more information along with the `Post` that we're creating. Right now we are only storing the image file, but we also need to store the `user` to which the post belongs
+1. We need to resolve the warnings in the console.
+2. We need to store more information along with the `Post` that we're creating. Right now we are only storing the image file, but we also need to store the `user` to which the post belongs.
 
-In the next step, we will move from this very simple upload code to a more mature solution.
+In the next step we will move from this very simple upload code to a more mature solution.

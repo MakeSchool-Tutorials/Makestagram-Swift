@@ -3,21 +3,22 @@ title: "Implementing the Like Feature"
 slug: parse-implement-like
 ---
 
-In this step we will tackle _the_ core feature of _Makestagram_. Liking posts!
-We will need to tackle that feature from three different angles:
+In this step we will tackle the *core feature* of **Makestagram**: Liking posts!
+
+To get our post liking mechanism working, we need to do three things:
 
 1. We need new Parse queries to fetch/add/remove likes of posts
 2. We need to extend the `Post` model to store the likes that belong to it
 3. We need to connect the UI to our new code. That means, for example, displaying the red heart if a user
 has liked a certain post
 
-We will start with adding new Parse queries! However, I first want to suggest some further cleanup of our existing Parse query!
+We will start with adding new Parse queries; however, I first want to suggest some further cleanup of our existing Parse query!
 
 #Cleaning up the Timeline Query - Once Again
 
 Take a look at the query we have right now:
 
-    static func timelineRequestforCurrentUser(completionBlock: PFArrayResultBlock) {
+    static func timelineRequestForCurrentUser(completionBlock: PFArrayResultBlock) {
       let followingQuery = PFQuery(className: "Follow")
       followingQuery.whereKey("fromUser", equalTo:PFUser.currentUser()!)
 
@@ -38,9 +39,9 @@ Take a look at the query we have right now:
 
 Well, we have a ton of _Strings_ inside of this method. Using strings in such a manner can cause multiple problems.
 
-Firstly, typos can cause bugs that are difficult to debug. The compiler won't verify any of these strings and won't be able to identify if you are querying for _"Uzer"_ instead of _"User"_.
+First, typos can cause bugs that are difficult to debug. The compiler won't verify any of these strings and won't be able to identify if you are querying for _"Uzer"_ instead of _"User"_.
 
-Secondly, if we use those strings in multiple places, we need to remember to update every occurrence of them if something in our Parse backend changes.
+Second, if we use those strings in multiple places, we need to remember to update every occurrence of them if something in our Parse backend changes.
 
 Instead of using plain strings it would be much better to use constants!
 Let's add constants for all the different Parse classes and fields we are going to access! Since this isn't too exciting of an exercise, I'll provide you with the full list of constants that we need.
@@ -74,7 +75,7 @@ Add the following constants to the `ParseHelper` class:
 >
       // ...
 
-This approach has a third advantage that we did not discuss yet: all of the fields are now unambiguous. Before this change we could have used _"toPost"_ to refer to either the _toPost_ column in the _FlaggedContent_ class, or to the _toPost_ column in the _Like_ class. Through giving all of these constants a name, we have removed this ambiguity.
+This approach has a third advantage that we did not discuss yet: all of the fields are now unambiguous. Before this change we could have used _"toPost"_ to refer to either the _toPost_ column in the _FlaggedContent_ class or to the _toPost_ column in the _Like_ class. By giving all of these constants a name, we have removed this ambiguity.
 
 Note that the constant names follow this pattern: _Parse[ClassName][FieldName]_. Consistent naming is important to make your life as a developer easier!
 
@@ -83,7 +84,7 @@ With these constants in place, we can now update our timeline query to use them.
 > [action]
 Change the timeline query to use constants instead of string literals:
 >
-    static func timelineRequestforCurrentUser(completionBlock: PFArrayResultBlock) {
+    static func timelineRequestForCurrentUser(completionBlock: PFArrayResultBlock) {
       let followingQuery = PFQuery(className: ParseFollowClass)
       followingQuery.whereKey(ParseLikeFromUser, equalTo:PFUser.currentUser()!)
 >
@@ -100,24 +101,24 @@ Change the timeline query to use constants instead of string literals:
       query.findObjectsInBackgroundWithBlock(completionBlock)
     }
 
-Same, same but nicer! Now we have a solid foundation to add more queries!
+Same, but nicer! Now we have a solid foundation to add more queries!
 
 #Adding Parse Queries for Likes
 
-There are three types of things our app needs to with likes:
+There are three actions we must consider for likes:
 
-1. Create a like, when a user likes a post
-2. Delete a like, when a user unlikes a post
-3. Fetch all likes for a given post
+1. Create a like, when a user likes a post.
+2. Delete a like, when a user unlikes a post.
+3. Fetch all likes for a given post.
 
 These three requirements translate directly into three different queries that we're going to
 add to our `ParseHelper`.
 
-Just as a refresher, here's how we are modeling likes in `Makestagram`:
+Just as a refresher, here's how we are modeling likes in **Makestagram**:
 
 ![image](likes_model.png)
 
-It's a pretty simple model, that only stores a reference to the user that performed the like and the post that has been liked (ignoring all of the fields that Parse provides automatically).
+It's a pretty simple model that only stores a reference to the user that performed the like and the post that has been liked (ignoring all of the fields that Parse provides automatically).
 
 
 ##Creating Likes
@@ -152,21 +153,20 @@ Here's our solution:
       query.whereKey(ParseLikeFromUser, equalTo: user)
       query.whereKey(ParseLikeToPost, equalTo: post)
 >
-      query.findObjectsInBackgroundWithBlock {
-        (results: [AnyObject]?, error: NSError?) -> Void in
-         // 2
-           if let results = results as? [PFObject] {
-             for likes in results {
-               likes.deleteInBackgroundWithBlock(nil)
-             }
-           }
+      query.findObjectsInBackgroundWithBlock { (results: [AnyObject]?, error: NSError?) -> Void in
+        // 2
+        if let results = results as? [PFObject] {
+          for likes in results {
+            likes.deleteInBackgroundWithBlock(nil)
+          }
+        }
       }
     }
 
 1. We build a query to find the like of a given user that belongs to a given post
 2. We iterate over all like objects that met our requirements and delete them.
 
-Technically, there never should be more than one like for a given user on a given post. Our like code will ensure that. However, there are few guarantees in software development and especially when working with networking code, there are a ton of possible sources for issues. We could do some more error handling here, and log an error message if we find more then one like that - but that's well beyond the scope of this tutorial!
+Technically, there never should be more than one like for a given user on a given post (our like code will ensure that); however, there are few guarantees in software development and especially when working with networking code, there are a ton of possible sources for issues. We could do some more error handling here, and log an error message if we find more then one like that - but that's well beyond the scope of this tutorial!
 
 ##Fetching all likes for a given post
 
@@ -188,17 +188,18 @@ And here's our solution:
 
 There are two interesting aspects that should be highlighted:
 
-1. Our method is taking a `PFArrayResultBlock` as an argument. We've used the same approach in our `timelineRequestforCurrentUser` method. The `PFArrayResultBlock` has the following signature:
+1. Our method is taking a `PFArrayResultBlock` as an argument. We've used the same approach in our `timelineRequestForCurrentUser` method. The `PFArrayResultBlock` has the following signature:
 
        ([AnyObject]?, NSError?) -> Void
+
 That's the default signature for the callback of most Parse queries. It takes an _optional_ result and an _optional_ error.
 By taking this type of block as an argument, we can hand it directly to the `findObjectsInBackgroundWithBlock` method! This way, whoever has called the `likesForPost` method will get the results in the callback block that they provide.
 
-2. We are using the `includeKey` method to tell Parse to fetch the `PFUser` object for each of the likes (we've discussed `includeKey` in detail when building the timeline request). We want to fetch the `PFUser` along with the likes, because we later on want to display the usernames of all users that have liked a post. Remember, without the `includeKey` line we would just have a reference to a `PFUser` and would have to start a separate request to fetch the information about the user.
+2. We are using the `includeKey` method to tell Parse to fetch the `PFUser` object for each of the likes (we've discussed `includeKey` in detail when building the timeline request). We want to fetch the `PFUser` along with the likes because later on we want to display the usernames of all users that have liked a post. Remember, without the `includeKey` line, we would just have a reference to a `PFUser` and would have to start a separate request to fetch the information about the user.
 
 ##Summing It up
 
-Awesome! We now have request to add / delete and fetch likes. Hopefully this section has helped to get you a little bit more comfortable in writing and understanding Parse queries.
+Awesome! We now have requests to add, delete, and fetch likes. Hopefully this section has helped to get you a little bit more comfortable in writing and understanding Parse queries.
 
 Just to make sure we're on the same page, here's what all the queries that we just added to the `ParseHelper` should look like:
 
@@ -217,17 +218,12 @@ Just to make sure we're on the same page, here's what all the queries that we ju
       query.whereKey(ParseLikeFromUser, equalTo: user)
       query.whereKey(ParseLikeToPost, equalTo: post)
 
-      query.findObjectsInBackgroundWithBlock {
-        (results: [AnyObject]?, error: NSError?) -> Void in
-          if let error = error {
-            ErrorHandling.defaultErrorHandler(error)
+      query.findObjectsInBackgroundWithBlock { (results: [AnyObject]?, error: NSError?) -> Void in
+        if let results = results as? [PFObject] {
+          for likes in results {
+            likes.deleteInBackgroundWithBlock(nil)
           }
-
-          if let results = results as? [PFObject] {
-            for likes in results {
-              likes.deleteInBackgroundWithBlock(nil)
-            }
-          }
+        }
       }
     }
 
@@ -239,20 +235,20 @@ Just to make sure we're on the same page, here's what all the queries that we ju
       query.findObjectsInBackgroundWithBlock(completionBlock)
     }
 
-A short side note: We haven't discussed the `// MARK:` feature of Xcode yet. It allows you to group your methods into different sections which can be extremely useful! A click into the _Jumpbar_ in the top right corner of Xcode will show you an outline of methods you've add to your class:
+A short side note: We haven't discussed the `// MARK:` feature of Xcode yet. It allows you to group your methods into different sections which can be extremely useful! A click into the _Jumpbar_ in the top right corner of Xcode will show you an outline of all the methods you've added to your class:
 
 ![image](jumpbar.png)
 
 If you include `// MARK:` sections in your source code, they will show up as headers in this view - great for navigating through more complex classes!
 
-With all of the queries in place, we should think about how we want tie them into the rest of our code next!
+With all of the queries in place, we should think about how we want to tie them into the rest of our code!
 Where should we place the code that adds and removes likes from `Post` objects?
 
-We're going to add it directly to the `Post` class and you'll shortly see why!
+We're going to add it directly to the `Post` class and shortly you'll see why!
 
 #Extending the Post Class
 
-In most object oriented programs we want to couple the information that an object stores along with its behavior. If I have access to a `Post` object I would like to be able to like it or unlike it with a simple method call. I would also like to be able to access of all of the likes of a `Post` directly through a simple method call.
+In most object oriented programs we want to couple the information that an object stores along with its behavior. If I have access to a `Post` object, I would like to be able to like it or unlike it with a simple method call. I would also like to be able to access of all of the likes of a `Post` directly through a simple method call.
 
 Now we're going to add this functionality to the `Post` class. It consists of two different parts:
 
@@ -269,24 +265,25 @@ Towards the end of this tutorial we will add a pull-to-refresh mechanism that al
 
 In which format should we store likes? For our purposes the best format is an array of users that have liked a certain post.
 
-Just as with the image of a `Post`, we won't load all of the likes directly with the timeline query. Instead, we will load them lazily as soon as a post is displayed. This means, we once again need to deal with data that is available _asynchronously_. Our favorite tool for such cases is the `Dynamic` wrapper - as we discussed in detail when we implemented the image download.
+Just as with the image of a `Post`, we won't load all of the likes directly with the timeline query. Instead, we will load them lazily as soon as a post is displayed. This means we once again need to deal with data that is available _asynchronously_. Our favorite tool for such cases is the `Observable` wrapper - as we discussed in detail when we implemented the image download.
 
-With all this in mind, let's add the `likes` property to the `Post` class.
+With all this in mind let's add the `likes` property to the `Post` class.
 
 > [action]
 Add the following property to the `Post` class:
 >
-    var likes =  Dynamic<[PFUser]?>(nil)
 
-We create the `likes` property as a _dynamic_, _optional_ array of `PFUser` - now that's a mouthful! However, we've used all of these concepts before. We make the property `Dynamic` so that we can listen to changes and update our UI after we've downloaded the likes for a post. We make it _optional_, because before we've downloaded the likes this property will be `nil`.
+    var likes: Observable<[PFUser]?> = Observable(nil)
 
-Now that we can store likes, we can add methods to the `Post` class that make it easy to retrieve, add and remove likes.
+We create the `likes` property as an _Observable_ _optional_ array of `PFUser` - now that's a mouthful! However, we've used all of these concepts before. We make the property `Dynamic` so that we can listen to changes and update our UI after we've downloaded the likes for a post. We make it _optional_ because before we've downloaded the likes this property will be `nil`.
+
+Now that we can store likes, we can add methods to the `Post` class that make it easy to retrieve, add, and remove likes.
 
 ##Fetching Likes
 
 We'll handle fetching likes very similarly to fetching images. They are fetched lazily and that lazy fetching can be triggered by a method call.
 
-Let's add this functionality in the form of a `fetchLikes` method. There are a bunch of a new concepts in that method, so I'll provide it for you and we'll discuss it in detail afterwards.
+Let's add this functionality in the form of a `fetchLikes` method. There are a bunch of new concepts in that method, so I'll provide it for you and we'll discuss it in detail afterwards.
 
 > [action]
 Add the following method to the `Post` class:
@@ -315,7 +312,7 @@ Add the following method to the `Post` class:
 1. First we are checking whether `likes.value` already has stored a value or is nil. If we've already stored a value, we will skip the entire method. As discussed, we will cache all likes until the entire timeline is refreshed (which we haven't implemented yet). So as soon as `likes.value` has a cached value, we don't need to perform the body of this method.
 2. We fetch the likes for the current `Post` using the method of `ParseHelper` that we created earlier
 3. There is a new concept on this line: the `filter` method that we call on our `Array`. The `filter` method takes a closure and returns an array that only contains the objects from the original array that meet the requirement stated in that closure. The closure passed to the `filter` method gets called for each element in the array, each time passing the current element as the `like` argument to the closure. Note that you can pick any arbitrary name for the argument that we called `like`. **So why are we filtering the array in the first place?** We are removing all likes that belong to users that no longer exist in our _Makestagram_ app (because their account has been deleted). Without this filtering the next statement could crash.
-4. Here we are again using a new method: `map`. The `map` method behaves similar to the `filter` method in that it takes a closure that is called for each element in the array and in that it also returns a new array as a result. The difference is that, unlike `filter`, `map` does not remove objects but _replaces_ them. In this particular case, we are replacing the likes in the array with the users that are associated with the like. We start with an array of likes and retrieve an array of users. Then we assign the result to our `likes.value` property.
+4. Here we are again using a new method: `map`. The `map` method behaves similar to the `filter` method in that it takes a closure that is called for each element in the array and in that it also returns a new array as a result. The difference is that, unlike `filter`, `map` does not remove objects but _replaces_ them. In this particular case we are replacing the likes in the array with the users that are associated with the like. We start with an array of likes and retrieve an array of users. Then we assign the result to our `likes.value` property.
 
 Now we're able to lazily fetch the likes for a post!
 
@@ -326,7 +323,7 @@ Since the concepts behind `filter` and `map` aren't easy to grasp initially, we'
 
 ##Checking If a Post is Liked by a given User
 
-Next, we'll add a method that will allow us to find out whether a post is liked by a user or not.
+Next we'll add a method that will allow us to find out whether a post is liked by a user or not.
 We'll use that method to decide if the like button for a post should be displayed in gray or in red.
 This method will be quite a lot simpler than `fetchLikes`. All we need to do is check if a given user is contained in the array stored in the `likes` property.
 
@@ -335,7 +332,7 @@ Add the `doesUserLikePost` method to the `Post` class:
 >
     func doesUserLikePost(user: PFUser) -> Bool {
       if let likes = likes.value {
-        return contains(likes, user)
+        return likes.contains(user)
       } else {
         return false
       }
@@ -345,7 +342,7 @@ As promised, this method is pretty straightforward. The only part that might be 
 
 ##Liking and Unliking a Post
 
-The last piece of functionality that we need to squeeze into the `Post` class for now is the like / unlike functionality. And we can actually wrap it into a single method that toggles whether or not a post is liked by a user - after all, the app only provides a single button to like / unlike. Furthermore it doesn't make sense to create a second `Like` object if the user a already likes a given post.
+The last piece of functionality that we need to squeeze into the `Post` class for now is the like and unlike functionality. And we can actually wrap it into a single method that toggles whether or not a post is liked by a user - after all, the app only provides a single button to like and unlike. Furthermore it doesn't make sense to create a second `Like` object if the user already likes a given post.
 
 > [action]
 Add the following method to the `Post` class:
@@ -371,7 +368,7 @@ Great! Our changes to the `Post` class are complete. Next, we can make use of ou
 
 #Loading Likes Lazily
 
-Wow, did you notice the three _l_'s in the header? Joking aside, let's take care of loading the likes for each post, as soon as it gets displayed. Now that our `Post` class provides a method for exactly that, it's pretty easy to implement the feature.
+Wow, did you notice the three _L_'s in the header? Joking aside, let's take care of loading the likes for each post, as soon as it gets displayed. Now that our `Post` class provides a method for exactly that, it's pretty easy to implement the feature.
 
 **Do you remember where we should place the lazy loading code?**
 
@@ -424,8 +421,8 @@ Awesome! Our very first interactive feature!
 
 #Conclusion
 
-This was a pretty intense step! You first learned that string constants are better than string literals. Then you implemented a few more Parse queries which hopefully made you more comfortable with the `PFQuery` class. You've also added a new `Dynamic` property that allows us to load likes of posts lazily.
+This was a pretty intense step! You first learned that string constants are better than string literals. Then you implemented a few more Parse queries which hopefully made you more comfortable with the `PFQuery` class. You've also added a new `Observable` property that allows us to load likes of posts lazily.
 
 From a Swift language perspective you learned about `filter` and `map`! Both functions allow you to manipulate collections by performing a closure that you provide to each element in the collection. The `filter` function helps you to remove elements from a collection. The `map` function helps you to replace elements in a collection by mapping them from one representation to another. We used that functionality to turn like objects into user objects.
 
-We've made great progress on the core functionality of _Makestagram_, in the next chapter we will visualize likes to make our progress more apparent!
+We've made great progress on the core functionality of _Makestagram_! In the next chapter we will visualize likes to make our progress more apparent!
