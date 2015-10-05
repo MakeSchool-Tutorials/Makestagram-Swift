@@ -10,7 +10,7 @@ use Auto Layout with Interface Builder, you should check out our lecture series:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLZ_SI6zSFXvD8fi9dan4UsgDdr3-OXyjV" frameborder="0" allowfullscreen></iframe>
 
-#Adding Additional Resources
+## Adding Additional Resources
 
 This step is pretty simple: we're going to add some more resources to our asset catalog. You've already downloaded the art pack for this tutorial earlier on, in case you no longer know where you've stored it you can get it again [here](https://s3.amazonaws.com/mgwu-misc/SA2015/Makestagram_Art.zip)
 
@@ -27,7 +27,7 @@ When we are entirely done, we want the table view cell to look like this:
 
 We won't finish the entire set up in this step - but we'll get pretty far!
 
-#Changing the PostTableViewCell Height
+## Changing the PostTableViewCell Height
 
 First, we'll make the cell a little bit larger to make space for our additional UI elements.
 
@@ -36,7 +36,7 @@ Change the _Row Height_ of the table view cell **and** the table view, in the _S
 
 Now we're good to got!
 
-#Setting up Constraints for the Image View
+## Setting up Constraints for the Image View
 
 Throughout this step we will add many UI elements and place them using constraints. Currently the image view is our only UI component and it doesn't have any constraints set up. Once you start adding constraints to a view, you will have to add constraints to **all** child views - otherwise you will run into some serious Interface Builder problems.
 
@@ -49,11 +49,11 @@ Define the constraints for the Image View as following:
 
 Great! Now we can safely move on!
 
-#Adding the Like Button
+## Adding the Like Button
 
 Now, let's start designing one of the core experiences of our app - the _like_ button!
 
-##Creating an Image Button
+#### Creating an Image Button
 
 > [action]
 Drag a button from the Object Library and add it to the table view cell (technically the _Content View_ of the table view cell.) Move it to the bottom-right corner of the cell.
@@ -78,7 +78,7 @@ While working on the Auto Layout constraints for the next few steps, you might r
 
 Even though the _Traliling Space to Superview_ was set to _50_ at the beginning and at the end of the video, the size of the label appears differently. Give this a shot in case you run into similar issues throughout the next steps!
 
-##Defining Size and Layout
+#### Defining Size and Layout
 
 Before designing your apps, you should at least glance over [Apple's Human Interface Guidelines for iOS](https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/MobileHIG/).
 
@@ -121,7 +121,7 @@ Luckily, the touch area of our button can be larger than the visual one! We can 
 
 The touch area remains suitable for a small mobile screen - but the button looks better with the smaller heart image! You can use this _"trick"_ for many buttons in your own app as well!
 
-##Changing the Selected Image
+#### Changing the Selected Image
 
 Just like the **Instagram** app, **Makestagram's** like button will have two different states: If you haven't liked a post yet, you'll see the gray like button; once you've liked a post, you'll see the red heart instead.
 
@@ -142,7 +142,7 @@ Set up the _Heart-selected_ image for the like button:
 
 Now our like button is complete! But there's a lot more UI to be built. Feel free to grab your favorite hot beverage, but promise to come back!
 
-#Adding the Action Button
+## Adding the Action Button
 
 Next, we'll take care of what I call the _Action_ button. It's the button in the bottom left corner:
 
@@ -162,7 +162,7 @@ The result should look pretty similar to this:
 
 Alright! We are making some good progress here! Next we're going to add the label that displays the names of all the users that liked a post.
 
-#Adding the Likes Label and the Likes Icon
+## Adding the Likes Label and the Likes Icon
 
 Now we're going to add the _Likes Label_ and the little icon that goes along with it:
 
@@ -203,7 +203,7 @@ You can grab the exact color for the Label from the Action button using the colo
 <video width="100%" controls>
   <source src="https://s3.amazonaws.com/mgwu-misc/SA2015/Color_picker_small.mov" type="video/mp4"></video>
 
-#One More Thing...
+## One More Thing...
 
 The table view cell is looking great - but there's one last option we should tweak.
 We should turn off the _Selection_ for the table view cell. Often table views are used to display an overview of information and they allow the user to select a cell to receive more detailed information (such as the **Mail** and the **Messages** app on iOS). In **Makestagram**, however, we are displaying the entire information about a post directly within the cell. We provide some buttons for interaction, but nothing happens if a user selects an individual cell. Except that the cell color changes to a light gray which shall indicate that the cell has been selected, which does not make sense for **Makestagram**.
@@ -212,7 +212,7 @@ We should turn off the _Selection_ for the table view cell. Often table views ar
 Turn off the _Selection_ for the table view cell, so that cells no longer get highlighted:
 ![image](cell_selection_none.png)
 
-#Testing it all Together
+## Testing it all Together
 
 If you run your app, with all of these changes in place, you should see a timeline that looks similar to this one:
 
@@ -220,7 +220,7 @@ If you run your app, with all of these changes in place, you should see a timeli
 
 Now this is starting to look like a real app!
 
-#Connecting the Pieces
+## Connecting the Pieces
 
 As a last step of customizing our cell - for now - we'll add some code connections. Throughout the next steps we will be implementing the like feature and other features that require all of the UI components on this cell to be accessible from code.
 
@@ -250,7 +250,7 @@ Make sure that you can see a filled dot next to each of these connections - that
 
 ![image](working_connections.png)
 
-#Conclusion
+## Conclusion
 
 We didn't cover too many new topics in this step; however, you should be a little more comfortable with Interface Builder and Auto Layout after decorating the custom table view cell with different UI elements. We've also made some good visual progress in this step and we have laid the groundwork for implementing some of the core features of **Makestagram**.
 
