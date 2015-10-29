@@ -219,12 +219,14 @@ Even though the theory might sound a little bit complicated; the implementation 
 Change the `uploadPost` method to perform saving in the background:
 >
     func uploadPost() {
-      let imageData = UIImageJPEGRepresentation(image, 0.8)
-      let imageFile = PFFile(data: imageData)
-      imageFile.saveInBackgroundWithBlock(nil)
+      if let image = image {
+        let imageData = UIImageJPEGRepresentation(image, 0.8)
+        let imageFile = PFFile(data: imageData)
+        imageFile.saveInBackgroundWithBlock(nil)
 >
-      self.imageFile = imageFile
-      saveInBackgroundWithBlock(nil)
+        self.imageFile = imageFile
+        saveInBackgroundWithBlock(nil)
+      }
     }
 
 By calling the `saveInBackgroundWithBlock` method, uploading the data happens on a background thread, and our app no longer freezes.
@@ -255,14 +257,16 @@ This can be fixed very easily. Whenever a `Post` gets uploaded, we associate it 
 Extend the `uploadPost` method, so that it sets the `user` property of the post:
 >
     func uploadPost() {
-      let imageData = UIImageJPEGRepresentation(image, 0.8)
-      let imageFile = PFFile(data: imageData)
-      imageFile.saveInBackgroundWithBlock(nil)
+      if let image = image {
+        let imageData = UIImageJPEGRepresentation(image, 0.8)
+        let imageFile = PFFile(data: imageData)
+        imageFile.saveInBackgroundWithBlock(nil)
 >
-      // any uploaded post should be associated with the current user
-      user = PFUser.currentUser()
-      self.imageFile = imageFile
-      saveInBackgroundWithBlock(nil)
+        // any uploaded post should be associated with the current user
+        user = PFUser.currentUser()
+        self.imageFile = imageFile
+        saveInBackgroundWithBlock(nil)
+      }
     }
 
 That was an easy fix! `PFUser.currentUser()` allows us to access the user that's logged in. We assign that user to the `user` property of the `Post`.
@@ -285,24 +289,26 @@ Let's request some extra time for our photo upload.
 Extend the `uploadPost` method to look as follows:
 >
     func uploadPost() {
-      let imageData = UIImageJPEGRepresentation(image, 0.8)
-      let imageFile = PFFile(data: imageData)
+      if let image = image {
+        let imageData = UIImageJPEGRepresentation(image, 0.8)
+        let imageFile = PFFile(data: imageData)
 >
-      // 1
-      photoUploadTask = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler { () -> Void in
-        UIApplication.sharedApplication().endBackgroundTask(self.photoUploadTask!)
+        // 1
+        photoUploadTask = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler { () -> Void in
+          UIApplication.sharedApplication().endBackgroundTask(self.photoUploadTask!)
+        }
+>
+        // 2
+        imageFile.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+          // 3
+          UIApplication.sharedApplication().endBackgroundTask(self.photoUploadTask!)
+        }
+>
+        // any uploaded post should be associated with the current user
+        user = PFUser.currentUser()
+        self.imageFile = imageFile
+        saveInBackgroundWithBlock(nil)
       }
->
-      // 2
-      imageFile.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-        // 3
-        UIApplication.sharedApplication().endBackgroundTask(self.photoUploadTask!)
-      }
->
-      // any uploaded post should be associated with the current user
-      user = PFUser.currentUser()
-      self.imageFile = imageFile
-      saveInBackgroundWithBlock(nil)
     }
 
 1. As soon as a post gets uploaded we create a background task. When a background task gets created iOS generates a unique ID and returns it. We store that unique id in the `photoUploadTask` property. The API requires us to provide an _expirationHandler_ in the form of a closure. That closure runs when the extra time that iOS permitted us has expired. In case the additional background time wasn't sufficient, we are required to cancel our task! Within this block you should delete any temporary resources that you created - in the case of our photo upload we don't have any. Additionally you have to call `UIApplication.sharedApplication().endBackgroundTask`, otherwise your app will be terminated!
