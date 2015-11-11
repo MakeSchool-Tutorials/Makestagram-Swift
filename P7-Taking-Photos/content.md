@@ -270,8 +270,8 @@ Within the `takePhoto` method, which we'll implement next, we will create the `P
 Add the `takePhoto` method to the `TimelineViewController` class:
 >
     func takePhoto() {
-      // instantiate photo taking class, provide callback for when photo  is selected
-      let photoTakingHelper = PhotoTakingHelper(viewController: self.tabBarController!) { (image: UIImage?) in
+        // instantiate photo taking class, provide callback for when photo  is selected
+        photoTakingHelper = PhotoTakingHelper(viewController: self.tabBarController!) { (image: UIImage?) in
         // don't do anything, yet...
       }
     }
