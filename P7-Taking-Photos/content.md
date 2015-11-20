@@ -131,7 +131,7 @@ We can now add our new source code file to the *PhotoTaking* group.
 
 > [action]
 >
-1. Create a new source code file within the *PhotoTaking* group
+1. Create a new Cocoa Touch class within the *PhotoTaking* group
 2. Name this class *PhotoTakingHelper* and make it a subclass of *NSObject* (we will discuss why this is necessary later on): ![image](photo_taking_helper_class.png)
 
 Now that we have a plan and a place to put our code, let's start implementing this feature!
