@@ -31,4 +31,4 @@ If you have feedback on this tutorial or find any mistakes, please open issues o
 
 #Solution Code
 
-If at any point you get stuck, try to debug it yourself!  Learning to debug is a very important part of being a good programmer. However, if you really can't move forward, you can download the solution project [here](https://github.com/MakeSchool/Makestagram-Swift2/archive/xcode7_finished_project.zip).
+If at any point you get stuck, try to debug it yourself!  Learning to debug is a very important part of being a good programmer. However, if you really can't move forward, you can download the solution project [here](https://github.com/MakeSchool/Makestagram-Swift2/archive/xcode7_finished_project.zip). 
