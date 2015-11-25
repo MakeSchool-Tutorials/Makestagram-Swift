@@ -27,7 +27,7 @@ Let's get started by taking a look at how Parse works and defining the data mode
 
 #Feedback
 
-If you have feedback on this tutorial or find any mistakes, please open issues on the [GitHub Repository](https://github.com/MakeSchool-Tutorials/Makestagram-Swift).
+If you have feedback on this tutorial or find any mistakes, please open issues on the [GitHub Repository](https://github.com/MakeSchool-Tutorials/Makestagram-Swift) - we'd love to hear from you!
 
 #Solution Code
 
