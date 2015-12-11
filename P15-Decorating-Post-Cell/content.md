@@ -34,7 +34,7 @@ First, we'll make the cell a little bit larger to make space for our additional 
 > [action]
 Change the _Row Height_ of the table view cell **and** the table view, in the _Size Insepctor_, to _470_. If you forgot how this works, look back to the step where we set up the table view cell's image view.
 
-Now we're good to got!
+Now we're good to go!
 
 ## Setting up Constraints for the Image View
 
