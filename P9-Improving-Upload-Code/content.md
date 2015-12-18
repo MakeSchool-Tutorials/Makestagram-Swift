@@ -110,7 +110,7 @@ We have laid the groundwork to improve our photo uploading code - now let's take
 
 To accomplish this we need to move the image upload into the `Post` class. This also includes the code for the conversion of a `UIImage` into `NSData`:
 
-    let imageData = UIImageJPEGRepresentation(image, 0.8)
+    let imageData = UIImageJPEGRepresentation(image, 0.8)!
 
 All of the code that prepares the `Post` to be uploaded should be part of the `uploadPost` method.
 
