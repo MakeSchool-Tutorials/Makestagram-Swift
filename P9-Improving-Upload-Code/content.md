@@ -220,7 +220,7 @@ Change the `uploadPost` method to perform saving in the background:
 >
     func uploadPost() {
       if let image = image {
-        let imageData = UIImageJPEGRepresentation(image, 0.8)
+        let imageData = UIImageJPEGRepresentation(image, 0.8)!
         let imageFile = PFFile(data: imageData)
         imageFile.saveInBackgroundWithBlock(nil)
 >
