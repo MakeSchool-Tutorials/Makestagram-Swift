@@ -91,11 +91,11 @@ Replace the content of _Post.swift_ with the following source code:
     }
 
 1. To create a custom Parse class you need to inherit from `PFObject` and implement the `PFSubclassing` protocol
-2. Next, define each property that you want to access on this Parse class. For our `Post` class that's the `user` and the `imageFile` of a post. That will allow you to change the code that accesses properties through strings:
-       post["imageFile"] = imageFile
-    Into code that uses Swift properties:
-       post.imageFile = imageFile
-3. By implementing the `parseClassName` you create a connection between the Parse class and your Swift class.
+2. Next, define each property that you want to access on this Parse class. For our `Post` class that's the `user` and the `imageFile` of a post. That will allow you to change the code that accesses properties through strings
+       `post["imageFile"] = imageFile`
+    into code that uses Swift properties
+       `post.imageFile = imageFile`.
+3. By implementing the `parseClassName` static function, you create a connection between the Parse class and your Swift class.
 4. `init` and `initialize` are pure boilerplate code - copy these two into any custom Parse class that you're creating.
 
 Now, we have set up the skeleton for our Parse class. Follow these steps whenever you want to create a custom Parse class in your own apps.
