@@ -18,8 +18,8 @@ Let's start by creating this separate class - then we will tackle the two issues
 
 As you have seen, we can store information in Parse without using custom classes:
 
-    let imageData = UIImageJPEGRepresentation(image, 0.8)
-    let imageFile = PFFile(data: imageData!)
+    let imageData = UIImageJPEGRepresentation(image, 0.8)!
+    let imageFile = PFFile(data: imageData)
     imageFile.save()
 
     let post = PFObject(className: "Post")
