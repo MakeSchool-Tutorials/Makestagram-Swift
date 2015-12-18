@@ -51,7 +51,7 @@ Now, here's one possible solution for the callback:
     photoTakingHelper = PhotoTakingHelper(viewController: self.tabBarController!, callback: { (image: UIImage?) in
       if let image = image {
         let imageData = UIImageJPEGRepresentation(image, 0.8)
-        let imageFile = PFFile(data: imageData)
+        let imageFile = PFFile(data: imageData!)
         imageFile.save()
 >
         let post = PFObject(className: "Post")
