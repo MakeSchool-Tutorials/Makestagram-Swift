@@ -98,11 +98,11 @@ Replace the content of _Post.swift_ with the following source code:
 3. By implementing the `parseClassName` static function, you create a connection between the Parse class and your Swift class.
 4. `init` and `initialize` are pure boilerplate code - copy these two into any custom Parse class that you're creating.
 
-Now, we have set up the skeleton for our Parse class. Follow these steps whenever you want to create a custom Parse class in your own apps.
+Now we have set up the skeleton for our Parse class. Follow these steps whenever you want to create a custom Parse class in your own apps.
 
 ##Extending the Skeleton
 
-We have laid the groundwork to improve our photo uploading code - now lets take the next step. It should be extremely easy to create a new `Post` and assign an image to it. Ideally this should be three lines of code:
+We have laid the groundwork to improve our photo uploading code - now let's take the next step. It should be extremely easy to create a new `Post` and assign an image to it. Ideally this should be three lines of code:
 
     let post = Post()
     post.image = image
