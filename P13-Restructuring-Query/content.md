@@ -23,6 +23,13 @@ We're going to introduce a _ParseHelper.swift_ file that will contain most of ou
 Start by adding the new _ParseHelper.swift_ file to the _Helpers_ group in your Xcode project:
 ![image](add_parse_helper.png)
 
+<!-- html comment to break boxes -->
+
+> [info]
+> Often when we create new classes, we use the _Cocoa Touch Class_ templates that are built into Xcode.  These are nice, because when subclassing certain UIKit classes (`UIViewController` or `UITableViewCell` for example) the new class will be created with a lot of _boilerplate_ code written for us.
+> 
+> In this case, the _ParseHelper_ class we're going to create is not a subclass of anything - so using the _Cocoa Touch Class_ creation wizard won't help us out. Instead, use the _Swift File_ template, which will create an empty Swift file.
+
 Now we're going to tidy up the `TimelineViewController` by moving the timeline query into our new _ParseHelper.swift_ file.
 
 > [action]
