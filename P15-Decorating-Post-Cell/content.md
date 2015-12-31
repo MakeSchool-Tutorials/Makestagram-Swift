@@ -32,7 +32,7 @@ We won't finish the entire set up in this step - but we'll get pretty far!
 First, we'll make the cell a little bit larger to make space for our additional UI elements.
 
 > [action]
-Change the _Row Height_ of the table view cell **and** the table view, in the _Size Insepctor_, to _470_. If you forgot how this works, look back to the step where we set up the table view cell's image view.
+Change the _Row Height_ of the table view cell **and** the table view, in the _Size Insepctor_, from _320_ to _470_. If you forgot how this works, look back to the step where we set up the table view cell's image view.
 
 Now we're good to go!
 
