@@ -155,7 +155,8 @@ We'll try to add this button with a little less hand-holding. Slowly but surely 
 >
 1. Add the action to the bottom left corner of the table view Cell.
 2. Make the Button a _Custom_ on and set the image to _More_.
-3. Set it up with a size of _44x44_. Set the _Leading space to Superview_ to _0_ and the _Bottom space to Superview_ to _10_ (both constrained to margins).
+3. Remove the _Default Title_ text.
+4. Set it up with a size of _44x44_. Set the _Leading space to Superview_ to _0_ and the _Bottom space to Superview_ to _10_ (both constrained to margins).
 
 The result should look pretty similar to this:
 ![image](action_button_result.png)
