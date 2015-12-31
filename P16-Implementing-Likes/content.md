@@ -127,6 +127,14 @@ So, how can we create a method that adds likes to a certain post? **I want to gi
 
 If you come up with your own solution that seems to work but looks different from ours - please replace your solution with the provided one. Doing so will prevent issues later on.
 
+To help you get started, here's what your function signature should look like:
+
+    static func likePost(user: PFUser, post: Post) {
+	 	// Put your query code here!    
+    }
+
+Here's the solution - try it on your own before looking!
+
 > [solution]
 Here's our solution:
 >
