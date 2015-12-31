@@ -130,7 +130,7 @@ If you come up with your own solution that seems to work but looks different fro
 To help you get started, here's what your function signature should look like:
 
     static func likePost(user: PFUser, post: Post) {
-	 	// Put your query code here!    
+	 	// Put your code here    
     }
 
 Here's the solution - try it on your own before looking!
@@ -151,6 +151,12 @@ It is pretty straightforward! the method takes a `PFUser` and a `Post` reference
 ##Deleting Likes
 
 Deleting a like is a tiny bit trickier. We need to first build a query to find the like object before we can delete it. Can you still come up with the `unlikePost` method on your own?
+
+Here's the function signature:
+
+    static func unlikePost(user: PFUser, post: Post) {
+    	// Put your code here
+    }
 
 > [solution]
 Here's our solution:
