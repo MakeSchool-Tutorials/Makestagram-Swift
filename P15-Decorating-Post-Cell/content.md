@@ -236,6 +236,8 @@ Create _Referencing Outlets_ for all of your UI elements on the Table View Cell.
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var moreButton: UIButton!
 
+<!-- html comment to break boxes -->
+
 > [action]
 Create _@IBActions_ for the two buttons (remember that you want to connect these to the _Touch Up Inside_ event of the button):
 >
