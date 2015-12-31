@@ -125,7 +125,7 @@ It's a pretty simple model that only stores a reference to the user that perform
 
 So, how can we create a method that adds likes to a certain post? **I want to give you a try here!** Based on your experience with Parse so far, try and see if you can build a query for this on your own! We will play this game for all queries in this step.
 
-If you come up with your own solution that seems to work but looks different from ours - please replace your solution with the provided one. That way we can avoid that you run into issues later on.
+If you come up with your own solution that seems to work but looks different from ours - please replace your solution with the provided one. Doing so will prevent issues later on.
 
 > [solution]
 Here's our solution:
