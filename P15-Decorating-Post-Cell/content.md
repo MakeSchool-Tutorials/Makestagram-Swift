@@ -80,14 +80,14 @@ Even though the _Traliling Space to Superview_ was set to _50_ at the beginning 
 
 #### Defining Size and Layout
 
-Before designing your apps, you should at least glance over [Apple's Human Interface Guidelines for iOS](https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/MobileHIG/).
+Before designing your apps, you should at least glance over [Apple's Human Interface Guidelines for iOS](https://developer.apple.com/ios/human-interface-guidelines/).
 
 They contain many do's and don'ts for mobile developers and designers.  
 One part of the documentation discusses sizes of buttons:
 
-> Make it easy for people to interact with content and controls by giving each interactive element ample spacing. Give tappable controls a hit target of about 44 x 44 points.
-
-Source: [Apple's Human Interface Guidelines - Layout and Appearance.](https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/MobileHIG/LayoutandAppearance.html)
+> Provide ample spacing for interactive elements. Try to maintain a minimum tappable area of 44pt x 44pt for all controls.
+  		  
+Source: [Apple's Human Interface Guidelines - Layout](https://developer.apple.com/ios/human-interface-guidelines/visual-design/layout/)
 
 We should keep that in mind when creating our like button!
 
